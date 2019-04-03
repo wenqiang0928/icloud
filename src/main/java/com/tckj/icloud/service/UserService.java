@@ -17,5 +17,5 @@ public interface UserService {
      * @param user
      * @return
      */
-    Boolean existUser(User user);
+    User existUser(User user);
 }

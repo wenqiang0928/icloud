@@ -17,20 +17,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Autowired
     private UserMapper userMapper;
 
+
     @Override
     public User getUser(User user) {
         return userMapper.selectById(user.getId());
     }
 
     @Override
-    public Boolean existUser(User user) {
+    public User existUser(User user) {
         if (userMapper.selectById(user.getId()) != null) {
-            return true;
+            return null;
         }
         List<User> userList = userMapper.selectList(new EntityWrapper<User>().eq("name",user.getName()).eq("password",user.getPassword()));
         if (userList.size() > 0) {
-            return true;
+            return userList.get(0);
         }
-        return false;
+        return null;
     }
 }
