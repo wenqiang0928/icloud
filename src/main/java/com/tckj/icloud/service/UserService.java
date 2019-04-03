@@ -18,4 +18,11 @@ public interface UserService {
      * @return
      */
     User existUser(User user);
+
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    Boolean addUser(User user);
 }

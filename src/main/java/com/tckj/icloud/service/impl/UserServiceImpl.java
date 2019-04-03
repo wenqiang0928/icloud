@@ -34,4 +34,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return null;
     }
+
+    @Override
+    public Boolean addUser(User user) {
+        return userMapper.insert(user)>0;
+    }
+
 }

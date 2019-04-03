@@ -45,4 +45,19 @@ public class UserController {
             return "login";
         }
     }
+
+    @PostMapping("addUser")
+    public String addUser(String name, String password, String alarm, Integer roleId) {
+        User user = new User();
+        user.setName(name);
+        user.setPassword(password);
+        user.setAlarm(alarm);
+        userService.addUser(user);
+        user = userService.existUser(user);
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getId());
+        userRole.setRoleId(roleId);
+        userRoleService.addUserRole(userRole);
+        return "home";
+    }
 }
