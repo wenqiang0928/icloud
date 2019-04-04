@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("")
     public String login() {
-        return "login";
+        return "index";
     }
 
     @RequestMapping("login")
