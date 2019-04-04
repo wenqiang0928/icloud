@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>资料管理平台登录</title>
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/npm.js"></script>
+    <script type="text/javascript" src="/js/data-management.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/data-management.css">
+</head>
+<body>
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active first">
+                <div class="carousel-caption"></div>
+            </div>
+            <div class="item second">
+                <div class="carousel-caption"></div>
+            </div>
+            <div class="item third">
+                <div class="carousel-caption"></div>
+            </div>
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+            </ol>
+        </div>
+    </div>
+    <div id="login-module">
+        <div class="panel-title">
+            <h2>资料管理平台</h2>
+        </div>
+        <div class="input-group user-name">
+            <span class="input-group-addon" id="basic-addon1">用户名：</span>
+            <input id="user-name" type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group password">
+            <span class="input-group-addon" id="basic-addon2">密&nbsp;&nbsp;&nbsp;码：</span>
+            <input id="password" type="text" class="form-control" placeholder="Password" aria-describedby="basic-addon2">
+        </div>
+        <div class="input-group keep-log">
+            <input id="basic-addon3" type="checkbox">
+            <label for="basic-addon3">保持登录状态</label>
+        </div>
+        <div class="btn-group">
+            <button id="sign-up" type="button" class="btn btn-primary">登录</button>
+        </div>
+    </div>
+</body>
+</html>

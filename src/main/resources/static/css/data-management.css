@@ -1,0 +1,74 @@
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+#carousel-example-generic{
+    width: 100%;
+    height: 100%;
+}
+#carousel-example-generic .carousel-inner,.carousel-inner .item{
+    width: 100%;
+    height: 100%;
+}
+.carousel-inner .item{
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+}
+.carousel-inner .item.first{
+    background-image: url("../img/1.jpg");
+}
+.carousel-inner .item.second{
+    background-image: url("../img/2.jpg");
+}
+.carousel-inner .item.third{
+    background-image: url("../img/3.jpg");
+}
+
+#login-module{
+    width: 25%;
+    height: 60%;
+    background: white;
+    border-radius: 2%;
+    position: fixed;
+    top: 20%;
+    right: 5%;
+}
+#login-module div{
+    width: 80%;
+    position: absolute;
+    left: 10%;
+}
+#login-module .user-name{
+    top: 25%;
+}
+#login-module .password{
+    top: 40%;
+}
+#login-module .keep-log{
+    top: 55%;
+}
+#login-module .btn-group{
+    top: 65%;
+}
+#login-module div span{
+    min-width: 81.6px;
+}
+#login-module .keep-log>input{
+    vertical-align: middle;
+    margin-top: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#login-module .keep-log>label{
+    margin-bottom: 0;
+    line-height: 100%;
+}
+#login-module .keep-log>a{
+    float: right;
+    margin-right: 5px;
+}
+#login-module .btn-group>button{
+    width: 100%;
+    letter-spacing: 10px;
+}
