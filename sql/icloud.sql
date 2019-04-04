@@ -11,11 +11,31 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 03/04/2019 20:15:23
+ Date: 05/04/2019 07:46:50
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for docs
+-- ----------------------------
+DROP TABLE IF EXISTS `docs`;
+CREATE TABLE `docs`  (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件或者目录名称',
+  `type` int(10) NULL DEFAULT NULL COMMENT '1 目录 2  文件',
+  `size` int(10) NOT NULL COMMENT '文件大小',
+  `suffix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型 格式后缀',
+  `md5_check_sum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件的md5校验值',
+  `path` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '目录的相对路径',
+  `pid` int(10) NULL DEFAULT NULL COMMENT '父亲id',
+  `create_userId` int(10) NOT NULL COMMENT '上传者userId',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `is_delete` int(10) NOT NULL COMMENT '是否逻辑删除 0-》1是',
+  `case_no` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '案件号',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role
