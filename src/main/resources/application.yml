@@ -42,3 +42,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
 
+upload:
+  path: ./upload/
