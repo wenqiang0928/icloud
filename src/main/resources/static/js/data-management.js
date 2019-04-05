@@ -28,8 +28,16 @@ function signUp() {
         "name": $("#user-name").val(),
         "password": $("#password").val()
     };
-    $.post(url, params, function () {
-        $("body").load(url, params);
+    $.post(url, params, function (res) {
+        if (res.code==200){
+            if (res.data==true){
+                window.location.href=Config.baseUrl+"/home"
+            } else {
+                window.location.reload();
+            }
+        } else{
+            window.location.reload();
+        }
     });
 }
 

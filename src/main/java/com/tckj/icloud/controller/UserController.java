@@ -11,6 +11,7 @@ import com.tckj.icloud.vo.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ public class UserController {
     }
 
     @RequestMapping("login")
-    public String loginConfirm(User user, HttpSession session) {
+    @ResponseBody
+    public Object loginConfirm(User user, HttpSession session) {
         User userDb = userService.existUser(user);
         if (userDb != null) {
             session.setAttribute("userName", user.getName());
@@ -44,11 +46,9 @@ public class UserController {
             } else {
                 session.setAttribute("userRole", "public");
             }
-            // return new SuccessResponse(true);
-            return "home";
+             return new SuccessResponse(true);
         } else {
-            //return new SuccessResponse(false);
-            return "login";
+            return new SuccessResponse(false);
         }
     }
 
@@ -58,11 +58,12 @@ public class UserController {
      * @return
      */
     @GetMapping("home")
-    public String home() {
+    public String home(ModelAndView modelAndView) {
+        modelAndView.addObject("userList",userService.getAllUsers());
         return "home";
     }
 
-    @GetMapping("addUser")
+    @GetMapping("user")
     public String addUser() {
         return PREFIX + "user";
     }
@@ -86,14 +87,14 @@ public class UserController {
 
     @PostMapping("userAdd")
     @ResponseBody
-    public Object userAdd(String name, String password, String alarm) {
+    public Object userAdd(String name, String password, String alarm,Integer roleId) {
         User user = new User();
         user.setName(name);
         user.setPassword(password);
         user.setAlarm(alarm);
+        user.setRoleId(roleId);
         if (!userService.isRegisterUser(user)) {
             userService.addUser(user);
-            userService.existUser(user);
             return new SuccessResponse("添加用户成功");
         }
         return new SuccessResponse("用户已经存在");

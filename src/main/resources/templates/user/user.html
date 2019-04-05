@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>添加用户</title>
+    <title>用户管理</title>
 
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
@@ -15,39 +15,71 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
-
+    <link rel="stylesheet" type="text/css" href="/css/data-management.css">
+    <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
+    <link rel="stylesheet" type="text/css" href="/css/filemm.css">
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-
+    <div id="topPanel" class="yp-header" style="z-index: 99;">
+        <div class="yp-logo">
+            <a href="/" title="资料管理平台">
+                <img src="/img/logo.png">
+                <span>资料管理平台-用户管理</span>
+            </a>
+        </div>
+    </div><hr>
+    <div class="row-fluid">
         <form class="form-inline">
             <div class="form-group">
-                <label for="name">用户名</label>
-                <input type="text" class="form-control" id="name" placeholder="Jane Doe">
+                <label for="exampleInputName2">Name</label>
+                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
             </div>
             <div class="form-group">
-                <label for="alarm">警号</label>
-                <input type="email" class="form-control" id="alarm" placeholder="jane.doe@example.com">
+                <label for="exampleInputEmail2">Email</label>
+                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
             </div>
-            <button type="button" class="btn btn-default">查询</button>
+            <button type="submit" class="btn btn-default">搜索</button>
         </form>
+<!--        <div class="input-group col-sm-3">-->
+<!--            <span class="input-group-addon" id="basic-addon1">用户名|警号</span>-->
+<!--            <input id="user-name" type="text" class="form-control"  aria-describedby="basic-addon1">-->
+<!--        </div>-->
+<!--        <div class="input-group col-sm-3">-->
+<!--            <button class="form-control btn btn-user">查询</button>-->
+<!--        </div>-->
+
+    </div><hr>
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table table-wrap">
+                <thead>
+                <tr>
+                    <th>
+                        姓名
+                    </th>
+                    <th>
+                        警号
+                    </th>
+                    <th>
+                        密码
+                    </th>
+                    <th>
+                        角色
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
 
 
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="row">
-        <table class="table">
-            <thead>
-            <th>姓名</th>
-            <th>警号</th>
-            <th>密码</th>
-            <th>角色</th>
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
+    <div class="row-fluid">
+        <div class="span12">
+        </div>
     </div>
-
 </div>
+
 </body>

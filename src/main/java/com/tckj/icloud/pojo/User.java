@@ -23,6 +23,10 @@ public class User implements Serializable {
      * 警号
      */
     private String alarm;
+    /**
+     * 角色id
+     */
+    private Integer roleId;
 
     public int getId() {
         return id;
@@ -54,5 +58,13 @@ public class User implements Serializable {
 
     public void setAlarm(String alarm) {
         this.alarm = alarm;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }

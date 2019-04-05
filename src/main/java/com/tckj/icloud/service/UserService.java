@@ -48,4 +48,11 @@ public interface UserService {
      * @return
      */
     List<User> getUsers(User user);
+
+    /**
+     * 获取用户列表
+     * @param user
+     * @return
+     */
+    List<User> getAllUsers();
 }
