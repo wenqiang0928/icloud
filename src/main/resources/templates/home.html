@@ -1,363 +1,401 @@
+<link rel="stylesheet" type="text/css" href="/css/fileManage.css">
+<link rel="stylesheet" type="text/css" href="/css/filemm.css">
 
-
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-<meta charset="UTF-8">
-<title>资料管理平台</title>
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../js/ajax.js"></script>
-<script src="../js/jquery.validate.min.js" type="text/javascript"></script>
-<!-- bootstrap -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
-	<link rel="stylesheet"
-	href="https://bootswatch.com/4/united/bootstrap.min.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-	type="text/javascript"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-	type="text/javascript"></script>
-<!-- fileinput -->
-<link href="../css/fileinput.css" media="all" rel="stylesheet"
-	  type="text/css" />
-<script src="../js/fileinput.min.js" type="text/javascript"></script>
-<script src="../js/locales/zh.js" type="text/javascript"></script>
-<!-- Font Awesome -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-	media="all" rel="stylesheet" type="text/css" />
-<script src="../fa/theme.js" type="text/javascript"></script>
-<!-- clipboard -->
-<script src="../js/clipboard.min.js"></script>
-<!--  -->
-<link rel="stylesheet" type="text/css" href="../static/css/main.css">
-<link rel="stylesheet" type="text/css" href="../static/css/checkbox.css">
-<script src="../js/checkbox.js" type="text/javascript"></script>
-<script src="../js/drive.js" type="text/javascript"></script>
-<script src="../js/mkfoldercheck.js" type="text/javascript"></script>
-<script type="text/javascript">
-	$(function() {
-		$("#sidebar").children().each(function() {
-			if ($(this).hasClass("${path }")) {
-				$(this).addClass("bg-primary text-white");
-			} else {
-				$(this).addClass("list-group-item-action");
-			}
-		});
-	});
-</script>
-</head>
-
-<body>
-	<nav class="navbar navbar-expand-sm main-navigation">
-		<div class="container">
-			<a class="navbar-brand" href="#"> <img src="../img/logo.png"
-				alt="logo" class="logo"> 资料管理平台
-				<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" href="Home">首页</a></li>
-				<li class="nav-item"><a class="nav-link nav-current"
-					href="ListFiles">网盘</a></li>
-				<!--<li class="nav-item"><a class="nav-link" href="ShareManage">我的分享</a>-->
-				<!--</li>-->
-				
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#" id="navbardrop"
-					data-toggle="dropdown" th:text="${session.userName}"></a>
-					<div class="dropdown-menu">
-
-						<a  th:if="${session.userRole} eq 'admin'" class="dropdown-item" href="/" data-toggle="modal" data-target="#newUser">添加用戶</a>
-						<a class="dropdown-item" href="/">退出登录</a>
-					</div></li>
-			</ul>
-		</div>
-	</nav>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-2">
-				<div class="list-group" id="sidebar">
-					<a href="ListFiles?path=root" class="list-group-item root"><i
-						class="fa fa-home"></i> 全部文件</a> <a href="ListFiles?path=image"
-						class="list-group-item image"><i class="fa fa-photo"></i> 图片</a> <a
-						href="ListFiles?path=document" class="list-group-item document"><i
-						class="fa fa-file-text-o"></i> 文档</a> <a href="ListFiles?path=video"
-						class="list-group-item video"><i class="fa fa-film"></i> 视频</a> <a
-						href="ListFiles?path=music" class="list-group-item music"><i
-						class="fa fa-music"></i> 音乐</a> <a href="ListFiles?path=other"
-						class="list-group-item other"><i class="fa fa-sticky-note-o"></i>
-						其他</a>
-				</div>
-			</div>
-			<div class="card col-sm-10">
-				<div class="card-body">
-
-							<div id="menudiv">
-								<button type="button" class="btn btn-primary"
-									data-toggle="modal" data-target="#uploadModal">
-									<i class="fa fa-cloud-upload"></i> 文件上传
-								</button>
-								<button type="button" class="btn btn-outline-secondary"
-									data-toggle="modal" data-target="#newFolder">
-									<i class="fa fa-folder-o fa-lg"></i> 新建文件夹
-								</button>
-								<button type="button" class="btn btn-outline-danger checkShow"
-									data-toggle="modal" data-target="#delInfoModal">
-									<i class="fa fa-trash-o fa-lg"></i> 删除
-								</button>
-							</div>
-							<ul class="breadcrumb">
-
-									<a href="ListFiles?path=${lastPath }">返回上一级</a>
-									<span class="gt">|</span>
-
-
-
-											<a href="${folderURL }">全部文件</a>
-
-											<span class="gt">></span>
-
-											<a href="${folderURL }"></a>
-
+<div id="topPanel" class="yp-header">
+	<div class="yp-logo">
+		<a href="/" title="资料管理平台">
+			<img src="/img/logo.png">
+			<span>资料管理平台</span>
+		</a>
+	</div>
+	<ul class="nav-left">
+		<li><a href="#/fileManage" class="router-link-active">文件 </a></li>
+		<li><a href="#/vip/product/" class="">套餐</a></li>
+		<li><a href="/index/help/">帮助</a></li>
+		<li>
+			<div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
+				<div class="nav-more__button"><span>更多</span></div>
+				<div class="dropdown-wrap" style="display: none;">
+					<ul class="nav-more__list"><!----> <!----> <!---->
+						<li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
+							<ul>
+								<li><a>扫描我的文件</a></li>
+								<li><a>扫描指定文件夹</a></li>
 							</ul>
-
-
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>
-									<div class="main-checkbox">
-										<input type="checkbox" value="None" id="CheckAll" name="check" />
-										<label for="CheckAll"></label>
-									</div>
-								</th>
-								<th>文件名</th>
-								<th></th>
-								<th>大小</th>
-								<th>修改日期</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:set var="index" value="0" />
-							<c:forEach var="file" items="${files}">
-								<c:set var="index" value="${index+1}" />
-								<tr>
-									<td>
-										<div class="main-checkbox">
-											<input type="checkbox" value="None" id="check${index }"
-												name="subBox" /> <label for="check${index }"></label>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="yp-header__avatarWrap">
+		<img id="guideTarget2" alt="头像" src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+		<div data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+			<div data-v-02139d26="" class="corp-detail">
+				<h2 data-v-02139d26="" class="titles"><span data-v-02139d26="">格局_187</span></h2>
+				<p data-v-02139d26=""><span data-v-02139d26="">我的使用容量：无</span> <!----></p>
+				<div data-v-597b7506="" data-v-02139d26="" class="progress progress">
+					<div data-v-597b7506="" class="progress-inner" style="width: 0%;"></div>
+				</div> <!----> <!----> <!---->
+			</div>
+			<div data-v-02139d26="" class="bottom-expire">
+				<h3 data-v-02139d26="">未订购</h3>
+				<span data-v-02139d26="">套餐到期时间：无</span>
+				<button data-v-02139d26="" class="x-button x-button--text"><!---->
+					<span class="x-button__label">购买套餐</span>
+				</button> <!---->
+			</div>
+			<div data-v-02139d26="" class="account-list">
+				<ul data-v-02139d26="">
+					<li data-v-02139d26="">
+						<a data-v-02139d26="" href="//i.360.cn/?p=profile" target="_blank">帐号中心</a>
+					</li> <!---->
+					<li data-v-02139d26="">
+						<a data-v-02139d26="">更多
+							<svg data-v-02139d26="" aria-hidden="true" class="icon-unfold icon-svg">
+								<use xlink:href="#icon-unfold"></use>
+							</svg>
+						</a>
+					</li>
+				</ul>
+				<ul data-v-02139d26="" class="moreli" style="display: none;">
+					<li data-v-02139d26=""><a data-v-02139d26=""
+											  href="//i.360.cn/security/accountguard?show_index=1&amp;channel=10000301"
+											  target="_blank">
+						帐号卫士
+					</a></li>
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/file/index#/user/redpackage" target="_blank">我的红包</a>
+					</li>
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/vip/records/" target="_blank">
+						购买记录
+					</a></li>
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/vip/invoice/" target="_blank">
+						发票申请
+					</a></li>
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/vip/invoiceRecord/" target="_blank">
+						发票记录
+					</a></li>
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/resource/html/feedback.html?qid=3126722792"
+											  target="_blank">
+						意见反馈
+					</a></li>
+				</ul>
+				<ul data-v-02139d26="">
+					<li data-v-02139d26=""><a data-v-02139d26="" href="/user/logout">
+						退出云盘
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</div> <!---->
+</div>
+<div id="center-wrap">
+	<div id="leftPanel" class="left-panel layoutaside">
+		<ul class="menu-list nav">
+			<li class="menu-list-item"><a href="#/fileManage/my" class="">
+				<svg aria-hidden="true" class="menu-list__icon icon-svg">
+					<use xlink:href="#icon-list"></use>
+				</svg>
+				我的文件 </a>
+				<ul class="sub-list">
+					<li><a href="#/fileManage/pic" class="submenu tab-img router-link-active">图片</a></li>
+					<li><a href="#/fileManage/doc" class="submenu tab-text">文档</a></li>
+					<li><a href="#/fileManage/video" class="submenu tab-video">视频</a></li>
+					<li><a href="#/fileManage/music" class="submenu tab-music">音乐</a></li>
+				</ul>
+			</li>
+			<li class="menu-list-item"><a href="#/fileManage/safe" class="">
+				<svg aria-hidden="true" class="menu-list__icon icon-svg">
+					<use xlink:href="#icon-safe"></use>
+				</svg>
+				<span>保险箱</span></a></li>
+			<li class="menu-list-item"><a href="#/fileManage/recycle" class="">
+				<svg aria-hidden="true" class="menu-list__icon icon-svg">
+					<use xlink:href="#icon-recycle"></use>
+				</svg>
+				<span>回收站</span></a></li>
+			<li class="menu-list-item"><a href="#/fileManage/sharelink" class="">
+				<svg aria-hidden="true" class="menu-list__icon icon-svg">
+					<use xlink:href="#icon-link3"></use>
+				</svg>
+				<span>分享链接</span></a></li>
+		</ul>
+	</div>
+	<div id="app" class="center-panel"><!---->
+		<div data-v-fccf5e72="" class="timeline center-panel--pic" style="height: 602px;">
+			<div data-v-fccf5e72="" class="toolbar">
+				<div data-v-fccf5e72="" class="left">
+					<div data-v-fccf5e72="" class="button-chain button-group--switch"><a data-v-fccf5e72=""
+																						 href="#/fileManage/pic/timeline"
+																						 class="button-chain-item router-link-exact-active router-link-active">
+						时光轴模式
+					</a> <a data-v-fccf5e72="" href="#/fileManage/pic/ordinary" class="button-chain-item">
+						普通模式
+					</a></div>
+				</div>
+				<div data-v-fccf5e72="" class="head-button-group center"> <!----></div>
+			</div>
+			<div data-v-bfd7e0ca="" data-v-fccf5e72="" class="loading-mask-vue" style="display: none;">
+				<div data-v-bfd7e0ca="" class="loading-mask-vue__content"><img data-v-bfd7e0ca=""
+																			   src="https://p2.ssl.qhimg.com/t01bcebfcf4e4842b3c.gif"
+																			   class="loading-mask-icon"></div>
+			</div>
+			<div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap">
+				<div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--pic">
+					<h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过图片哦~</h1>
+				</div>
+			</div>
+			<div data-v-fccf5e72="" class="file-list-options">
+				<p class="tip"><span class="x-checkbox rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
+						aria-hidden="true" class="x-checkbox__icon icon-svg"><use
+						xlink:href="#icon-check-rect"></use></svg> </label></span>
+					已选中<span class="highlight">0</span>个文件
+				</p>
+			</div>
+			<div data-v-638e2e05="" data-v-fccf5e72="" class="time-list" style="display: none;">
+				<ul data-v-638e2e05=""></ul>
+			</div>
+			<div data-v-fccf5e72="" class="table-wrap" style="display: none;">
+				<div class="timeline__month__title" style="width: 0px;"><span>年undefined月(共0张)</span> <span
+						class="x-checkbox select-all rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
+						aria-hidden="true" class="x-checkbox__icon icon-svg"><use
+						xlink:href="#icon-check-rect"></use></svg> 全选</label></span></div>
+				<div class="timeline-table" style="height: 602px;">
+					<ul class="timeline__list"></ul>
+				</div>
+			</div>
+			<div data-v-a3b8669e="" data-v-fccf5e72="" class="preview-modal" style="display: none;">
+				<div data-v-a3b8669e="" class="preview__header">
+					<div data-v-a3b8669e="" class="preview__edit"><a data-v-a3b8669e="" class="close">×</a></div>
+				</div>
+				<div data-v-a3b8669e="" class="preview__content"><a data-v-a3b8669e="" class="preview__control--prev"
+																	style="display: none;"><i data-v-a3b8669e=""
+																							  class="x-icon x-icon-left"></i></a>
+					<a data-v-a3b8669e="" class="preview__control--next" style="display: none;"><i data-v-a3b8669e=""
+																								   class="x-icon x-icon-right"></i></a>
+					<div data-v-a3b8669e="" class="preview__img">
+						<div data-v-a3b8669e="" class="wrapper"><img data-v-a3b8669e=""
+																	 src="data:image/gif;base64,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"
+																	 class="preview" style="transform: rotate(0deg);">
+						</div>
+					</div>
+				</div>
+				<div data-v-a3b8669e="" class="preview__footer">
+					<div data-v-a3b8669e="" class="btn-group"><a data-v-a3b8669e="" class="btn btn--share">
+						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-svg" title="分享">
+							<use xlink:href="#icon-sharelink"></use>
+						</svg>
+					</a> <a data-v-a3b8669e="" title="左旋转" class="btn btn-rotate">
+						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-rotate icon-svg">
+							<use xlink:href="#icon-rotate"></use>
+						</svg>
+					</a> <a data-v-a3b8669e="" class="btn btn--down">
+						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-download icon-svg" title="下载原图">
+							<use xlink:href="#icon-download-stroke"></use>
+						</svg>
+					</a> <a data-v-a3b8669e="" title="删除" class="btn btn--delete">
+						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-delete icon-svg">
+							<use xlink:href="#icon-delete"></use>
+						</svg>
+					</a> <a data-v-a3b8669e="" title="图片详情" class="btn btn--info">
+						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-info icon-svg">
+							<use xlink:href="#icon-info"></use>
+						</svg>
+					</a> <a data-v-a3b8669e="" class="btn btn--original">
+						查看原图
+					</a></div>
+				</div> <!----> <!----> <!----></div>
+		</div>
+		<div data-v-71ce96c8="" class="mini-upload" style="visibility: hidden;">
+			<svg data-v-71ce96c8="" aria-hidden="true" class="x-button__icon icon-svg">
+				<use xlink:href="#icon-upload2"></use>
+			</svg>
+			<span data-v-71ce96c8="">请选择要上传的文件</span> <!----> <!----> </div>
+		<div data-v-5bc8579b="" class="upload-dialog-wrapp upload-dialog-show">
+			<div data-v-5bc8579b="" class="upload-dialog"
+				 style="top: 140px; left: 495px; transition: width 0.5s ease 0s, height 0.5s ease 0s, top 0.5s ease 0s, left 0.5s ease 0s, transform 0.5s ease 0s, opacity 0.5s ease 0s; transform: inherit; bottom: auto;">
+				<div data-v-5bc8579b="" class="upload-dialog-header"><span data-v-5bc8579b="">上传文件到360安全云盘</span> <i
+						data-v-5bc8579b="" class="minimize-icon">-</i> <i data-v-5bc8579b="" class="close-icon">×</i>
+				</div>
+				<div data-v-5bc8579b="" class="upload-dialog-content">
+					<div data-v-5bc8579b="" class="upload-toolbar clearfix">
+						<div data-v-5bc8579b="" class="upload-btns" style=""><!---->
+							<div data-v-5bc8579b="" class="jx-select-file"><span data-v-5bc8579b=""
+																				 class="jx-select-file-text">添加文件</span>
+								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+									   class="file-select-proxy"> <i data-v-5bc8579b=""
+																	 class="jx-select-file-select"></i></div>
+							<div data-v-5bc8579b="" class="jx-select-menu select-menu" style="display: none;"><a
+									data-v-5bc8579b="" href="javascript:;" class="file-select">
+								添加文件
+								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+									   class="file-select-proxy"></a> <a data-v-5bc8579b="" href="javascript:;"
+																		 class="folder-select">
+								添加文件夹
+								<input data-v-5bc8579b="" title="请选择要上传的文件夹" type="file" webkitdirectory=""
+									   multiple="multiple" class="folder-select-proxy"></a></div>
+						</div>
+						<div data-v-5bc8579b="" class="uploadPath" style=""><span data-v-5bc8579b=""
+																				  class="breadcrumb__item">到：</span>
+							<span data-v-5bc8579b="" class="breadcrumb__item">我的文件</span></div>
+						<div data-v-5bc8579b="" class="upload-btns" style="display: none;">不可上传至当前目录</div>
+						<div data-v-5bc8579b="" class="warning-note"><span data-v-5bc8579b="">上传须知</span>
+							<div data-v-5bc8579b="" class="warning-tips" style="display: none;"><span data-v-5bc8579b=""
+																									  class="triangle triangle_lt"></span>
+								<p data-v-5bc8579b=""><i data-v-5bc8579b="" class="icon icon-warning"></i>严禁利用360安全云盘存储、下载、传播暴力恐怖音视频，以及其他任何非法、有害信息，一经发现将严格按照相关法律法规处理。
+								</p>
+								<p data-v-5bc8579b="" style="word-break: normal;">Storing, downloading and sharing
+									violate, horrific and illegal media contents on 360 Security Cloud is strictly
+									prohibited. Once discovered, necessary actions, under the supervision of related
+									laws and regulations, will be taken accordingly.</p></div>
+						</div>
+					</div>
+					<div data-v-5bc8579b="" class="upload-list-box">
+						<ul data-v-5bc8579b="" class="uploadItemList"></ul>
+					</div>
+				</div>
+				<div data-v-5bc8579b="" class="upload-dialog-footer">
+					<button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!----> <span
+							class="x-button__label">
+        完成
+      </span></button>
+				</div>
+			</div>
+		</div>
+		<div data-v-1f514def="" class="dd-upload" style="display: none;"><h1 data-v-1f514def="">将文件拖放至此可以上传<br
+				data-v-1f514def=""><span data-v-1f514def="">（文件夹不能拖拽上传哦）</span></h1></div>
+		<div data-v-5bc8579b="" class="upload-dialog-wrapp upload-dialog-show">
+			<div data-v-5bc8579b="" class="upload-dialog" style="top: 140px; left: 495px;">
+				<div data-v-5bc8579b="" class="upload-dialog-header"><span data-v-5bc8579b="">上传文件到360安全云盘</span> <i
+						data-v-5bc8579b="" class="minimize-icon">-</i> <i data-v-5bc8579b="" class="close-icon">×</i>
+				</div>
+				<div data-v-5bc8579b="" class="upload-dialog-content">
+					<div data-v-5bc8579b="" class="upload-toolbar clearfix">
+						<div data-v-5bc8579b="" class="upload-btns" style=""><!---->
+							<div data-v-5bc8579b="" class="jx-select-file"><span data-v-5bc8579b=""
+																				 class="jx-select-file-text">添加文件</span>
+								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+									   class="file-select-proxy"> <i data-v-5bc8579b=""
+																	 class="jx-select-file-select"></i></div>
+							<div data-v-5bc8579b="" class="jx-select-menu select-menu" style="display: none;"><a
+									data-v-5bc8579b="" href="javascript:;" class="file-select">
+								添加文件
+								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+									   class="file-select-proxy"></a> <a data-v-5bc8579b="" href="javascript:;"
+																		 class="folder-select">
+								添加文件夹
+								<input data-v-5bc8579b="" title="请选择要上传的文件夹" type="file" webkitdirectory=""
+									   multiple="multiple" class="folder-select-proxy"></a></div>
+						</div>
+						<div data-v-5bc8579b="" class="uploadPath" style=""><span data-v-5bc8579b=""
+																				  class="breadcrumb__item">到：</span>
+							<span data-v-5bc8579b="" class="breadcrumb__item">我的文件</span></div>
+						<div data-v-5bc8579b="" class="upload-btns" style="display: none;">不可上传至当前目录</div>
+						<div data-v-5bc8579b="" class="warning-note"><span data-v-5bc8579b="">上传须知</span>
+							<div data-v-5bc8579b="" class="warning-tips" style="display: none;"><span data-v-5bc8579b=""
+																									  class="triangle triangle_lt"></span>
+								<p data-v-5bc8579b=""><i data-v-5bc8579b="" class="icon icon-warning"></i>严禁利用360安全云盘存储、下载、传播暴力恐怖音视频，以及其他任何非法、有害信息，一经发现将严格按照相关法律法规处理。
+								</p>
+								<p data-v-5bc8579b="" style="word-break: normal;">Storing, downloading and sharing
+									violate, horrific and illegal media contents on 360 Security Cloud is strictly
+									prohibited. Once discovered, necessary actions, under the supervision of related
+									laws and regulations, will be taken accordingly.</p></div>
+						</div>
+					</div>
+					<div data-v-5bc8579b="" class="upload-list-box">
+						<ul data-v-5bc8579b="" class="uploadItemList"></ul>
+					</div>
+				</div>
+				<div data-v-5bc8579b="" class="upload-dialog-footer">
+					<button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!----> <span
+							class="x-button__label">
+        完成
+      </span></button>
+				</div>
+			</div>
+		</div> <!---->
+		<div data-v-e1ba4c6c="" class="upload-dialog music-player" style="display: none;">
+			<div data-v-e1ba4c6c="" class="upload-dialog-header"><i data-v-e1ba4c6c="" class="player-icon paused"></i>
+				<span data-v-e1ba4c6c="" class="title">欢迎使用云盘音乐盒</span> <i data-v-e1ba4c6c=""
+																		   class="minimize-icon">-</i> <i
+						data-v-e1ba4c6c="" class="close-icon">×</i></div>
+			<div data-v-e1ba4c6c="" class="upload-dialog-content" style="height: 385px;">
+				<div data-v-e1ba4c6c="">
+					<div data-v-e1ba4c6c="" class="mc-control">
+						<ul data-v-e1ba4c6c="" class="play-btns">
+							<li data-v-e1ba4c6c=""><a data-v-e1ba4c6c="" title="上一首" class="vc-btn mc-control-pre"></a>
+							</li>
+							<li data-v-e1ba4c6c=""><a data-v-e1ba4c6c="" title="暂停[播放]"
+													  class="vc-btn mc-control-play paused"></a></li>
+							<li data-v-e1ba4c6c=""><a data-v-e1ba4c6c="" title="下一首" class="vc-btn mc-control-next"></a>
+							</li>
+						</ul>
+						<div data-v-e1ba4c6c="" class="mc-control-info"><p data-v-e1ba4c6c="" title="">欢迎使用云盘音乐盒</p>
+							<div data-v-e1ba4c6c="" class="mc-control-mode"><a data-v-e1ba4c6c="" hidefocus="true"
+																			   onclick="return false;" title="顺序播放"
+																			   class="vc-btn mode cycle"></a>
+								<ul data-v-e1ba4c6c="">
+									<li data-v-e1ba4c6c="" class=""><a data-v-e1ba4c6c="" hidefocus="true"
+																	   onclick="return false;" title="随机播放"
+																	   class="vc-btn random"></a></li>
+									<li data-v-e1ba4c6c="" class=""><a data-v-e1ba4c6c="" hidefocus="true"
+																	   onclick="return false;" title="单曲循环"
+																	   class="vc-btn single"></a></li>
+									<li data-v-e1ba4c6c="" class="active"><a data-v-e1ba4c6c="" hidefocus="true"
+																			 onclick="return false;" title="顺序播放"
+																			 class="vc-btn cycle"></a></li>
+								</ul>
+							</div>
+							<div data-v-e1ba4c6c="" class="mc-control-volume"><a data-v-e1ba4c6c=""
+																				 onclick="return false;" title="静音"
+																				 hidefocus="true"
+																				 class="vc-btn volume"></a>
+								<div data-v-e1ba4c6c="" class="volume-inner">
+									<div data-v-e1ba4c6c="" class="vol-slider-wrap">
+										<div data-v-e1ba4c6c="" class="vol-slider">
+											<div data-v-e1ba4c6c="" class="vol-slider-range" style="width: 50%;"></div>
+											<div data-v-e1ba4c6c="" class="vol-slider-handle-wrap">
+												<div data-v-e1ba4c6c="" class="vol-slider-handle" style="left: 50%;">
+													<span data-v-e1ba4c6c=""></span></div>
+											</div>
 										</div>
-									</td>
-									<c:choose>
-										<c:when test="${file.type == \"folder\" }">
-											<c:url value="/ListFiles" var="folderURL">
-												<c:param name="path" value="${path}/${file.fileName }"></c:param>
-											</c:url>
-											<td><img src="../static/img/icon/${file.type }.png" alt="logo"
-													 class="fileIcon"> <a href="${folderURL}"
-												class="fileName">${file.fileName}</a></td>
-											<td>
-												<div class="param">
-													<span class="fileName">${file.fileName}</span> <span
-														class="path">${file.path }</span>
-												</div>
-											</td>
-											<td>-</td>
-										</c:when>
-										<c:otherwise>
-											<c:url value="/DownLoad" var="downLoadURL">
-												<c:param name="fileName" value="${file.uuidName}"></c:param>
-												<c:param name="path" value="${file.path }"></c:param>
-											</c:url>
-											<c:url value="/ShareFile" var="shareURL">
-												<c:param name="fileName" value="${file.uuidName}"></c:param>
-												<c:param name="path" value="${path }"></c:param>
-												<c:param name="size">${file.size }</c:param>
-											</c:url>
-											<td><img src="../static/img/icon/${file.type }.png" alt="logo"
-													 class="fileIcon"> <a href="${downLoadURL}"
-												class="fileName">${file.fileName}</a></td>
-											<td>
-												<div class="param">
-													<span class="fileName">${file.uuidName}</span> <span
-														class="path">${file.path }</span>
-												</div>
-												<div class="disabled">
-													<a href="${downLoadURL }" title="下载"><i
-														class="fa fa-download fa-lg"></i></a> <a
-														href="javascript:void(0);" class="share"
-														url="${shareURL }" title="分享"><i
-														class="fa fa-share-alt fa-lg"></i></a>
-												</div>
-											</td>
-											<td>${file.showSize }</td>
-										</c:otherwise>
-									</c:choose>
-
-									<td>${file.updateTime }</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 文件上传 -->
-	<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog"
-		aria-labelledby="uploadModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content" style="width: 820px">
-				<div class="modal-header">
-					<h5 class="modal-title" id="uploadModalLabel">文件上传</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="file-loading">
-						<input type="file" name="txt_file" multiple id="uploadFile" />
-					</div>
-					<div id="kartik-file-errors"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- 新建文件夹 -->
-	<div class="modal fade" id="newFolder">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form role="form" id="mkfolder" action="MkDir" method="post">
-					<div class="modal-header">
-						<h4 class="modal-title">新建文件夹</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-					<div class="modal-body">
-						<input type="text" class="form-control" name="folderName"
-							id="name" placeholder="请输入文件夹名">
-						<%-- <input type="text" class="pathText" name="path" value="${path }"> --%>
-					</div>
-
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-info" value="新建">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">关闭</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- 显示分享链接 -->
-	<div class="modal fade" id="shareModal">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<!-- 模态框头部 -->
-				<div class="modal-header">
-					<h4 class="modal-title">分享</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-				<!-- 模态框主体 -->
-				<div class="modal-body">
-					<p class="text-primary">成功创建分享链接</p>
-					<div class="row">
-						<div class="col-sm-9">
-							<input type="text" id="linkText" class="form-control">
-						</div>
-						<div class="col-sm-3">
-							<button id="copyLink" data-clipboard-target="#linkText"
-								class="btn btn-primary">复制链接</button>
+									</div>
+								</div>
+							</div>
+							<div data-v-e1ba4c6c="" class="mc-control-time"><span data-v-e1ba4c6c=""
+																				  class="t-now">--:--</span> |
+								<span data-v-e1ba4c6c="" class="t-total">--:--</span></div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-sm-8">
-							<p class="text-muted">可以将链接发送给你的QQ等好友</p>
+					<div data-v-e1ba4c6c="" class="mc-process">
+						<div data-v-e1ba4c6c="" class="ui-slider">
+							<div data-v-e1ba4c6c="" class="ui-slider-range" style="width: 0%;"></div>
+							<div data-v-e1ba4c6c="" class="ui-slider-progress" style="width: 0%;"></div>
+							<div data-v-e1ba4c6c="" class="ui-slider-handle-wrap"><a data-v-e1ba4c6c=""
+																					 class="ui-slider-handle ui-slider-handle-anim"
+																					 style="left: 0%;"><span
+									data-v-e1ba4c6c=""></span></a></div>
 						</div>
-
 					</div>
-					<div id="copyInfo">
-						<div class="alert alert-success" id="copySuccess">
-							<strong>复制成功!</strong>
-						</div>
-						<div class="alert alert-danger" id="copyError">
-							<strong>复制失败!</strong>
+					<div data-v-e1ba4c6c="" class="mc-list">
+						<ul data-v-e1ba4c6c="" style="display: none;"></ul>
+						<div data-v-e1ba4c6c="" class="emptylist"><img data-v-e1ba4c6c=""
+																	   src="/resource/img/my/mc-empty.png"></div>
+						<div data-v-e1ba4c6c="" class="mc-oper">
+							<div data-v-e1ba4c6c="" class="wrap">
+								<div data-v-e1ba4c6c="" class="select-all"><a data-v-e1ba4c6c="" onclick="return false;"
+																			  class="vc-btn btn-checkbox"></a> <span
+										data-v-e1ba4c6c="">全选</span></div>
+								<div data-v-e1ba4c6c="" class="list-oper"><a data-v-e1ba4c6c="" onclick="return false;"
+																			 class="remove">删除</a> <span
+										data-v-e1ba4c6c="" class="sep">|</span> <a data-v-e1ba4c6c=""
+																				   onclick="return false;"
+																				   class="empty">清空列表</a></div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<!-- 模态框底部 -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-primary"
-						data-dismiss="modal">关闭</button>
-				</div>
 			</div>
 		</div>
 	</div>
-	<!-- 删除提示信息 -->
-	<div class="modal fade" id="delInfoModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h4 class="modal-title">删除文件</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<div class="modal-body">
-					<i class="fa fa-info-circle"></i> 确定删除选中文件？
-				</div>
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" id="confirmDeletion">删除</button>
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">关闭</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<!-- 新增用戶 -->
-	<div class="modal fade" id="newUser">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<form role="form" id="mkUser" action="addUser" method="post">
-					<div class="modal-header">
-						<h4 class="modal-title">新增用戶</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
-
-					<div class="modal-body">
-						<label>用戶名</label>
-						<input type="text" class="form-control" name="name"
-							   placeholder="您的邮箱或用户名">
-						<label>密码</label>
-						<input type="text" class="form-control" name="password"
-							   placeholder="你的密码">
-						<label>警号</label>
-						<input type="text" class="form-control" name="alarm"
-							   placeholder="你的密码">
-						<label>角色</label>
-						<select name="roleId" class="form-control">
-							<option value ="1">管理員</option>
-							<option value ="2">普通用戶</option>
-						</select>
-					</div>
-
-					<div class="modal-footer">
-						<input type="submit" class="btn btn-info" value="新增">
-						<button type="button" class="btn btn-secondary"
-								data-dismiss="modal">关闭</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-</body>
-</html>
+</div>

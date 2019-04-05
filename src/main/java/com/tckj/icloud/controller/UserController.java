@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-
 @Controller
 public class UserController {
     @Autowired
@@ -27,7 +26,7 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping("login")
+    @PostMapping("login")
     public String loginConfirm(User user, HttpSession session) {
         User userDb = userService.existUser(user);
         if (userDb != null) {
@@ -39,11 +38,9 @@ public class UserController {
             } else {
                 session.setAttribute("userRole", "public");
             }
-
             return "home";
         } else {
-            return "login";
-
+            return "index";
         }
     }
 
