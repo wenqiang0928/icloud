@@ -17,10 +17,12 @@ function toSignUp(event) {
 }
 
 function signUp() {
-    var url = "/login";
+    var url = Config.baseUrl + "/login";
     var params = {
         "name": $("#user-name").val(),
         "password": $("#password").val()
     };
-    $("body").load(url, params);
+    $.post(url, params, function () {
+        $("body").load(url, params);
+    });
 }

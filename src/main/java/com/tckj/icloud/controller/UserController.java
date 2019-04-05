@@ -6,6 +6,7 @@ import com.tckj.icloud.pojo.UserRole;
 import com.tckj.icloud.service.RoleService;
 import com.tckj.icloud.service.UserRoleService;
 import com.tckj.icloud.service.UserService;
+import com.tckj.icloud.vo.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class UserController {
         return "index";
     }
 
-    @PostMapping("login")
+    @RequestMapping("login")
     public String loginConfirm(User user, HttpSession session) {
         User userDb = userService.existUser(user);
         if (userDb != null) {
@@ -38,12 +39,22 @@ public class UserController {
             } else {
                 session.setAttribute("userRole", "public");
             }
-            return "home";
+           // return new SuccessResponse(true);
+           return "home";
         } else {
-            return "index";
+            //return new SuccessResponse(false);
+           return "login";
         }
     }
 
+    /**
+     * 路由到主页
+     * @return
+     */
+    @GetMapping("home")
+    public String home() {
+        return "home";
+    }
     @PostMapping("addUser")
     public String addUser(String name, String password, String alarm, Integer roleId) {
         User user = new User();
