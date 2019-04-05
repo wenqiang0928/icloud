@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @Controller
-@RequestMapping("file")
+@RequestMapping("docs")
 public class DocsController {
     @Autowired
     private DocsService docsService;

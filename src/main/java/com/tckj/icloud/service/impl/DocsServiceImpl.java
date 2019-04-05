@@ -46,11 +46,13 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     }
     @Override
     public ResponseResult addDir(int nowDirId, String name, User user) {
+        initDir(user);
         Docs nowDir = baseMapper.selectById(nowDirId);
         if (ObjectUtils.isEmpty(nowDir)){
             return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
-        Docs newDocs = new Docs(name,nowDirId,user.getId(),new Date(),null);
+        String path = nowDir.getPath() + "/" + name;
+        Docs newDocs = new Docs(name,path,nowDirId,user.getId(),new Date(),null);
         try{
             baseMapper.insert(newDocs);
             return new SuccessResponse(null);
@@ -115,5 +117,34 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         }
         List<Docs> docsList = baseMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
+    }
+
+    /**
+     * 创建用户根目录
+     * @param user
+     * @return boolean
+     * @author LiZG
+     * @date 2019/04/05 23:17
+     */
+    private boolean initDir(User user){
+        //从数据库查询，如果根目录已存在，直接返回true
+        //如果根目录不存在，则创建根目录
+        Docs queryDocs = new Docs();
+        queryDocs.setPid(0);
+        queryDocs.setName(user.getName());
+        Docs resultRootDir = baseMapper.selectOne(queryDocs);
+        if (ObjectUtils.isEmpty(resultRootDir)) {
+            String path = "/" + user.getName();
+            Docs rootDir = new Docs(user.getName(), path, 0, user.getId(), new Date(), null);
+            Integer sign = baseMapper.insert(rootDir);
+            if (sign != null && sign == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+
     }
 }

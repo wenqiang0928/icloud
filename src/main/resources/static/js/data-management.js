@@ -2,8 +2,13 @@ $(document).ready(function () {
     $("#sign-up").bind("click", signUp);
     $('#user-name').bind("keydown", toSignUp);
     $('#password').bind("keydown", toSignUp);
+    $('#addFile').bind("click",addFile)
     showUserDiv();
 })
+
+function addFile() {
+    
+}
 
 function toSignUp(event) {
     if(event.keyCode == "13") {

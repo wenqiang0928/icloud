@@ -151,6 +151,8 @@ public class Docs implements Serializable {
         this.caseNo = caseNo;
     }
 
+    public Docs(){}
+
     public Docs(String name, Integer type, Long size, String suffix, String md5CheckSum, String path, Integer pid, Integer createUserId, Date createTime, Integer isDelete, String caseNo) {
         this.name = name;
         this.type = type;
@@ -175,9 +177,10 @@ public class Docs implements Serializable {
      * @author LiZG
      * @date 2019/04/05 9:11
      */
-    public Docs(String name,Integer pid,Integer createUserId,Date createTime, String caseNo){
+    public Docs(String name,String path,Integer pid,Integer createUserId,Date createTime, String caseNo){
         this.name = name;
         this.type = 1;
+        this.path = path;
         this.pid = pid;
         this.createUserId = createUserId;
         this.createTime = createTime;

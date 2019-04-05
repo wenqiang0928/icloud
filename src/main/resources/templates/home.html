@@ -136,7 +136,7 @@
 					</div>
 					<div data-v-fccf5e72="" class="button-chain button-group--switch">
 						<a id="new-file-button"
-						   data-toggle="modal" data-target="#upload-modal"
+						   data-toggle="modal" data-target="#newFolder-modal"
 						   data-v-fccf5e72="" href="#/fileManage/newFile"
 						   class="button-chain-item router-link-exact-active router-link-active"
 						   style="letter-spacing: 2px;border-radius: 3px;">
@@ -448,7 +448,35 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<!-- 新建文件夹 -->
+<div class="modal fade" id="newFolder-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form role="form" id="mkfolder" action="/docs/addDir" method="post">
+				<div class="modal-header">
+					<h4 class="modal-title">新建文件夹</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					<input type="text" class="form-control" name="addDirName"
+						   id="name" placeholder="请输入文件夹名">
+					<input type="text" class="pathText" name="nowDirId" value="1">
+				</div>
+
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-info">新建</button>
+					<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">关闭</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 <script>
 	$("#upload-button").bind("click", uploadModal);
 	$("#upload-modal").on('show.bs.modal', centerModals);
+	$("#newFolder-modal").on('show.bs.modal', centerModals);
 </script>
