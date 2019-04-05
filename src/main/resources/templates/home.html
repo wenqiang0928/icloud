@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
 <link rel="stylesheet" type="text/css" href="/css/filemm.css">
 
-<div id="topPanel" class="yp-header">
+<div id="topPanel" class="yp-header" style="z-index: 99;">
 	<div class="yp-logo">
 		<a href="/" title="资料管理平台">
 			<img src="/img/logo.png">
@@ -10,7 +10,6 @@
 	</div>
 	<ul class="nav-left">
 		<li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-		<li><a href="#/vip/product/" class="">套餐</a></li>
 		<li><a href="/index/help/">帮助</a></li>
 		<li>
 			<div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
@@ -29,8 +28,8 @@
 		</li>
 	</ul>
 	<div class="yp-header__avatarWrap">
-		<img id="guideTarget2" alt="头像" src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
-		<div data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+		<img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像" src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+		<div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
 			<div data-v-02139d26="" class="corp-detail">
 				<h2 data-v-02139d26="" class="titles"><span data-v-02139d26="">格局_187</span></h2>
 				<p data-v-02139d26=""><span data-v-02139d26="">我的使用容量：无</span> <!----></p>
@@ -98,42 +97,44 @@
 				</svg>
 				我的文件 </a>
 				<ul class="sub-list">
-					<li><a href="#/fileManage/pic" class="submenu tab-img router-link-active">图片</a></li>
-					<li><a href="#/fileManage/doc" class="submenu tab-text">文档</a></li>
-					<li><a href="#/fileManage/video" class="submenu tab-video">视频</a></li>
-					<li><a href="#/fileManage/music" class="submenu tab-music">音乐</a></li>
+					<li>
+						<a href="#/fileManage/pic" class="submenu tab-img router-link-active">
+							<i class="glyphicon glyphicon-picture"></i>图片
+						</a>
+					</li>
+					<li>
+						<a href="#/fileManage/doc" class="submenu tab-text">
+							<i class="glyphicon glyphicon-folder-open"></i>文档
+						</a>
+					</li>
+					<li>
+						<a href="#/fileManage/video" class="submenu tab-video">
+							<i class="glyphicon glyphicon-film"></i>视频
+						</a>
+					</li>
+					<li>
+						<a href="#/fileManage/music" class="submenu tab-music">
+							<i class="glyphicon glyphicon-headphones"></i>音频
+						</a>
+					</li>
 				</ul>
 			</li>
-			<li class="menu-list-item"><a href="#/fileManage/safe" class="">
-				<svg aria-hidden="true" class="menu-list__icon icon-svg">
-					<use xlink:href="#icon-safe"></use>
-				</svg>
-				<span>保险箱</span></a></li>
-			<li class="menu-list-item"><a href="#/fileManage/recycle" class="">
-				<svg aria-hidden="true" class="menu-list__icon icon-svg">
-					<use xlink:href="#icon-recycle"></use>
-				</svg>
-				<span>回收站</span></a></li>
-			<li class="menu-list-item"><a href="#/fileManage/sharelink" class="">
-				<svg aria-hidden="true" class="menu-list__icon icon-svg">
-					<use xlink:href="#icon-link3"></use>
-				</svg>
-				<span>分享链接</span></a></li>
 		</ul>
 	</div>
 	<div id="app" class="center-panel"><!---->
 		<div data-v-fccf5e72="" class="timeline center-panel--pic" style="height: 602px;">
 			<div data-v-fccf5e72="" class="toolbar">
 				<div data-v-fccf5e72="" class="left">
-					<div data-v-fccf5e72="" class="button-chain button-group--switch"><a data-v-fccf5e72=""
-																						 href="#/fileManage/pic/timeline"
-																						 class="button-chain-item router-link-exact-active router-link-active">
-						时光轴模式
-					</a> <a data-v-fccf5e72="" href="#/fileManage/pic/ordinary" class="button-chain-item">
-						普通模式
-					</a></div>
+					<div data-v-fccf5e72="" class="button-chain button-group--switch">
+						<a id="upload-button"
+						   data-toggle="modal" data-target="#upload-modal"
+						   data-v-fccf5e72="" href="#/fileManage/upLoad"
+						   class="button-chain-item router-link-exact-active router-link-active"
+						   style="letter-spacing: 2px;border-radius: 3px;">
+							<i class="glyphicon glyphicon-open" style="margin-right: 5px;"></i>上传
+						</a>
+					</div>
 				</div>
-				<div data-v-fccf5e72="" class="head-button-group center"> <!----></div>
 			</div>
 			<div data-v-bfd7e0ca="" data-v-fccf5e72="" class="loading-mask-vue" style="display: none;">
 				<div data-v-bfd7e0ca="" class="loading-mask-vue__content"><img data-v-bfd7e0ca=""
@@ -399,3 +400,46 @@
 		</div>
 	</div>
 </div>
+<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header"
+				 style="position: absolute;top: 0;left: 0;width: 100%;">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="line-height: 36px;"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
+			</div>
+			<div class="modal-body" style="margin-top: 25px;height: 300px;">
+				<div style="height: 34px;font-size: 13px;">
+					<div class="btn-group" style="color: white;">
+						<button type="button" class="btn" style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">添加文件</button>
+						<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
+							<span class="caret"></span>
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
+							<li><span>添加文件</span></li>
+							<li><span>添加文件夹</span></li>
+						</ul>
+					</div>
+					<div style="display: inline-block;">
+						<span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
+						<span style="line-height: 32px;">我的文件</span>
+					</div>
+					<div style="display: inline-block;float: right;">
+						<span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
+					</div>
+				</div>
+				<div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
+			</div>
+			<div class="modal-footer" style="border: none;">
+				<button type="button" class="btn-user"
+						style="width: 70px;letter-spacing: 3px;">完成</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+	$("#upload-button").bind("click", uploadModal);
+	$("#upload-modal").on('show.bs.modal', centerModals);
+</script>
