@@ -1,5 +1,6 @@
 package com.tckj.icloud.exception;
 
+import com.tckj.icloud.vo.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -21,8 +22,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public ErrorDto notFount(Exception e) {
+    public ErrorResponse notFount(Exception e) {
         log.error("运行时异常:", e);
-        return new ErrorDto(null);
+        return new ErrorResponse("运行时异常");
     }
 }
