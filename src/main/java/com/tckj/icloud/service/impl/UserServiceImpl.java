@@ -40,4 +40,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.insert(user)>0;
     }
 
+    @Override
+    public User selectById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+
 }

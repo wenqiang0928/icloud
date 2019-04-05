@@ -1,9 +1,12 @@
 package com.tckj.icloud.controller;
 
+import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
+import com.tckj.icloud.service.UserService;
+import com.tckj.icloud.vo.ResponseResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +15,10 @@ import java.io.*;
 @Controller
 @RequestMapping("file")
 public class DocsController {
+    @Autowired
     private DocsService docsService;
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/upload")
     public void upload(String name, Integer type, String path, Integer pid,
@@ -63,5 +69,92 @@ public class DocsController {
             ex.printStackTrace();
         }
         return response;
+    }
+
+    /**
+     * 新建文件夹
+     * @param nowDirId
+     * @param name
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/05 9:08
+     */
+    @PostMapping(value = "addDir")
+    @ResponseBody
+    public ResponseResult addDir(@RequestParam(value = "nowDirId") int nowDirId,
+                                 @RequestParam(value = "addDirName")String name){
+        int userId = 1;
+
+        User user = userService.selectById(userId);
+        return docsService.addDir(nowDirId,name,user);
+    }
+
+    /**
+     * 移动文件/文件夹
+     * @param nowDirId      当前目录id
+     * @param targetDirId   目标目录id
+     * @param targetId      要移动的文件id
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/05 9:19
+     */
+    @PostMapping(value = "moveDocs")
+    @ResponseBody
+    public ResponseResult moveDocs(@RequestParam(value = "nowDirId")int nowDirId,
+                                   @RequestParam(value = "targetDirId")int targetDirId,
+                                   @RequestParam(value = "targetId")int targetId){
+        int userId = 1;
+
+        User user = userService.selectById(userId);
+        return docsService.moveDocs(nowDirId,targetDirId,targetId,user);
+    }
+
+    /**
+     * 查询该目录下的文件
+     * @param dirId
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/05 9:47
+     */
+    @GetMapping(value = "getAllDocsByPid")
+    @ResponseBody
+    public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId")int dirId){
+        int userId = 1;
+
+        User user = userService.selectById(userId);
+        return docsService.getAllDocsByPid(dirId,user);
+    }
+    /**
+     * 获取文件/文件夹详情
+     * @param id
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/05 9:50
+     */
+    @GetMapping(value = "getDetail")
+    @ResponseBody
+    public ResponseResult getDetail(@RequestParam(value = "id")int id){
+        int userId = 1;
+
+        User user = userService.selectById(userId);
+        return docsService.getDetail(id,user);
+    }
+
+    /**
+     * 文件搜索
+     * @param name
+     * @param suffix
+     * @param type
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/05 9:58
+     */
+    @GetMapping(value = "findDocs")
+    public ResponseResult findDocs(@RequestParam(value = "name")String name,
+                                   @RequestParam(value = "suffix",required = false)String suffix,
+                                   @RequestParam(value = "type",required = false)Integer type){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return docsService.findDocs(name,suffix,type,user);
     }
 }

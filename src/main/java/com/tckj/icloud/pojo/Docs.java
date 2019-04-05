@@ -163,4 +163,24 @@ public class Docs {
         this.isDelete = isDelete;
         this.caseNo = caseNo;
     }
+    /**
+     * 目录
+     * @param name
+     * @param pid
+     * @param createUserId
+     * @param createTime
+     * @param caseNo
+     * @return
+     * @author LiZG
+     * @date 2019/04/05 9:11
+     */
+    public Docs(String name,Integer pid,Integer createUserId,Date createTime, String caseNo){
+        this.name = name;
+        this.type = 1;
+        this.pid = pid;
+        this.createUserId = createUserId;
+        this.createTime = createTime;
+        this.isDelete = 0;
+        this.caseNo = caseNo;
+    }
 }

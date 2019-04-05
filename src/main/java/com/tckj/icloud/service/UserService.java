@@ -25,4 +25,11 @@ public interface UserService {
      * @return
      */
     Boolean addUser(User user);
+
+    /**
+     * 通过id查询用户
+     * @param id
+     * @return
+     */
+    User selectById(Integer id);
 }
