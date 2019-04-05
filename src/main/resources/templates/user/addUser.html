@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>添加用户</title>
+
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/npm.js"></script>
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/js/user_role.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+
+</head>
+<body>
+<div class="container-fluid">
+    <div class="form-group">
+        <label for="userName">用户名</label>
+        <input type="text" class="form-control" id="name" required placeholder="用户姓名">
+    </div>
+    <div class="form-group">
+        <label for="alarm">警号</label>
+        <input type="text" class="form-control" id="alarm" required placeholder="警号">
+    </div>
+    <div class="form-group">
+        <label for="password">密码</label>
+        <input type="password" class="form-control" id="password" required placeholder="密码">
+    </div>
+    <div class="form-group">
+        <label for="confirm_password">确认密码</label>
+        <input type="password" class="form-control" id="confirm_password" required placeholder="确认密码">
+    </div>
+
+    <button id="addUser" type="button" class="btn btn-default" onclick="User.addUser()">确定</button>
+</div>
+</body>

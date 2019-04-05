@@ -1,7 +1,9 @@
 package com.tckj.icloud.pojo;
 
 
-public class Role {
+import java.io.Serializable;
+
+public class Role implements Serializable {
     private Integer id;
     private String name;
     private Integer parentRoleId;

@@ -2,6 +2,8 @@ package com.tckj.icloud.service;
 
 import com.tckj.icloud.pojo.User;
 
+import java.util.List;
+
 public interface UserService {
     /**
      * 获取User对象
@@ -20,6 +22,13 @@ public interface UserService {
     User existUser(User user);
 
     /**
+     * 是否存在此用户 用于添加用户
+     *
+     * @param user
+     * @return
+     */
+    Boolean isRegisterUser(User user);
+    /**
      * 新增用户
      * @param user
      * @return
@@ -32,4 +41,11 @@ public interface UserService {
      * @return
      */
     User selectById(Integer id);
+
+    /**
+     * 根据条件获取用户列表
+     * @param user
+     * @return
+     */
+    List<User> getUsers(User user);
 }

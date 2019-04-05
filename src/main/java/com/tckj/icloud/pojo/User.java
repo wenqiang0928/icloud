@@ -3,8 +3,10 @@ package com.tckj.icloud.pojo;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 
+import java.io.Serializable;
+
 @TableName("user")
-public class User {
+public class User implements Serializable {
     /**
      * 用户id
      */

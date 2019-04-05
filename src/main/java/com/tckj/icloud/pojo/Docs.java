@@ -1,12 +1,13 @@
 package com.tckj.icloud.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 文件类  为了防止和jdk File 使用过程中不方便 所以取名叫docs
  *
  */
-public class Docs {
+public class Docs implements Serializable {
     private Integer id;
     /**
      * 文件或者目录名称

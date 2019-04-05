@@ -1,5 +1,6 @@
 package com.tckj.icloud.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -28,16 +29,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (userMapper.selectById(user.getId()) != null) {
             return null;
         }
-        List<User> userList = userMapper.selectList(new EntityWrapper<User>().eq("name",user.getName()).eq("password",user.getPassword()));
-        if (userList.size() > 0) {
+        List<User> userList = userMapper.selectList(new EntityWrapper<User>().eq("name", user.getName()).eq("password", user.getPassword()));
+        if (userList != null && userList.size() > 0) {
             return userList.get(0);
         }
         return null;
     }
 
     @Override
+    public Boolean isRegisterUser(User user) {
+        List<User> userList = userMapper.selectList(new EntityWrapper<User>().eq("name", user.getName()).eq("alarm", user.getAlarm()));
+        if (userList != null && userList.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Boolean addUser(User user) {
-        return userMapper.insert(user)>0;
+        return userMapper.insert(user) > 0;
     }
 
     @Override
@@ -45,5 +55,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectById(id);
     }
 
+    @Override
+    public List<User> getUsers(User user) {
+        if (!StringUtils.isEmpty(user.getName()) && !StringUtils.isEmpty(user.getAlarm())) {
+            return userMapper.selectList(new EntityWrapper<User>().eq("name", user.getName()));
+        } else if (StringUtils.isEmpty(user.getName()) && !StringUtils.isEmpty(user.getAlarm())) {
+            return userMapper.selectList(new EntityWrapper<User>().eq("alarm", user.getAlarm()));
+        } else {
+            return userMapper.selectList(null);
+        }
+    }
 
 }

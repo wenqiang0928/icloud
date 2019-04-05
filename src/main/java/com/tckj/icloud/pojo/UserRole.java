@@ -1,6 +1,8 @@
 package com.tckj.icloud.pojo;
 
-public class UserRole {
+import java.io.Serializable;
+
+public class UserRole implements Serializable {
     private int userId;
     private int roleId;
 
