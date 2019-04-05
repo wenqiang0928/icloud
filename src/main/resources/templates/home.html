@@ -58,7 +58,7 @@
                         <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
                     </li> <!---->
                     <li data-v-02139d26="">
-                        <a data-v-02139d26="" data-toggle="modal" data-target="#adminModal">删除用户</a>
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
                     </li>
                 </ul>
                 <ul data-v-02139d26="">
@@ -652,21 +652,21 @@
                 </div>
                 <div class="modal-body">
                     <label>用户名</label>
-                    <input type="text" class="form-control" name="name"
-                           id="name" placeholder="请输入用户名">
+                    <input type="text" class="form-control"
+                           id="new_name" placeholder="请输入用户名">
                     <label>警号</label>
-                    <input type="text" class="form-control" name="alarm"
-                           id="alarm" placeholder="请输入警号">
+                    <input type="text" class="form-control"
+                           id="new_alarm" placeholder="请输入警号">
                     <label>密码</label>
-                    <input type="text" class="form-control" name="password"
-                           id="password" placeholder="请输入密码">
+                    <input type="text" class="form-control"
+                           id="new_password" placeholder="请输入密码">
                     <label>确认密码</label>
-                    <input type="text" class="form-control" name="addDirName"
+                    <input type="text" class="form-control"
                            id="confirm_password" placeholder="请重新输入密码">
                     <label>角色</label>
-                    <select class="form-control" name="roleId">
+                    <select class="form-control" id="roleId">
                         <option value="1">admin</option>
-                        <option value="1">public</option>
+                        <option value="2">public</option>
                     </select>
 <!--                    <label>指定文件阅览人</label>-->
 <!--                    <select class="form-control" name="pr_id" th:each="user : ${userList}">-->
@@ -680,6 +680,32 @@
                             data-dismiss="modal">关闭
                     </button>
                 </div>
+        </div>
+    </div>
+</div>
+
+<!-- 删除用户 -->
+<div class="modal fade" id="delUserModel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">删除用户</h4>
+            </div>
+            <div class="modal-body">
+                <label>用户名</label>
+                <input type="text" class="form-control" name="new_name"
+                       id="del_name" placeholder="请输入用户名">
+                <label>警号</label>
+                <input type="text" class="form-control" name="alarm"
+                       id="del_alarm" placeholder="请输入警号">
+            </div>
+
+            <div class="modal-footer">
+                <button  type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
         </div>
     </div>
 </div>

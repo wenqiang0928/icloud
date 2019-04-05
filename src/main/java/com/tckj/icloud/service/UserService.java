@@ -55,4 +55,11 @@ public interface UserService {
      * @return
      */
     List<User> getAllUsers();
+
+    /**
+     * 删除用户
+     * @param user
+     * @return
+     */
+    Boolean delUser(User user);
 }

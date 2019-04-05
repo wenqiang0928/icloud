@@ -71,4 +71,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return userMapper.selectList(null);
     }
 
+    @Override
+    public Boolean delUser(User user) {
+        return userMapper.delete(new EntityWrapper<User>().eq("name",user.getName()).eq("alarm",user.getAlarm()))>0;
+    }
+
 }

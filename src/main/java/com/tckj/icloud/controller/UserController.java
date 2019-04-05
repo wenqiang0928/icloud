@@ -99,4 +99,13 @@ public class UserController {
         }
         return new SuccessResponse("用户已经存在");
     }
+    @PostMapping("delUser")
+    @ResponseBody
+    public Object delUser(User user) {
+
+        if (userService.delUser(user)) {
+            return new SuccessResponse("用户已经删除");
+        }
+        return new SuccessResponse("用户删除失败");
+    }
 }
