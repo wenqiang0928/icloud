@@ -579,6 +579,9 @@ pre {
 .left-panel .sub-list > li > a {
 	padding: 0px 0px 0px 59px; height: 50px; color: rgb(77, 77, 77); line-height: 50px; font-size: 14px; text-decoration: none; display: block; box-sizing: border-box;
 }
+.left-panel .sub-list > li > a > i {
+	margin: 0 10px 0 5px;
+}
 .left-panel .sub-list > li > router-link {
 	padding: 0px 0px 0px 59px; height: 50px; color: rgb(77, 77, 77); line-height: 50px; font-size: 14px; text-decoration: none; display: block; box-sizing: border-box;
 }

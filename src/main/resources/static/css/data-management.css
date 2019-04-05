@@ -72,3 +72,27 @@ html,body{
     width: 100%;
     letter-spacing: 10px;
 }
+
+.modal-body .btn-group button:hover,.modal-body .btn-group button:focus{
+    color: white;
+}
+.dropdown-menu{
+    border: 0;
+}
+.dropdown-menu li{
+    height: 32px;
+    line-height: 32px;
+    color: rgb(42, 195, 138);
+}
+.dropdown-menu li:focus,.dropdown-menu li:hover{
+    color: white;
+    background: rgb(42, 195, 138);
+}
+.dropdown-menu li>span{
+    margin-left: 20px;
+    font-size: 13px;
+}
+
+#guideTarget2:hover{
+    cursor: pointer;
+}

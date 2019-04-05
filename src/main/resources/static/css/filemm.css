@@ -1976,7 +1976,7 @@ img {
 	-ms-user-select: none; -webkit-user-select: none; -moz-user-select: none;
 }
 .music-player .mc-control-info p[data-v-e1ba4c6c] {
-	height: 30px; overflow: hidden; font-family: "Microsoft Yahei","Î¢ÈíÑÅºÚ",tahoma,arial,"ËÎÌå"; font-size: 18px; white-space: nowrap; -ms-text-overflow: ellipsis; max-width: 320px; -o-text-overflow: ellipsis;
+	height: 30px; overflow: hidden; font-family: "Microsoft Yahei","Î¢ï¿½ï¿½ï¿½Åºï¿½",tahoma,arial,"ï¿½ï¿½ï¿½ï¿½"; font-size: 18px; white-space: nowrap; -ms-text-overflow: ellipsis; max-width: 320px; -o-text-overflow: ellipsis;
 }
 .music-player [data-v-e1ba4c6c].mc-control-mode {
 	margin-right: 10px; float: left; position: relative; z-index: 2;
@@ -4453,7 +4453,8 @@ input::-ms-clear {
 .center-panel--pic .toolbar .button-chain.button-group--switch .button-chain-item {
 	background: rgb(255, 255, 255); border: 1px solid rgb(188, 233, 214); border-image: none; width: 100px; height: 30px; text-align: center; color: rgb(42, 195, 138); line-height: 30px; font-size: 12px; text-decoration: none; vertical-align: middle;
 }
-.center-panel--pic .toolbar .button-chain.button-group--switch .button-chain-item.router-link-active {
+.center-panel--pic .toolbar .button-chain.button-group--switch .button-chain-item.router-link-active,
+.btn-user{
 	background: rgb(42, 195, 138); border-color: rgb(42, 195, 138); color: rgb(255, 255, 255);
 }
 .center-panel--pic .toolbar .button-chain.button-group--switch .button-chain-item.last {
@@ -4507,7 +4508,8 @@ input::-ms-clear {
 .toolbar .button-chain > [data-v-fccf5e72]:last-child.button-chain-item {
 	border-radius: 0px 2px 2px 0px;
 }
-.toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item {
+.toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item,
+.btn-user{
 	background: rgb(255, 255, 255); border: 1px solid rgb(188, 233, 214); border-image: none; width: 100px; height: 30px; text-align: center; color: rgb(42, 195, 138); line-height: 30px; font-size: 12px; text-decoration: none; vertical-align: middle;
 }
 .timeline--day__title {
@@ -4516,7 +4518,8 @@ input::-ms-clear {
 .timeline__month__title {
 	padding-left: 12px; font-size: 14px; font-weight: 400;
 }
-.toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item.router-link-active {
+.toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item.router-link-active,
+.btn-user{
 	background: rgb(42, 195, 138); border-color: rgb(42, 195, 138); color: rgb(255, 255, 255);
 }
 .toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item.last {
