@@ -1,11 +1,8 @@
-package com.tckj.icloud.exception;
+package com.tckj.icloud.vo;
 
-public class ErrorDto {
-    public ErrorDto(Object data){
-        this.data=data;
-    }
-    private Integer code=500;
-    private String message="服务器异常，请联系管理员";
+public class ResponseResult {
+    private Integer code;
+    private String message;
     private Object data;
 
     public Integer getCode() {
@@ -29,6 +26,12 @@ public class ErrorDto {
     }
 
     public void setData(Object data) {
+        this.data = data;
+    }
+
+    public ResponseResult(Integer code, String message, Object data) {
+        this.code = code;
+        this.message = message;
         this.data = data;
     }
 }

@@ -3,12 +3,12 @@ $(document).ready(function () {
 })
 
 function signUp() {
-    var url = "/login";
+    var url = Config.baseUrl + "/login";
     var params = {
         "name": $("#user-name").val(),
         "password": $("#password").val()
     };
     $.post(url, params, function () {
-
+        window.location.href = Config.baseUrl + "/home";
     });
 }
