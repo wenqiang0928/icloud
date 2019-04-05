@@ -2,6 +2,7 @@ $(document).ready(function () {
     $("#sign-up").bind("click", signUp);
     $('#user-name').bind("keydown", toSignUp);
     $('#password').bind("keydown", toSignUp);
+    showUserDiv();
 })
 
 function toSignUp(event) {
@@ -24,6 +25,12 @@ function signUp() {
     };
     $.post(url, params, function () {
         $("body").load(url, params);
+    });
+}
+
+function showUserDiv() {
+    $("#guideTarget2").click(function () {
+        $(".vip-info yp-header__avatarWrap__vip").show();
     });
 }
 
