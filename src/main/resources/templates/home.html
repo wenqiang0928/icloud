@@ -5,83 +5,80 @@
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/npm.js"></script>
     <script type="text/javascript" src="/js/config.js"></script>
-    <script type="text/javascript" src="/js/data-management.js"></script>
+    <script type="text/javascript" src="/js/data-management-home.js"></script>
     <script type="text/javascript" src="/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="/js/user_role.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
+    <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
+    <link rel="stylesheet" type="text/css" href="/css/filemm.css">
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="/css/fileManage.css">
-<link rel="stylesheet" type="text/css" href="/css/filemm.css">
+    <div id="topPanel" class="yp-header" style="z-index: 99;">
+        <div class="yp-logo">
+            <a href="/" title="资料管理平台">
+                <img src="/img/logo.png">
+                <span>资料管理平台</span>
+            </a>
+        </div>
+        <ul class="nav-left">
+            <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
+            <li><a href="/index/help/">帮助</a></li>
+            <li>
+                <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
+                    <div class="nav-more__button"><span>更多</span></div>
+                    <div class="dropdown-wrap" style="display: none;">
+                        <ul class="nav-more__list"><!----> <!----> <!---->
+                            <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
+                                <ul>
+                                    <li><a>扫描我的文件</a></li>
+                                    <li><a>扫描指定文件夹</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="yp-header__avatarWrap">
+            <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
+                 src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+            <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+                <div data-v-02139d26="" class="corp-detail">
+                    <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
+                    </h2>
+                </div>
 
-<div id="topPanel" class="yp-header" style="z-index: 99;">
-    <div class="yp-logo">
-        <a href="/" title="资料管理平台">
-            <img src="/img/logo.png">
-            <span>资料管理平台</span>
-        </a>
-    </div>
-    <ul class="nav-left">
-        <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-        <li><a href="/index/help/">帮助</a></li>
-        <li>
-            <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
-                <div class="nav-more__button"><span>更多</span></div>
-                <div class="dropdown-wrap" style="display: none;">
-                    <ul class="nav-more__list"><!----> <!----> <!---->
-                        <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
-                            <ul>
-                                <li><a>扫描我的文件</a></li>
-                                <li><a>扫描指定文件夹</a></li>
-                            </ul>
+                <div data-v-02139d26="" class="account-list">
+                    <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
+                        <li data-v-02139d26="">
+                            <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
+                        </li> <!---->
+                        <li data-v-02139d26="">
+                            <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
                         </li>
+                    </ul>
+                    <ul data-v-02139d26="">
+                        <li data-v-02139d26=""><a data-v-02139d26="" href="/">
+                            退出云盘
+                        </a></li>
                     </ul>
                 </div>
             </div>
-        </li>
-    </ul>
-    <div class="yp-header__avatarWrap">
-        <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
-             src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
-        <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
-            <div data-v-02139d26="" class="corp-detail">
-                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
-                </h2>
-            </div>
-
-            <div data-v-02139d26="" class="account-list">
-                <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
-                    <li data-v-02139d26="">
-                        <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
-                    </li> <!---->
-                    <li data-v-02139d26="">
-                        <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
-                    </li>
-                </ul>
-                <ul data-v-02139d26="">
-                    <li data-v-02139d26=""><a data-v-02139d26="" href="/">
-                        退出云盘
-                    </a></li>
-                </ul>
-            </div>
-        </div>
-    </div> <!---->
-</div>
-<div id="center-wrap">
-
+        </div> <!---->
+    </div>
+    <div id="center-wrap">
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
-            <li class="menu-list-item"><a href="#/fileManage/my" class="">
-                <svg aria-hidden="true" class="menu-list__icon icon-svg">
-                    <use xlink:href="#icon-list"></use>
-                </svg>
-                我的文件 </a>
+            <li class="menu-list-item">
+                <a href="#/fileManage/my" class="router-link-active" style="padding: 0 15px;">
+                    <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;"></i>全部文件
+                </a>
                 <ul class="sub-list">
                     <li>
-                        <a href="#/fileManage/pic" class="submenu tab-img router-link-active">
+                        <a href="#/fileManage/pic" class="submenu tab-img">
                             <i class="glyphicon glyphicon-picture"></i>图片
                         </a>
                     </li>
@@ -100,20 +97,25 @@
                             <i class="glyphicon glyphicon-headphones"></i>音频
                         </a>
                     </li>
+                    <li>
+                        <a href="#/fileManage/other" class="submenu tab-other">
+                            <i class="glyphicon glyphicon-file"></i>其他
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>
     </div>
     <div id="app" class="center-panel"><!---->
         <div data-v-fccf5e72="" class="timeline center-panel--pic" style="height: 602px;">
-            <div data-v-fccf5e72="" class="toolbar">
+            <div data-v-fccf5e72="" class="toolbar" style="border: none;">
                 <div data-v-fccf5e72="" class="left">
                     <div data-v-fccf5e72="" class="button-chain button-group--switch">
                         <a id="upload-button"
                            data-toggle="modal" data-target="#upload-modal"
                            data-v-fccf5e72="" href="#/fileManage/upLoad"
                            class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;">
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                             <i class="glyphicon glyphicon-open" style="margin-right: 5px;"></i>上传
                         </a>
                     </div>
@@ -122,39 +124,33 @@
                            data-toggle="modal" data-target="#newFolder-modal"
                            data-v-fccf5e72="" href="#/fileManage/newFile"
                            class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;">
+                           style="letter-spacing: 2px;border-radius: 3px;width: 120px;">
                             <i class="glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i>新建文件夹
+                        </a>
+                    </div>
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                        <a id="delete-file-button"
+                           data-toggle="modal" data-target="#delFolder-modal"
+                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           class="button-chain-item router-link-exact-active router-link-active"
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
+                            <i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除
                         </a>
                     </div>
                 </div>
             </div>
-            <div data-v-bfd7e0ca="" data-v-fccf5e72="" class="loading-mask-vue" style="display: none;">
-                <div data-v-bfd7e0ca="" class="loading-mask-vue__content"><img data-v-bfd7e0ca=""
-                                                                               src="https://p2.ssl.qhimg.com/t01bcebfcf4e4842b3c.gif"
-                                                                               class="loading-mask-icon"></div>
-            </div>
-            <div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap">
-                <div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--pic">
-                    <h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过图片哦~</h1>
-                </div>
-            </div>
-            <div data-v-fccf5e72="" class="file-list-options">
-                <p class="tip"><span class="x-checkbox rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
-                        aria-hidden="true" class="x-checkbox__icon icon-svg"><use
-                        xlink:href="#icon-check-rect"></use></svg> </label></span>
-                    已选中<span class="highlight">0</span>个文件
-                </p>
-            </div>
-            <div data-v-638e2e05="" data-v-fccf5e72="" class="time-list" style="display: none;">
-                <ul data-v-638e2e05=""></ul>
+            <div class="dir-path-info" style="margin: 10px 0;">
+                全部文件
             </div>
             <div data-v-fccf5e72="" class="table-wrap" style="display: none;">
-                <div class="timeline__month__title" style="width: 0px;"><span>年undefined月(共0张)</span> <span
-                        class="x-checkbox select-all rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
-                        aria-hidden="true" class="x-checkbox__icon icon-svg"><use
-                        xlink:href="#icon-check-rect"></use></svg> 全选</label></span></div>
-                <div class="timeline-table" style="height: 602px;">
-                    <ul class="timeline__list"></ul>
+                <div class="file-table" style="height: 602px;">
+                    <ul class="file-table-title" style="font-weight: 700;">
+                        <li class="column-1"><input type="checkbox"></li>
+                        <li class="column-2">文件名</li>
+                        <li class="column-3">大小</li>
+                        <li class="column-4">修改日期</li>
+                    </ul>
+                    <ul class="file-list"></ul>
                 </div>
             </div>
             <div data-v-a3b8669e="" data-v-fccf5e72="" class="preview-modal" style="display: none;">
@@ -198,6 +194,11 @@
                         查看原图
                     </a></div>
                 </div> <!----> <!----> <!----></div>
+            <div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap">
+                <div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--file">
+                    <h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过文件哦~</h1>
+                </div>
+            </div>
         </div>
         <div data-v-71ce96c8="" class="mini-upload" style="visibility: hidden;">
             <svg data-v-71ce96c8="" aria-hidden="true" class="x-button__icon icon-svg">
@@ -373,7 +374,7 @@
                     <div data-v-e1ba4c6c="" class="mc-list">
                         <ul data-v-e1ba4c6c="" style="display: none;"></ul>
                         <div data-v-e1ba4c6c="" class="emptylist"><img data-v-e1ba4c6c=""
-                                                                       src="/resource/img/my/mc-empty.png"></div>
+                                                                       src=""></div>
                         <div data-v-e1ba4c6c="" class="mc-oper">
                             <div data-v-e1ba4c6c="" class="wrap">
                                 <div data-v-e1ba4c6c="" class="select-all"><a data-v-e1ba4c6c="" onclick="return false;"
@@ -391,8 +392,11 @@
             </div>
         </div>
     </div>
-
-    <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
+</div>
+</body>
+</html>
+<!-- 上传文件 -->
+<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header"
@@ -406,12 +410,12 @@
                     <div style="height: 34px;font-size: 13px;">
                         <div class="btn-group" style="color: white;">
                             <button type="button" class="btn"
-                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">
+                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
                                 添加文件
                             </button>
                             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
+                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -438,37 +442,24 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div>
-</body>
-</html>
-
 <!-- 新建文件夹 -->
 <div class="modal fade" id="newFolder-modal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form role="form" id="mkfolder" action="/docs/addDir" method="post">
-                <div class="modal-header">
-                    <h4 class="modal-title">新建文件夹</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <div class="modal-body">
-                    <input type="text" class="form-control" name="addDirName"
-                           id="name" placeholder="请输入文件夹名">
-                    <input type="text" class="pathText" name="nowDirId" value="1">
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-info">新建</button>
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">关闭
-                    </button>
-                </div>
-            </form>
+            <div class="modal-header" style="position: absolute;top: 0;left: 0;width: 100%;">
+                <h4 class="modal-title" style="line-height: 36px;display: inline-block;">新建文件夹</h4>
+                <button type="button" class="close" data-dismiss="modal" style="line-height: 36px;">&times;</button>
+            </div>
+            <div class="modal-body" style="top: 36px;">
+                <input type="text" class="form-control" name="addDirName" id="new-file-name" placeholder="请输入文件夹名">
+            </div>
+            <div class="modal-footer" style="margin-top: 36px;border: none;">
+                <button class="btn btn-info" data-dismiss="modal">新建</button>
+                <button class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
         </div>
     </div>
 </div>
-
 <!-- 添加用户 -->
 <div class="modal fade" id="addUserModel">
     <div class="modal-dialog">
@@ -509,7 +500,6 @@
         </div>
     </div>
 </div>
-
 <!-- 删除用户 -->
 <div class="modal fade" id="delUserModel">
     <div class="modal-dialog">
@@ -538,9 +528,8 @@
 
 <script>
     $(function () {
-        $("#upload-button").bind("click", uploadModal);
+        initTable();
         $("#upload-modal").on('show.bs.modal', centerModals);
         $("#newFolder-modal").on('show.bs.modal', centerModals);
     })
-
 </script>
