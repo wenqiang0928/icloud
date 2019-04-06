@@ -139,10 +139,10 @@
                     </div>
                 </div>
             </div>
+            <div class="dir-path-info" style="margin: 10px 0;">
+                全部文件
+            </div>
             <div data-v-fccf5e72="" class="table-wrap" style="display: none;">
-                <div class="dir-path-info" style="margin: 10px 0;">
-                    <span>全部文件</span>
-                </div>
                 <div class="file-table" style="height: 602px;">
                     <ul class="file-table-title" style="font-weight: 700;">
                         <li class="column-1"><input type="checkbox"></li>
@@ -194,6 +194,11 @@
                         查看原图
                     </a></div>
                 </div> <!----> <!----> <!----></div>
+            <div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap">
+                <div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--file">
+                    <h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过文件哦~</h1>
+                </div>
+            </div>
         </div>
         <div data-v-71ce96c8="" class="mini-upload" style="visibility: hidden;">
             <svg data-v-71ce96c8="" aria-hidden="true" class="x-button__icon icon-svg">
@@ -405,12 +410,12 @@
                     <div style="height: 34px;font-size: 13px;">
                         <div class="btn-group" style="color: white;">
                             <button type="button" class="btn"
-                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">
+                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
                                 添加文件
                             </button>
                             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
+                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -523,7 +528,7 @@
 
 <script>
     $(function () {
-        freshFileList(0);
+        initTable();
         $("#upload-modal").on('show.bs.modal', centerModals);
         $("#newFolder-modal").on('show.bs.modal', centerModals);
     })

@@ -122,3 +122,17 @@ html,body{
     height: 40px;
     margin: 0;
 }
+.file-list .column-2>span{
+    cursor: pointer;
+}
+.file-list .column-2>span:hover{
+    color: #09AAFF;
+}
+.dir-path-info span{
+    color: #337ab7;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.dir-path-info a{
+    cursor: pointer;
+}

@@ -4,8 +4,13 @@ var pathNameArr = [];
 $(document).ready(function () {
     $('#addFile').bind("click",addFile);
     $('#newFolder-modal .modal-footer .btn-info').bind("click", newFolder);
+    $('.file-table-title input').bind("change", selectAndUnselectAll);
     showUserDiv();
 })
+
+function selectAndUnselectAll() {
+    $('.file-list input').attr("checked", $('.file-table-title input').get(0).checked);
+}
 
 function newFolder() {
     var url = Config.baseUrl + "/docs/addDir";
@@ -56,20 +61,63 @@ function freshFileList(dirId) {
             if (dirPathArr[dirPathArr.length-1] !== result.data.nowDir.id) {
                 dirPathArr[dirPathArr.length] = result.data.nowDir.id;// 存储当前路径
                 pathNameArr[result.data.nowDir.id] = result.data.nowDir.name;// 存储当前路径名
+                freshDirPath();
             }
         }
     });
 }
 
+function freshDirPath() {
+    if (dirPathArr.length === 1) {
+        $('.dir-path-info').html("全部文件");
+    } else if (dirPathArr.length > 1) {
+        var path = "<a onclick='toPath(-1)'>返回上一级</a><span>|</span><a onclick='toPath(0)'>全部文件</a>";
+        dirPathArr.forEach(function (value, index) {
+            if (index > 0) {
+                if (index < dirPathArr.length-1) {
+                    path += "<span>\></span><a onclick='toPath("+index+")'>" + pathNameArr[dirPathArr[index]] + "</a>";
+                } else {
+                    path += "<span>></span>" + pathNameArr[dirPathArr[index]];
+                }
+            }
+        });
+        $('.dir-path-info').html(path);
+    }
+}
+
+function toPath(index) {
+    if (index === -1) {
+        dirPathArr.pop();
+    } else {
+        dirPathArr = dirPathArr.splice(0, index + 1);
+    }
+    freshDirPath();
+    freshFileList(dirPathArr[dirPathArr.length-1]);
+}
+
 function fillUpTable(docsList) {
     var rows = "";
     docsList.forEach(function (doc) {
-        rows += "<li><ul>" +
+        var floderIcon = "<i class='glyphicon glyphicon-folder-close' style='color: rgb(255,214,89);margin-right: 8px;'></i>";
+        var fileIcon = "<i class='glyphicon glyphicon-file' style='color: #eee;margin-right: 8px;'></i>";
+        rows += "<li style='font-size: 13px;'><ul>" +
             "<li class='column-1'><input type='checkbox'></li>" +
-            "<li class='column-2'>"+doc.name+"</li>" +
+            "<li class='column-2'><span onclick='freshFileList("+doc.id+")'>"+(doc.type === 1 ? floderIcon : fileIcon)+doc.name+"</span></li>" +
             "<li class='column-3'>"+(doc.size ? doc.size : "-")+"</li>" +
             "<li class='column-4'>"+doc.createTime+"</li>" +
             "</ul></li>";
     });
     $(".file-table .file-list").html(rows);
+}
+
+function initTable() {
+    var url = Config.baseUrl + "/docs/getAllDocsByPid";
+    var params = {
+        "dirId": 0
+    };
+    $.get(url, params, function (result) {
+        if (result.code === 200) {
+            freshFileList(result.data.nowDir.id);
+        }
+    });
 }
