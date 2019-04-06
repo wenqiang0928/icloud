@@ -136,3 +136,22 @@ html,body{
 .dir-path-info a{
     cursor: pointer;
 }
+
+#context-menu>ul{
+    background: white;
+    padding: 0;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 0 8px #ccc;
+    position: relative;
+    top: -50px;
+    width: 120px;
+    font-size: 13px;
+}
+#context-menu>ul>li{
+    padding: 10px 20px;
+}
+#context-menu>ul>li:hover{
+    color: white;
+    background: rgb(42, 195, 138);
+}

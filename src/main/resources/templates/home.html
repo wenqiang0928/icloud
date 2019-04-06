@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/js/data-management-home.js"></script>
     <script type="text/javascript" src="/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="/js/user_role.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-contextmenu.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
@@ -135,6 +136,24 @@
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                             <i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除
+                        </a>
+                    </div>
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                        <a id="rename-file-button"
+                           data-toggle="modal" data-target="#delFolder-modal"
+                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           class="button-chain-item router-link-exact-active router-link-active"
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
+                           重命名
+                        </a>
+                    </div>
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                        <a id="move-file-button"
+                           data-toggle="modal" data-target="#delFolder-modal"
+                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           class="button-chain-item router-link-exact-active router-link-active"
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
+                           移动到
                         </a>
                     </div>
                 </div>
@@ -524,6 +543,14 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="context-menu">
+    <ul>
+        <li>移动到</li>
+        <li>重命名</li>
+        <li>删除</li>
+    </ul>
 </div>
 
 <script>
