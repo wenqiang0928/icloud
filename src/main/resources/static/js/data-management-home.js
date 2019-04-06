@@ -5,11 +5,19 @@ $(document).ready(function () {
     $('#addFile').bind("click",addFile);
     $('#newFolder-modal .modal-footer .btn-info').bind("click", newFolder);
     $('.file-table-title input').bind("change", selectAndUnselectAll);
+    $('body').bind("click", hidePopMenu);
     showUserDiv();
 })
 
+function hidePopMenu() {
+    $("#context-menu").hide();
+}
+
 function selectAndUnselectAll() {
-    $('.file-list input').attr("checked", $('.file-table-title input').get(0).checked);
+    var inputArr = $('.file-list input');
+    for (var i=0; i<inputArr.length; i++) {
+        inputArr[i].checked = $('.file-table-title input').get(0).checked;
+    }
 }
 
 function newFolder() {
@@ -102,12 +110,36 @@ function fillUpTable(docsList) {
         var fileIcon = "<i class='glyphicon glyphicon-file' style='color: #eee;margin-right: 8px;'></i>";
         rows += "<li style='font-size: 13px;'><ul>" +
             "<li class='column-1'><input type='checkbox'></li>" +
-            "<li class='column-2'><span onclick='freshFileList("+doc.id+")'>"+(doc.type === 1 ? floderIcon : fileIcon)+doc.name+"</span></li>" +
+            "<li class='column-2 context' data-toggle='context' data-target='#context-menu'>" +
+            "<span onclick='freshFileList("+doc.id+")'>"+(doc.type === 1 ? floderIcon : fileIcon)+doc.name+"</span>" +
+            "</li>" +
             "<li class='column-3'>"+(doc.size ? doc.size : "-")+"</li>" +
             "<li class='column-4'>"+doc.createTime+"</li>" +
             "</ul></li>";
     });
     $(".file-table .file-list").html(rows);
+    $(".context").contextmenu({
+        target:'#context-menu',
+        before: function() {
+            // execute code before context menu if shown
+            var target = $(event.srcElement).prev().find('input').get(0);
+            if (!target.checked) {
+                var inputArr = $('.column-1 input');
+                for (var i=0; i<inputArr.length; i++) {
+                    inputArr[i].checked = false;
+                }
+                target.checked = true;
+            }
+        },
+        onItem: function() {
+            // execute on menu item selection
+        }
+    });
+    $(".file-list input").bind("click", function () {
+        if (!$(this).get(0).checked) {
+            $(".file-table-title input").get(0).checked = false;
+        }
+    });
 }
 
 function initTable() {
