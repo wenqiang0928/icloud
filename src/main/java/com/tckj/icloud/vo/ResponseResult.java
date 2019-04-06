@@ -1,5 +1,7 @@
 package com.tckj.icloud.vo;
 
+import com.tckj.icloud.constant.Constants;
+
 public class ResponseResult {
     private Integer code;
     private String message;
@@ -33,5 +35,9 @@ public class ResponseResult {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+    public ResponseResult(Constants.ResultCodeConstants constants){
+        this.code = constants.getCode();
+        this.message = constants.getMsg();
     }
 }

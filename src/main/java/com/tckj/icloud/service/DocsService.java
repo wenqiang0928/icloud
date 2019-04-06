@@ -72,4 +72,15 @@ public interface DocsService {
      * @date 2019/04/05 9:58
      */
     ResponseResult findDocs(String name, String suffix, Integer type, User user);
+
+    /** 
+     * 
+     * @param nowDirId
+     * @param deleteId
+     * @param user
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/06 8:16
+     */
+	ResponseResult deleteDocs(int nowDirId, int deleteId, User user);
 }

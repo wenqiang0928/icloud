@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" type="text/css" href="/css/data-management.css">
+    <link rel="stylesheet" type="text/css" href="/css/data-management.css">
 </head>
 <body>
 <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
@@ -71,6 +71,7 @@
     </div> <!---->
 </div>
 <div id="center-wrap">
+
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item"><a href="#/fileManage/my" class="">
@@ -249,184 +250,6 @@
                 <div data-v-5bc8579b="" class="upload-dialog-footer">
                     <button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!----> <span
                             class="x-button__label">
-	<div id="leftPanel" class="left-panel layoutaside">
-		<ul class="menu-list nav">
-			<li class="menu-list-item"><a href="#/fileManage/my" class="">
-				<svg aria-hidden="true" class="menu-list__icon icon-svg">
-					<use xlink:href="#icon-list"></use>
-				</svg>
-				我的文件 </a>
-				<ul class="sub-list">
-					<li>
-						<a href="#/fileManage/pic" class="submenu tab-img router-link-active">
-							<i class="glyphicon glyphicon-picture"></i>图片
-						</a>
-					</li>
-					<li>
-						<a href="#/fileManage/doc" class="submenu tab-text">
-							<i class="glyphicon glyphicon-folder-open"></i>文档
-						</a>
-					</li>
-					<li>
-						<a href="#/fileManage/video" class="submenu tab-video">
-							<i class="glyphicon glyphicon-film"></i>视频
-						</a>
-					</li>
-					<li>
-						<a href="#/fileManage/music" class="submenu tab-music">
-							<i class="glyphicon glyphicon-headphones"></i>音频
-						</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<div id="app" class="center-panel"><!---->
-		<div data-v-fccf5e72="" class="timeline center-panel--pic" style="height: 602px;">
-			<div data-v-fccf5e72="" class="toolbar">
-				<div data-v-fccf5e72="" class="left">
-					<div data-v-fccf5e72="" class="button-chain button-group--switch">
-						<a id="upload-button"
-                           data-toggle="modal" data-target="#upload-modal"
-                           data-v-fccf5e72="" href="#/fileManage/upLoad"
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;">
-							<i class="glyphicon glyphicon-open" style="margin-right: 5px;"></i>上传
-						</a>
-					</div>
-					<div data-v-fccf5e72="" class="button-chain button-group--switch">
-						<a id="new-file-button"
-                           data-toggle="modal" data-target="#newFolder-modal"
-                           data-v-fccf5e72="" href="#/fileManage/newFile"
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;">
-							<i class="glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i>新建文件夹
-						</a>
-					</div>
-				</div>
-			</div>
-			<div data-v-bfd7e0ca="" data-v-fccf5e72="" class="loading-mask-vue" style="display: none;">
-				<div data-v-bfd7e0ca="" class="loading-mask-vue__content"><img data-v-bfd7e0ca=""
-                                                                               src="https://p2.ssl.qhimg.com/t01bcebfcf4e4842b3c.gif"
-                                                                               class="loading-mask-icon"></div>
-			</div>
-			<div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap">
-				<div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--pic">
-					<h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过图片哦~</h1>
-				</div>
-			</div>
-			<div data-v-fccf5e72="" class="file-list-options">
-				<p class="tip"><span class="x-checkbox rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
-                        aria-hidden="true" class="x-checkbox__icon icon-svg"><use
-                        xlink:href="#icon-check-rect"></use></svg> </label></span>
-					已选中<span class="highlight">0</span>个文件
-				</p>
-			</div>
-			<div data-v-638e2e05="" data-v-fccf5e72="" class="time-list" style="display: none;">
-				<ul data-v-638e2e05=""></ul>
-			</div>
-			<div data-v-fccf5e72="" class="table-wrap" style="display: none;">
-				<div class="timeline__month__title" style="width: 0px;"><span>年undefined月(共0张)</span> <span
-                        class="x-checkbox select-all rect"><label><input type="checkbox" class="x-checkbox__input"> <svg
-                        aria-hidden="true" class="x-checkbox__icon icon-svg"><use
-                        xlink:href="#icon-check-rect"></use></svg> 全选</label></span></div>
-				<div class="timeline-table" style="height: 602px;">
-					<ul class="timeline__list"></ul>
-				</div>
-			</div>
-			<div data-v-a3b8669e="" data-v-fccf5e72="" class="preview-modal" style="display: none;">
-				<div data-v-a3b8669e="" class="preview__header">
-					<div data-v-a3b8669e="" class="preview__edit"><a data-v-a3b8669e="" class="close">×</a></div>
-				</div>
-				<div data-v-a3b8669e="" class="preview__content"><a data-v-a3b8669e="" class="preview__control--prev"
-                                                                    style="display: none;"><i data-v-a3b8669e=""
-                                                                                              class="x-icon x-icon-left"></i></a>
-					<a data-v-a3b8669e="" class="preview__control--next" style="display: none;"><i data-v-a3b8669e=""
-                                                                                                   class="x-icon x-icon-right"></i></a>
-					<div data-v-a3b8669e="" class="preview__img">
-						<div data-v-a3b8669e="" class="wrapper"><img data-v-a3b8669e=""
-                                                                     src="data:image/gif;base64,R0lGODlhIAAgAPMAAP///wAAAMbGxoSEhLa2tpqamjc3N1dXV9jY2OTk5Ly8vB8fHwUFBQAAAAAAAAAAACH5BAkKAAAAIf4aQ3JlYXRlZCB3aXRoIGFqYXhsb2FkLmluZm8AIf8LTkVUU0NBUEUyLjADAQAAACwAAAAAIAAgAAAE5xDISWlhperN52JLhSSdRgwVo1ICQZRUsiwHpTJT4iowNS8vyW2icCF6k8HMMBkCEDskxTBDAZwuAkkqIfxIQyhBQBFvAQSDITM5VDW6XNE4KagNh6Bgwe60smQUB3d4Rz1ZBApnFASDd0hihh12BkE9kjAJVlycXIg7CQIFA6SlnJ87paqbSKiKoqusnbMdmDC2tXQlkUhziYtyWTxIfy6BE8WJt5YJvpJivxNaGmLHT0VnOgSYf0dZXS7APdpB309RnHOG5gDqXGLDaC457D1zZ/V/nmOM82XiHRLYKhKP1oZmADdEAAAh+QQJCgAAACwAAAAAIAAgAAAE6hDISWlZpOrNp1lGNRSdRpDUolIGw5RUYhhHukqFu8DsrEyqnWThGvAmhVlteBvojpTDDBUEIFwMFBRAmBkSgOrBFZogCASwBDEY/CZSg7GSE0gSCjQBMVG023xWBhklAnoEdhQEfyNqMIcKjhRsjEdnezB+A4k8gTwJhFuiW4dokXiloUepBAp5qaKpp6+Ho7aWW54wl7obvEe0kRuoplCGepwSx2jJvqHEmGt6whJpGpfJCHmOoNHKaHx61WiSR92E4lbFoq+B6QDtuetcaBPnW6+O7wDHpIiK9SaVK5GgV543tzjgGcghAgAh+QQJCgAAACwAAAAAIAAgAAAE7hDISSkxpOrN5zFHNWRdhSiVoVLHspRUMoyUakyEe8PTPCATW9A14E0UvuAKMNAZKYUZCiBMuBakSQKG8G2FzUWox2AUtAQFcBKlVQoLgQReZhQlCIJesQXI5B0CBnUMOxMCenoCfTCEWBsJColTMANldx15BGs8B5wlCZ9Po6OJkwmRpnqkqnuSrayqfKmqpLajoiW5HJq7FL1Gr2mMMcKUMIiJgIemy7xZtJsTmsM4xHiKv5KMCXqfyUCJEonXPN2rAOIAmsfB3uPoAK++G+w48edZPK+M6hLJpQg484enXIdQFSS1u6UhksENEQAAIfkECQoAAAAsAAAAACAAIAAABOcQyEmpGKLqzWcZRVUQnZYg1aBSh2GUVEIQ2aQOE+G+cD4ntpWkZQj1JIiZIogDFFyHI0UxQwFugMSOFIPJftfVAEoZLBbcLEFhlQiqGp1Vd140AUklUN3eCA51C1EWMzMCezCBBmkxVIVHBWd3HHl9JQOIJSdSnJ0TDKChCwUJjoWMPaGqDKannasMo6WnM562R5YluZRwur0wpgqZE7NKUm+FNRPIhjBJxKZteWuIBMN4zRMIVIhffcgojwCF117i4nlLnY5ztRLsnOk+aV+oJY7V7m76PdkS4trKcdg0Zc0tTcKkRAAAIfkECQoAAAAsAAAAACAAIAAABO4QyEkpKqjqzScpRaVkXZWQEximw1BSCUEIlDohrft6cpKCk5xid5MNJTaAIkekKGQkWyKHkvhKsR7ARmitkAYDYRIbUQRQjWBwJRzChi9CRlBcY1UN4g0/VNB0AlcvcAYHRyZPdEQFYV8ccwR5HWxEJ02YmRMLnJ1xCYp0Y5idpQuhopmmC2KgojKasUQDk5BNAwwMOh2RtRq5uQuPZKGIJQIGwAwGf6I0JXMpC8C7kXWDBINFMxS4DKMAWVWAGYsAdNqW5uaRxkSKJOZKaU3tPOBZ4DuK2LATgJhkPJMgTwKCdFjyPHEnKxFCDhEAACH5BAkKAAAALAAAAAAgACAAAATzEMhJaVKp6s2nIkolIJ2WkBShpkVRWqqQrhLSEu9MZJKK9y1ZrqYK9WiClmvoUaF8gIQSNeF1Er4MNFn4SRSDARWroAIETg1iVwuHjYB1kYc1mwruwXKC9gmsJXliGxc+XiUCby9ydh1sOSdMkpMTBpaXBzsfhoc5l58Gm5yToAaZhaOUqjkDgCWNHAULCwOLaTmzswadEqggQwgHuQsHIoZCHQMMQgQGubVEcxOPFAcMDAYUA85eWARmfSRQCdcMe0zeP1AAygwLlJtPNAAL19DARdPzBOWSm1brJBi45soRAWQAAkrQIykShQ9wVhHCwCQCACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq+E71SRQeyqUToLA7VxF0JDyIQh/MVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiRMDjI0Fd30/iI2UA5GSS5UDj2l6NoqgOgN4gksEBgYFf0FDqKgHnyZ9OX8HrgYHdHpcHQULXAS2qKpENRg7eAMLC7kTBaixUYFkKAzWAAnLC7FLVxLWDBLKCwaKTULgEwbLA4hJtOkSBNqITT3xEgfLpBtzE/jiuL04RGEBgwWhShRgQExHBAAh+QQJCgAAACwAAAAAIAAgAAAE7xDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfZiCqGk5dTESJeaOAlClzsJsqwiJwiqnFrb2nS9kmIcgEsjQydLiIlHehhpejaIjzh9eomSjZR+ipslWIRLAgMDOR2DOqKogTB9pCUJBagDBXR6XB0EBkIIsaRsGGMMAxoDBgYHTKJiUYEGDAzHC9EACcUGkIgFzgwZ0QsSBcXHiQvOwgDdEwfFs0sDzt4S6BK4xYjkDOzn0unFeBzOBijIm1Dgmg5YFQwsCMjp1oJ8LyIAACH5BAkKAAAALAAAAAAgACAAAATwEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq+E71SRQeyqUToLA7VxF0JDyIQh/MVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GGl6NoiPOH16iZKNlH6KmyWFOggHhEEvAwwMA0N9GBsEC6amhnVcEwavDAazGwIDaH1ipaYLBUTCGgQDA8NdHz0FpqgTBwsLqAbWAAnIA4FWKdMLGdYGEgraigbT0OITBcg5QwPT4xLrROZL6AuQAPUS7bxLpoWidY0JtxLHKhwwMJBTHgPKdEQAACH5BAkKAAAALAAAAAAgACAAAATrEMhJaVKp6s2nIkqFZF2VIBWhUsJaTokqUCoBq+E71SRQeyqUToLA7VxF0JDyIQh/MVVPMt1ECZlfcjZJ9mIKoaTl1MRIl5o4CUKXOwmyrCInCKqcWtvadL2SYhyASyNDJ0uIiUd6GAULDJCRiXo1CpGXDJOUjY+Yip9DhToJA4RBLwMLCwVDfRgbBAaqqoZ1XBMHswsHtxtFaH1iqaoGNgAIxRpbFAgfPQSqpbgGBqUD1wBXeCYp1AYZ19JJOYgH1KwA4UBvQwXUBxPqVD9L3sbp2BNk2xvvFPJd+MFCN6HAAIKgNggY0KtEBAAh+QQJCgAAACwAAAAAIAAgAAAE6BDISWlSqerNpyJKhWRdlSAVoVLCWk6JKlAqAavhO9UkUHsqlE6CwO1cRdCQ8iEIfzFVTzLdRAmZX3I2SfYIDMaAFdTESJeaEDAIMxYFqrOUaNW4E4ObYcCXaiBVEgULe0NJaxxtYksjh2NLkZISgDgJhHthkpU4mW6blRiYmZOlh4JWkDqILwUGBnE6TYEbCgevr0N1gH4At7gHiRpFaLNrrq8HNgAJA70AWxQIH1+vsYMDAzZQPC9VCNkDWUhGkuE5PxJNwiUK4UfLzOlD4WvzAHaoG9nxPi5d+jYUqfAhhykOFwJWiAAAIfkECQoAAAAsAAAAACAAIAAABPAQyElpUqnqzaciSoVkXVUMFaFSwlpOCcMYlErAavhOMnNLNo8KsZsMZItJEIDIFSkLGQoQTNhIsFehRww2CQLKF0tYGKYSg+ygsZIuNqJksKgbfgIGepNo2cIUB3V1B3IvNiBYNQaDSTtfhhx0CwVPI0UJe0+bm4g5VgcGoqOcnjmjqDSdnhgEoamcsZuXO1aWQy8KAwOAuTYYGwi7w5h+Kr0SJ8MFihpNbx+4Erq7BYBuzsdiH1jCAzoSfl0rVirNbRXlBBlLX+BP0XJLAPGzTkAuAOqb0WT5AH7OcdCm5B8TgRwSRKIHQtaLCwg1RAAAOw=="
-                                                                     class="preview" style="transform: rotate(0deg);">
-						</div>
-					</div>
-				</div>
-				<div data-v-a3b8669e="" class="preview__footer">
-					<div data-v-a3b8669e="" class="btn-group"><a data-v-a3b8669e="" class="btn btn--share">
-						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-svg" title="分享">
-							<use xlink:href="#icon-sharelink"></use>
-						</svg>
-					</a> <a data-v-a3b8669e="" title="左旋转" class="btn btn-rotate">
-						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-rotate icon-svg">
-							<use xlink:href="#icon-rotate"></use>
-						</svg>
-					</a> <a data-v-a3b8669e="" class="btn btn--down">
-						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-download icon-svg" title="下载原图">
-							<use xlink:href="#icon-download-stroke"></use>
-						</svg>
-					</a> <a data-v-a3b8669e="" title="删除" class="btn btn--delete">
-						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-delete icon-svg">
-							<use xlink:href="#icon-delete"></use>
-						</svg>
-					</a> <a data-v-a3b8669e="" title="图片详情" class="btn btn--info">
-						<svg data-v-a3b8669e="" aria-hidden="true" class="icon-info icon-svg">
-							<use xlink:href="#icon-info"></use>
-						</svg>
-					</a> <a data-v-a3b8669e="" class="btn btn--original">
-						查看原图
-					</a></div>
-				</div> <!----> <!----> <!----></div>
-		</div>
-		<div data-v-71ce96c8="" class="mini-upload" style="visibility: hidden;">
-			<svg data-v-71ce96c8="" aria-hidden="true" class="x-button__icon icon-svg">
-				<use xlink:href="#icon-upload2"></use>
-			</svg>
-			<span data-v-71ce96c8="">请选择要上传的文件</span> <!----> <!----> </div>
-		<div data-v-5bc8579b="" class="upload-dialog-wrapp upload-dialog-show">
-			<div data-v-5bc8579b="" class="upload-dialog"
-                 style="top: 140px; left: 495px; transition: width 0.5s ease 0s, height 0.5s ease 0s, top 0.5s ease 0s, left 0.5s ease 0s, transform 0.5s ease 0s, opacity 0.5s ease 0s; transform: inherit; bottom: auto;">
-				<div data-v-5bc8579b="" class="upload-dialog-header"><span data-v-5bc8579b="">上传文件到360安全云盘</span> <i
-                        data-v-5bc8579b="" class="minimize-icon">-</i> <i data-v-5bc8579b="" class="close-icon">×</i>
-				</div>
-				<div data-v-5bc8579b="" class="upload-dialog-content">
-					<div data-v-5bc8579b="" class="upload-toolbar clearfix">
-						<div data-v-5bc8579b="" class="upload-btns" style=""><!---->
-							<div data-v-5bc8579b="" class="jx-select-file"><span data-v-5bc8579b=""
-                                                                                 class="jx-select-file-text">添加文件</span>
-								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
-                                       class="file-select-proxy"> <i data-v-5bc8579b=""
-                                                                     class="jx-select-file-select"></i></div>
-							<div data-v-5bc8579b="" class="jx-select-menu select-menu" style="display: none;"><a
-                                    data-v-5bc8579b="" href="javascript:;" class="file-select">
-								添加文件
-								<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
-                                       class="file-select-proxy"></a> <a data-v-5bc8579b="" href="javascript:;"
-                                                                         class="folder-select">
-								添加文件夹
-								<input data-v-5bc8579b="" title="请选择要上传的文件夹" type="file" webkitdirectory=""
-                                       multiple="multiple" class="folder-select-proxy"></a></div>
-						</div>
-						<div data-v-5bc8579b="" class="uploadPath" style=""><span data-v-5bc8579b=""
-                                                                                  class="breadcrumb__item">到：</span>
-							<span data-v-5bc8579b="" class="breadcrumb__item">我的文件</span></div>
-						<div data-v-5bc8579b="" class="upload-btns" style="display: none;">不可上传至当前目录</div>
-						<div data-v-5bc8579b="" class="warning-note"><span data-v-5bc8579b="">上传须知</span>
-							<div data-v-5bc8579b="" class="warning-tips" style="display: none;"><span data-v-5bc8579b=""
-                                                                                                      class="triangle triangle_lt"></span>
-								<p data-v-5bc8579b=""><i data-v-5bc8579b="" class="icon icon-warning"></i>严禁利用360安全云盘存储、下载、传播暴力恐怖音视频，以及其他任何非法、有害信息，一经发现将严格按照相关法律法规处理。
-								</p>
-								<p data-v-5bc8579b="" style="word-break: normal;">Storing, downloading and sharing
-									violate, horrific and illegal media contents on 360 Security Cloud is strictly
-									prohibited. Once discovered, necessary actions, under the supervision of related
-									laws and regulations, will be taken accordingly.</p></div>
-						</div>
-					</div>
-					<div data-v-5bc8579b="" class="upload-list-box">
-						<ul data-v-5bc8579b="" class="uploadItemList"></ul>
-					</div>
-				</div>
-				<div data-v-5bc8579b="" class="upload-dialog-footer">
-					<button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!----> <span
-                            class="x-button__label">
         完成
       </span></button>
                 </div>
@@ -569,50 +392,53 @@
         </div>
     </div>
 
-<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header"
-                 style="position: absolute;top: 0;left: 0;width: 100%;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="line-height: 36px;">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
-            </div>
-            <div class="modal-body" style="margin-top: 25px;height: 300px;">
-                <div style="height: 34px;font-size: 13px;">
-                    <div class="btn-group" style="color: white;">
-                        <button type="button" class="btn"
-                                style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">
-                            添加文件
-                        </button>
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
-                            <li><span>添加文件</span></li>
-                            <li><span>添加文件夹</span></li>
-                        </ul>
-                    </div>
-                    <div style="display: inline-block;">
-                        <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
-                        <span style="line-height: 32px;">我的文件</span>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
-                    </div>
+    <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"
+                     style="position: absolute;top: 0;left: 0;width: 100%;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="line-height: 36px;">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
                 </div>
-                <div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
-            </div>
-            <div class="modal-footer" style="border: none;">
-                <button type="button" class="btn-user"
-                        style="width: 70px;letter-spacing: 3px;">完成
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                <div class="modal-body" style="margin-top: 25px;height: 300px;">
+                    <div style="height: 34px;font-size: 13px;">
+                        <div class="btn-group" style="color: white;">
+                            <button type="button" class="btn"
+                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">
+                                添加文件
+                            </button>
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
+                                <li><span>添加文件</span></li>
+                                <li><span>添加文件夹</span></li>
+                            </ul>
+                        </div>
+                        <div style="display: inline-block;">
+                            <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
+                            <span style="line-height: 32px;">我的文件</span>
+                        </div>
+                        <div style="display: inline-block;float: right;">
+                            <span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
+                        </div>
+                    </div>
+                    <div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
+                </div>
+                <div class="modal-footer" style="border: none;">
+                    <button type="button" class="btn-user"
+                            style="width: 70px;letter-spacing: 3px;">完成
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
 </body>
 </html>
 
@@ -647,39 +473,39 @@
 <div class="modal fade" id="addUserModel">
     <div class="modal-dialog">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">添加用户</h4>
-                </div>
-                <div class="modal-body">
-                    <label>用户名</label>
-                    <input type="text" class="form-control"
-                           id="new_name" placeholder="请输入用户名">
-                    <label>警号</label>
-                    <input type="text" class="form-control"
-                           id="new_alarm" placeholder="请输入警号">
-                    <label>密码</label>
-                    <input type="text" class="form-control"
-                           id="new_password" placeholder="请输入密码">
-                    <label>确认密码</label>
-                    <input type="text" class="form-control"
-                           id="confirm_password" placeholder="请重新输入密码">
-                    <label>角色</label>
-                    <select class="form-control" id="roleId">
-                        <option value="1">admin</option>
-                        <option value="2">public</option>
-                    </select>
-<!--                    <label>指定文件阅览人</label>-->
-<!--                    <select class="form-control" name="pr_id" th:each="user : ${userList}">-->
-<!--                        <option th:text="${user.name}"></option>-->
-<!--                    </select>-->
-                </div>
+            <div class="modal-header">
+                <h4 class="modal-title">添加用户</h4>
+            </div>
+            <div class="modal-body">
+                <label>用户名</label>
+                <input type="text" class="form-control"
+                       id="new_name" placeholder="请输入用户名">
+                <label>警号</label>
+                <input type="text" class="form-control"
+                       id="new_alarm" placeholder="请输入警号">
+                <label>密码</label>
+                <input type="text" class="form-control"
+                       id="new_password" placeholder="请输入密码">
+                <label>确认密码</label>
+                <input type="text" class="form-control"
+                       id="confirm_password" placeholder="请重新输入密码">
+                <label>角色</label>
+                <select class="form-control" id="roleId">
+                    <option value="1">admin</option>
+                    <option value="2">public</option>
+                </select>
+                <!--                    <label>指定文件阅览人</label>-->
+                <!--                    <select class="form-control" name="pr_id" th:each="user : ${userList}">-->
+                <!--                        <option th:text="${user.name}"></option>-->
+                <!--                    </select>-->
+            </div>
 
-                <div class="modal-footer">
-                    <button  type="button" class="btn btn-info" onclick="User.addUser()">新增</button>
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">关闭
-                    </button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="User.addUser()">新增</button>
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -701,7 +527,7 @@
             </div>
 
             <div class="modal-footer">
-                <button  type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
+                <button type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
                 <button type="button" class="btn btn-secondary"
                         data-dismiss="modal">关闭
                 </button>

@@ -79,7 +79,7 @@ public class DocsController {
      * @author LiZG
      * @date 2019/04/05 9:08
      */
-    @PostMapping(value = "addDir")
+    @GetMapping(value = "addDir")
     @ResponseBody
     public ResponseResult addDir(@RequestParam(value = "nowDirId") int nowDirId,
                                  @RequestParam(value = "addDirName")String name){
@@ -142,9 +142,9 @@ public class DocsController {
 
     /**
      * 文件搜索
-     * @param name
-     * @param suffix
-     * @param type
+     * @param name      文件名
+     * @param suffix    文件类型：图片，文档，视频，音频
+     * @param type      1目录  2文件
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/05 9:58
@@ -156,5 +156,22 @@ public class DocsController {
         int userId = 1;
         User user = userService.selectById(userId);
         return docsService.findDocs(name,suffix,type,user);
+    }
+
+    /**
+     * 删除文件/文件夹
+     * @param nowDirId
+     * @param deleteId
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/06 8:16
+     */
+    @GetMapping(value = "deleteDocs")
+    @ResponseBody
+    public ResponseResult deleteDocs(@RequestParam(value = "nowDirId")int nowDirId,
+                                 @RequestParam(value = "deleteId")int deleteId){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return docsService.deleteDocs(nowDirId,deleteId,user);
     }
 }

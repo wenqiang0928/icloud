@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.tckj.icloud.utils.UploadUtils.*;
 @Service
@@ -47,14 +49,14 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     @Override
     public ResponseResult addDir(int nowDirId, String name, User user) {
         initDir(user);
-        Docs nowDir = baseMapper.selectById(nowDirId);
+        Docs nowDir = getDocsByIdAndNotDelete(nowDirId);
         if (ObjectUtils.isEmpty(nowDir)){
-            return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
+            return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
         String path = nowDir.getPath() + "/" + name;
-        Docs newDocs = new Docs(name,path,nowDirId,user.getId(),new Date(),null);
+        Docs newDocs = new Docs(name,path,nowDirId,user.getId(),new Date(),null,new Date());
         try{
-            baseMapper.insert(newDocs);
+            docsMapper.insert(newDocs);
             return new SuccessResponse(null);
         }catch (Exception e){
             e.printStackTrace();
@@ -66,9 +68,9 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     public ResponseResult moveDocs(int nowDirId, int targetDirId, int targetId, User user) {
         //TODO 权限判断：是否可移动（待完善）
 
-        Docs nowDir = baseMapper.selectById(nowDirId);
-        Docs targetDir = baseMapper.selectById(targetDirId);
-        Docs target = baseMapper.selectById(targetId);
+        Docs nowDir = getDocsByIdAndNotDelete(nowDirId);
+        Docs targetDir = getDocsByIdAndNotDelete(targetDirId);
+        Docs target = getDocsByIdAndNotDelete(targetId);
         if (ObjectUtils.isEmpty(nowDir) || ObjectUtils.isEmpty(targetDir) || ObjectUtils.isEmpty(target)){
             return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
@@ -76,6 +78,9 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
             return new SuccessResponse(Constants.ResultCodeConstants.FILE_WRONG_POSITION);
         }
         target.setPid(targetDirId);
+        target.setPath(targetDir.getPath() + "/" + target.getName());
+        target.setModifyTime(new Date());
+        docsMapper.updateById(target);
         return new SuccessResponse(null);
     }
 
@@ -83,12 +88,34 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     public ResponseResult getAllDocsByPid(int dirId, User user) {
         //TODO 权限检查
 
+        //如果当前是根目录，则dirId应该传0，根据pid=0进行查询
+        Docs nowDir;
+        if (dirId == 0){
+            initDir(user);
+            Docs queryDocs = new Docs();
+            queryDocs.setPid(0);
+            queryDocs.setCreateUserId(user.getId());
+            queryDocs.setIsDelete(0);
+            queryDocs.setType(1);
+            nowDir = docsMapper.selectOne(queryDocs);
+        } else {
+            nowDir = docsMapper.selectById(dirId);
+
+        }
+
+
         Wrapper<Docs> wrapper = new EntityWrapper<>();
         wrapper.eq("pid",dirId);
         wrapper.eq("is_delete",0);
-        List<Docs> docsList = baseMapper.selectList(wrapper);
+        List<Docs> docsList = docsMapper.selectList(wrapper);
 
-        return new SuccessResponse(docsList);
+        Map<String,Object> resultMap = new HashMap<>(2);
+        //当前文件夹内容
+        resultMap.put("docsList",docsList);
+        //当前文件夹对象
+        resultMap.put("nowDir",nowDir);
+
+        return new SuccessResponse(resultMap);
     }
 
     @Override
@@ -96,8 +123,9 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         //TODO 权限
 
         //判断当前文件/文件夹是否存在
-        Docs docs = baseMapper.selectById(id);
-        if (ObjectUtils.isEmpty(docs) || docs.getIsDelete() == 1){
+        Docs docs = getDocsByIdAndNotDelete(id);
+
+        if (ObjectUtils.isEmpty(docs)){
             return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
         return new SuccessResponse(docs);
@@ -115,8 +143,68 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         if (type != null){
             wrapper.eq("type",type);
         }
-        List<Docs> docsList = baseMapper.selectList(wrapper);
+        List<Docs> docsList = docsMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
+    }
+
+    @Override
+    public ResponseResult deleteDocs(int nowDirId, int deleteId, User user) {
+        //TODO 权限检查
+
+        //先查出要删除的文件对象，如果为文件，直接删除；如果为文件夹，递归删除子文件夹及其中的所有文件
+        //删除所有的文佳和文件夹
+        Docs deleteDocs = getDocsByIdAndNotDelete(deleteId);
+
+        if (ObjectUtils.isEmpty(deleteDocs)){
+            return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
+        }
+
+        if (deleteDocs.getType() == 2){
+            //文件直接删除
+            docsMapper.deleteLogicById(deleteId);
+            //TODO 服务器删除文件实体
+        } else if (deleteDocs.getType() == 1) {
+            //删除该文件夹及文件夹下所有内容
+            deleteByPid(deleteId);
+        } else {
+            //文件类型错误
+        }
+
+        return new SuccessResponse(null);
+    }
+
+    /**
+     * 递归删除文件夹及里面的子文件/子文件夹
+     * @param pid
+     * @return void
+     * @author LiZG
+     * @date 2019/04/06 10:05
+     */
+    private void deleteByPid(int pid){
+        /*
+        两种方案：
+        1、先查出所有的pid，再根据pid进行删除
+        2、递归查询数据库，直到查不出pid为止
+        目前选择：递归查询并删除
+        */
+
+        //删除pid这个对象
+        docsMapper.deleteLogicById(pid);
+        //查询pid的子文件/文件夹，如果是文件，直接删除；如果是文件夹，再调一次这个方法
+        Wrapper<Docs> wrapper = new EntityWrapper<>();
+        wrapper.eq("is_delete",0);
+        wrapper.eq("pid",pid);
+        List<Docs> subDocsList = docsMapper.selectList(wrapper);
+        if (subDocsList != null && subDocsList.size() > 0) {
+            for (Docs docs : subDocsList) {
+                if (docs.getType() == 2) {
+                    docsMapper.deleteLogicById(docs.getId());
+                    //TODO 删除服务器文件实体
+                } else if (docs.getType() == 1) {
+                    deleteByPid(docs.getId());
+                }
+            }
+        }
     }
 
     /**
@@ -132,11 +220,12 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         Docs queryDocs = new Docs();
         queryDocs.setPid(0);
         queryDocs.setName(user.getName());
-        Docs resultRootDir = baseMapper.selectOne(queryDocs);
+        queryDocs.setIsDelete(0);
+        Docs resultRootDir = docsMapper.selectOne(queryDocs);
         if (ObjectUtils.isEmpty(resultRootDir)) {
             String path = "/" + user.getName();
-            Docs rootDir = new Docs(user.getName(), path, 0, user.getId(), new Date(), null);
-            Integer sign = baseMapper.insert(rootDir);
+            Docs rootDir = new Docs(user.getName(), path, 0, user.getId(), new Date(), null,new Date());
+            Integer sign = docsMapper.insert(rootDir);
             if (sign != null && sign == 1) {
                 return true;
             } else {
@@ -145,6 +234,14 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         } else {
             return true;
         }
-
+    }
+    /**
+     * 根据id查询未删除的docs
+     */
+    private Docs getDocsByIdAndNotDelete(int id){
+        Docs docs = new Docs();
+        docs.setIsDelete(0);
+        docs.setId(id);
+        return docsMapper.selectOne(docs);
     }
 }
