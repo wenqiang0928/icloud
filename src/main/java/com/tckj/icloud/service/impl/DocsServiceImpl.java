@@ -20,7 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.tckj.icloud.utils.UploadUtils.*;
 @Service
@@ -83,12 +85,34 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     public ResponseResult getAllDocsByPid(int dirId, User user) {
         //TODO 权限检查
 
+        //如果当前是根目录，则dirId应该传0，根据pid=0进行查询
+        Docs nowDir;
+        if (dirId == 0){
+            initDir(user);
+            Docs queryDocs = new Docs();
+            queryDocs.setPid(0);
+            queryDocs.setCreateUserId(user.getId());
+            queryDocs.setIsDelete(0);
+            queryDocs.setType(1);
+            nowDir = baseMapper.selectOne(queryDocs);
+        } else {
+            nowDir = baseMapper.selectById(dirId);
+
+        }
+
+
         Wrapper<Docs> wrapper = new EntityWrapper<>();
         wrapper.eq("pid",dirId);
         wrapper.eq("is_delete",0);
         List<Docs> docsList = baseMapper.selectList(wrapper);
 
-        return new SuccessResponse(docsList);
+        Map<String,Object> resultMap = new HashMap<>(2);
+        //当前文件夹内容
+        resultMap.put("docsList",docsList);
+        //当前文件夹对象
+        resultMap.put("nowDir",nowDir);
+
+        return new SuccessResponse(resultMap);
     }
 
     @Override

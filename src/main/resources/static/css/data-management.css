@@ -96,3 +96,29 @@ html,body{
 #guideTarget2:hover{
     cursor: pointer;
 }
+
+.file-table-title>li,.file-list>li>ul>li{
+    display: inline-block;
+    float: left;
+}
+.file-table .column-1{
+    width: 2%;
+}
+.file-table .column-2{
+    width: 60%;
+}
+.file-table .column-3{
+    width: 15%;
+}
+.file-table .column-4{
+    width: 23%;
+}
+.file-table-title,.file-list>li{
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #eee;
+}
+.file-table input{
+    height: 40px;
+    margin: 0;
+}
