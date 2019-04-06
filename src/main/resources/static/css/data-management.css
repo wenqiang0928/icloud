@@ -82,11 +82,11 @@ html,body{
 .dropdown-menu li{
     height: 32px;
     line-height: 32px;
-    color: rgb(42, 195, 138);
+    color: rgb(0,91,200);
 }
 .dropdown-menu li:focus,.dropdown-menu li:hover{
     color: white;
-    background: rgb(42, 195, 138);
+    background: rgb(0,91,200);
 }
 .dropdown-menu li>span{
     margin-left: 20px;
@@ -154,4 +154,20 @@ html,body{
 #context-menu>ul>li:hover{
     color: white;
     background: rgb(42, 195, 138);
+}
+
+#search-input{
+    width: 200px;
+    height: 30px;
+    border-radius: 20px;
+    background: #f1f2f4;
+    border: none;
+}
+#search-icon{
+    font-size: 13px;
+    position: absolute;
+    right: 10px;
+    line-height: 30px;
+    color: #666;
+    cursor: pointer;
 }

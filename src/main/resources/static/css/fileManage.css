@@ -403,7 +403,7 @@ pre {
 	white-space: pre-wrap; -ms-word-wrap: break-word;
 }
 .yp-header {
-	background: rgb(42, 195, 138); height: 60px; position: relative;
+	background: rgb(0,91,200); height: 60px; position: relative;
 }
 .yp-header a {
 	text-decoration: none;
@@ -422,6 +422,7 @@ pre {
 	font-size: 20px;
 	line-height: 60px;
 	float: left;
+	color: white;
 }
 .yp-header .nav-left {
 	padding-left: 30px; float: left;
@@ -430,7 +431,7 @@ pre {
 	float: left;
 }
 .yp-header .nav-left > li .router-link-active {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li > a {
 	padding: 0px 17px; color: rgba(255, 255, 255, 0.6); line-height: 60px; font-size: 16px; font-weight: 400; display: block; position: relative;
@@ -442,22 +443,22 @@ pre {
 	padding: 0px 17px; color: rgba(255, 255, 255, 0.6); line-height: 60px; font-size: 16px; font-weight: 400; display: block; position: relative;
 }
 .yp-header .nav-left > li > a:hover {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li > router-link:hover {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li.current > a {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li > a.current {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li > router-link.current {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .nav-left > li.current > router-link {
-	background: rgb(31, 179, 117); color: rgb(255, 255, 255);
+	background: rgb(0,91,172); color: rgb(255, 255, 255);
 }
 .yp-header .yp-notice {
 	margin: 0px 0px 0px 518px; padding: 20px 0px 0px; width: 350px; float: left;
@@ -565,10 +566,10 @@ pre {
 	height: 50px; color: rgb(77, 77, 77); line-height: 50px; padding-left: 30px; font-size: 14px; text-decoration: none; display: block; box-sizing: border-box;
 }
 .left-panel .menu-list > li > .router-link-active {
-	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
+	background: rgba(0,91,200, 0.1); color: rgb(0,91,200);
 }
 .left-panel .menu-list > li > a:hover {
-	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
+	background: rgba(0,91,200, 0.1); color: rgb(0,91,200);
 }
 .left-panel .menu-list > li > .router-link-active .menu-list__icon {
 	fill: currentColor;
@@ -589,7 +590,7 @@ pre {
 	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
 }
 .left-panel .sub-list > li > a:hover {
-	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
+	background: rgba(0,91,200, 0.1); color: rgb(0,91,200);
 }
 .left-panel .sub-list > li > .router-link-active .menu-list__icon {
 	fill: currentColor;
