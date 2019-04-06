@@ -1,5 +1,7 @@
 package com.tckj.icloud.pojo;
 
+import com.baomidou.mybatisplus.annotations.TableLogic;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -48,12 +50,17 @@ public class Docs implements Serializable {
     /**
      * 是否删除0   1 是
      */
+    @TableLogic
     private Integer isDelete;
 
     /**
      * 案件号
      */
     private String caseNo;
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
 
     public Integer getId() {
         return id;
@@ -151,6 +158,14 @@ public class Docs implements Serializable {
         this.caseNo = caseNo;
     }
 
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
     public Docs(){}
 
     public Docs(String name, Integer type, Long size, String suffix, String md5CheckSum, String path, Integer pid, Integer createUserId, Date createTime, Integer isDelete, String caseNo) {
@@ -177,7 +192,7 @@ public class Docs implements Serializable {
      * @author LiZG
      * @date 2019/04/05 9:11
      */
-    public Docs(String name,String path,Integer pid,Integer createUserId,Date createTime, String caseNo){
+    public Docs(String name,String path,Integer pid,Integer createUserId,Date createTime, String caseNo,Date modifyTime){
         this.name = name;
         this.type = 1;
         this.path = path;
@@ -186,5 +201,6 @@ public class Docs implements Serializable {
         this.createTime = createTime;
         this.isDelete = 0;
         this.caseNo = caseNo;
+        this.modifyTime = modifyTime;
     }
 }

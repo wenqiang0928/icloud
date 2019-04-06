@@ -12,64 +12,66 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
-    <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
-    <link rel="stylesheet" type="text/css" href="/css/filemm.css">
 </head>
 <body>
-    <div id="topPanel" class="yp-header" style="z-index: 99;">
-        <div class="yp-logo">
-            <a href="/" title="资料管理平台">
-                <img src="/img/logo.png">
-                <span>资料管理平台</span>
-            </a>
-        </div>
-        <ul class="nav-left">
-            <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-            <li><a href="/index/help/">帮助</a></li>
-            <li>
-                <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
-                    <div class="nav-more__button"><span>更多</span></div>
-                    <div class="dropdown-wrap" style="display: none;">
-                        <ul class="nav-more__list"><!----> <!----> <!---->
-                            <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
-                                <ul>
-                                    <li><a>扫描我的文件</a></li>
-                                    <li><a>扫描指定文件夹</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="yp-header__avatarWrap">
-            <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
-                 src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
-            <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
-                <div data-v-02139d26="" class="corp-detail">
-                    <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
-                    </h2>
-                </div>
+<link rel="stylesheet" type="text/css" href="/css/fileManage.css">
+<link rel="stylesheet" type="text/css" href="/css/filemm.css">
 
-                <div data-v-02139d26="" class="account-list">
-                    <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
-                        <li data-v-02139d26="">
-                            <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
-                        </li> <!---->
-                        <li data-v-02139d26="">
-                            <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
+<div id="topPanel" class="yp-header" style="z-index: 99;">
+    <div class="yp-logo">
+        <a href="/" title="资料管理平台">
+            <img src="/img/logo.png">
+            <span>资料管理平台</span>
+        </a>
+    </div>
+    <ul class="nav-left">
+        <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
+        <li><a href="/index/help/">帮助</a></li>
+        <li>
+            <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
+                <div class="nav-more__button"><span>更多</span></div>
+                <div class="dropdown-wrap" style="display: none;">
+                    <ul class="nav-more__list"><!----> <!----> <!---->
+                        <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
+                            <ul>
+                                <li><a>扫描我的文件</a></li>
+                                <li><a>扫描指定文件夹</a></li>
+                            </ul>
                         </li>
-                    </ul>
-                    <ul data-v-02139d26="">
-                        <li data-v-02139d26=""><a data-v-02139d26="" href="/">
-                            退出云盘
-                        </a></li>
                     </ul>
                 </div>
             </div>
-        </div> <!---->
-    </div>
-    <div id="center-wrap">
+        </li>
+    </ul>
+    <div class="yp-header__avatarWrap">
+        <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
+             src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+        <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+            <div data-v-02139d26="" class="corp-detail">
+                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
+                </h2>
+            </div>
+
+            <div data-v-02139d26="" class="account-list">
+                <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
+                    <li data-v-02139d26="">
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
+                    </li> <!---->
+                    <li data-v-02139d26="">
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
+                    </li>
+                </ul>
+                <ul data-v-02139d26="">
+                    <li data-v-02139d26=""><a data-v-02139d26="" href="/">
+                        退出云盘
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div> <!---->
+</div>
+<div id="center-wrap">
+
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item">
@@ -194,66 +196,49 @@
                         查看原图
                     </a></div>
                 </div> <!----> <!----> <!----></div>
-            <div data-v-bfd7e0ca="" data-v-fccf5e72="" class="loading-mask-vue" style="display: none;">
-                <div data-v-bfd7e0ca="" class="loading-mask-vue__content"><img data-v-bfd7e0ca=""
-                                                                               src="https://p2.ssl.qhimg.com/t01bcebfcf4e4842b3c.gif"
-                                                                               class="loading-mask-icon"></div>
-            </div>
-            <div data-v-1061dd8c="" data-v-fccf5e72="" class="empty-wrap" >
-                <div data-v-3d2518d0="" data-v-1061dd8c="" class="empty-tip empty-tip--pic">
-                    <h1 data-v-1061dd8c="" data-v-3d2518d0="">您还没有上传过图片哦~</h1>
-                </div>
-            </div>
         </div>
         <div data-v-71ce96c8="" class="mini-upload" style="visibility: hidden;">
             <svg data-v-71ce96c8="" aria-hidden="true" class="x-button__icon icon-svg">
                 <use xlink:href="#icon-upload2"></use>
             </svg>
-            <span data-v-71ce96c8="">请选择要上传的文件</span> <!----> <!---->
-        </div>
+            <span data-v-71ce96c8="">请选择要上传的文件</span> <!----> <!----> </div>
         <div data-v-5bc8579b="" class="upload-dialog-wrapp upload-dialog-show">
             <div data-v-5bc8579b="" class="upload-dialog"
                  style="top: 140px; left: 495px; transition: width 0.5s ease 0s, height 0.5s ease 0s, top 0.5s ease 0s, left 0.5s ease 0s, transform 0.5s ease 0s, opacity 0.5s ease 0s; transform: inherit; bottom: auto;">
-                <div data-v-5bc8579b="" class="upload-dialog-header">
-                    <span data-v-5bc8579b="">上传文件到360安全云盘</span>
-                    <i data-v-5bc8579b="" class="minimize-icon">-</i> <i data-v-5bc8579b="" class="close-icon">×</i>
+                <div data-v-5bc8579b="" class="upload-dialog-header"><span data-v-5bc8579b="">上传文件到360安全云盘</span> <i
+                        data-v-5bc8579b="" class="minimize-icon">-</i> <i data-v-5bc8579b="" class="close-icon">×</i>
                 </div>
                 <div data-v-5bc8579b="" class="upload-dialog-content">
                     <div data-v-5bc8579b="" class="upload-toolbar clearfix">
                         <div data-v-5bc8579b="" class="upload-btns" style=""><!---->
-                            <div data-v-5bc8579b="" class="jx-select-file">
-                                <span data-v-5bc8579b="" class="jx-select-file-text">添加文件</span>
-                                <input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple" class="file-select-proxy">
-                                <i data-v-5bc8579b="" class="jx-select-file-select"></i>
-                            </div>
-                            <div data-v-5bc8579b="" class="jx-select-menu select-menu" style="display: none;">
-                                <a data-v-5bc8579b="" href="javascript:;" class="file-select">
-                                添加文件<input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple" class="file-select-proxy">
-                                </a>
-                                <a data-v-5bc8579b="" href="javascript:;" class="folder-select">
+                            <div data-v-5bc8579b="" class="jx-select-file"><span data-v-5bc8579b=""
+                                                                                 class="jx-select-file-text">添加文件</span>
+                                <input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+                                       class="file-select-proxy"> <i data-v-5bc8579b=""
+                                                                     class="jx-select-file-select"></i></div>
+                            <div data-v-5bc8579b="" class="jx-select-menu select-menu" style="display: none;"><a
+                                    data-v-5bc8579b="" href="javascript:;" class="file-select">
+                                添加文件
+                                <input data-v-5bc8579b="" title="请选择要上传的文件" type="file" multiple="multiple"
+                                       class="file-select-proxy"></a> <a data-v-5bc8579b="" href="javascript:;"
+                                                                         class="folder-select">
                                 添加文件夹
-                                <input data-v-5bc8579b="" title="请选择要上传的文件夹" type="file" webkitdirectory="" multiple="multiple" class="folder-select-proxy">
-                                </a>
-                            </div>
+                                <input data-v-5bc8579b="" title="请选择要上传的文件夹" type="file" webkitdirectory=""
+                                       multiple="multiple" class="folder-select-proxy"></a></div>
                         </div>
-                        <div data-v-5bc8579b="" class="uploadPath" style="">
-                            <span data-v-5bc8579b="" class="breadcrumb__item">到：</span>
-                            <span data-v-5bc8579b="" class="breadcrumb__item">我的文件</span>
-                        </div>
+                        <div data-v-5bc8579b="" class="uploadPath" style=""><span data-v-5bc8579b=""
+                                                                                  class="breadcrumb__item">到：</span>
+                            <span data-v-5bc8579b="" class="breadcrumb__item">我的文件</span></div>
                         <div data-v-5bc8579b="" class="upload-btns" style="display: none;">不可上传至当前目录</div>
-                        <div data-v-5bc8579b="" class="warning-note">
-                            <span data-v-5bc8579b="">上传须知</span>
-                            <div data-v-5bc8579b="" class="warning-tips" style="display: none;">
-                                <span data-v-5bc8579b="" class="triangle triangle_lt"></span>
-                                <p data-v-5bc8579b="">
-                                    <i data-v-5bc8579b="" class="icon icon-warning"></i>
-                                    严禁利用360安全云盘存储、下载、传播暴力恐怖音视频，以及其他任何非法、有害信息，一经发现将严格按照相关法律法规处理。
+                        <div data-v-5bc8579b="" class="warning-note"><span data-v-5bc8579b="">上传须知</span>
+                            <div data-v-5bc8579b="" class="warning-tips" style="display: none;"><span data-v-5bc8579b=""
+                                                                                                      class="triangle triangle_lt"></span>
+                                <p data-v-5bc8579b=""><i data-v-5bc8579b="" class="icon icon-warning"></i>严禁利用360安全云盘存储、下载、传播暴力恐怖音视频，以及其他任何非法、有害信息，一经发现将严格按照相关法律法规处理。
                                 </p>
                                 <p data-v-5bc8579b="" style="word-break: normal;">Storing, downloading and sharing
                                     violate, horrific and illegal media contents on 360 Security Cloud is strictly
                                     prohibited. Once discovered, necessary actions, under the supervision of related
-                                    laws and regulations, will be taken accordingly.</p>
-                            </div>
+                                    laws and regulations, will be taken accordingly.</p></div>
                         </div>
                     </div>
                     <div data-v-5bc8579b="" class="upload-list-box">
@@ -261,9 +246,10 @@
                     </div>
                 </div>
                 <div data-v-5bc8579b="" class="upload-dialog-footer">
-                    <button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!---->
-                        <span class="x-button__label">完成</span>
-                    </button>
+                    <button data-v-5bc8579b="" class="y-btn x-button x-button--primary"><!----> <span
+                            class="x-button__label">
+        完成
+      </span></button>
                 </div>
             </div>
         </div>
@@ -407,51 +393,55 @@
 </body>
 </html>
 
-<!-- 上传文件 -->
-<div class="modal fade" id="upload-modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header"
-                 style="position: absolute;top: 0;left: 0;width: 100%;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="line-height: 36px;">
-                    <span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
-            </div>
-            <div class="modal-body" style="margin-top: 25px;height: 300px;">
-                <div style="height: 34px;font-size: 13px;">
-                    <div class="btn-group" style="color: white;">
-                        <button type="button" class="btn"
-                                style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
-                            添加文件
-                        </button>
-                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
-                            <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
-                        </button>
-                        <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
-                            <li><span>添加文件</span></li>
-                            <li><span>添加文件夹</span></li>
-                        </ul>
-                    </div>
-                    <div style="display: inline-block;">
-                        <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
-                        <span style="line-height: 32px;">我的文件</span>
-                    </div>
-                    <div style="display: inline-block;float: right;">
-                        <span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
-                    </div>
+    <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"
+                     style="position: absolute;top: 0;left: 0;width: 100%;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="line-height: 36px;">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
                 </div>
-                <div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
-            </div>
-            <div class="modal-footer" style="border: none;">
-                <button type="button" class="btn-user"
-                        style="width: 70px;letter-spacing: 3px;">完成
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+                <div class="modal-body" style="margin-top: 25px;height: 300px;">
+                    <div style="height: 34px;font-size: 13px;">
+                        <div class="btn-group" style="color: white;">
+                            <button type="button" class="btn"
+                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);">
+                                添加文件
+                            </button>
+                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
+                                <li><span>添加文件</span></li>
+                                <li><span>添加文件夹</span></li>
+                            </ul>
+                        </div>
+                        <div style="display: inline-block;">
+                            <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
+                            <span style="line-height: 32px;">我的文件</span>
+                        </div>
+                        <div style="display: inline-block;float: right;">
+                            <span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
+                        </div>
+                    </div>
+                    <div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
+                </div>
+                <div class="modal-footer" style="border: none;">
+                    <button type="button" class="btn-user"
+                            style="width: 70px;letter-spacing: 3px;">完成
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>
 
 <!-- 新建文件夹 -->
 <div class="modal fade" id="newFolder-modal">
@@ -476,39 +466,39 @@
 <div class="modal fade" id="addUserModel">
     <div class="modal-dialog">
         <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">添加用户</h4>
-                </div>
-                <div class="modal-body">
-                    <label>用户名</label>
-                    <input type="text" class="form-control"
-                           id="new_name" placeholder="请输入用户名">
-                    <label>警号</label>
-                    <input type="text" class="form-control"
-                           id="new_alarm" placeholder="请输入警号">
-                    <label>密码</label>
-                    <input type="text" class="form-control"
-                           id="new_password" placeholder="请输入密码">
-                    <label>确认密码</label>
-                    <input type="text" class="form-control"
-                           id="confirm_password" placeholder="请重新输入密码">
-                    <label>角色</label>
-                    <select class="form-control" id="roleId">
-                        <option value="1">admin</option>
-                        <option value="2">public</option>
-                    </select>
-<!--                    <label>指定文件阅览人</label>-->
-<!--                    <select class="form-control" name="pr_id" th:each="user : ${userList}">-->
-<!--                        <option th:text="${user.name}"></option>-->
-<!--                    </select>-->
-                </div>
+            <div class="modal-header">
+                <h4 class="modal-title">添加用户</h4>
+            </div>
+            <div class="modal-body">
+                <label>用户名</label>
+                <input type="text" class="form-control"
+                       id="new_name" placeholder="请输入用户名">
+                <label>警号</label>
+                <input type="text" class="form-control"
+                       id="new_alarm" placeholder="请输入警号">
+                <label>密码</label>
+                <input type="text" class="form-control"
+                       id="new_password" placeholder="请输入密码">
+                <label>确认密码</label>
+                <input type="text" class="form-control"
+                       id="confirm_password" placeholder="请重新输入密码">
+                <label>角色</label>
+                <select class="form-control" id="roleId">
+                    <option value="1">admin</option>
+                    <option value="2">public</option>
+                </select>
+                <!--                    <label>指定文件阅览人</label>-->
+                <!--                    <select class="form-control" name="pr_id" th:each="user : ${userList}">-->
+                <!--                        <option th:text="${user.name}"></option>-->
+                <!--                    </select>-->
+            </div>
 
-                <div class="modal-footer">
-                    <button  type="button" class="btn btn-info" onclick="User.addUser()">新增</button>
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal">关闭
-                    </button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="User.addUser()">新增</button>
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">关闭
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -530,7 +520,7 @@
             </div>
 
             <div class="modal-footer">
-                <button  type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
+                <button type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
                 <button type="button" class="btn btn-secondary"
                         data-dismiss="modal">关闭
                 </button>
