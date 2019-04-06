@@ -415,7 +415,7 @@ pre {
 	width: 149px; height: 22px; display: block; fill: #fff;
 }
 .yp-header .yp-logo img {
-	width: 90px; height: 60px; float: left;
+	width: 45px; height: 45px; float: left;margin: 7.5px 10px;
 }
 .yp-header .yp-logo span {
 	display: inline-block;
