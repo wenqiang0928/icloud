@@ -157,6 +157,10 @@
                         </a>
                     </div>
                 </div>
+                <div style="float: right">
+                    <i id="search-icon" class="glyphicon glyphicon-search"></i>
+                    <input id="search-input" type="text" class="form-control" aria-describedby="basic-addon1">
+                </div>
             </div>
             <div class="dir-path-info" style="margin: 10px 0;">
                 全部文件
@@ -429,12 +433,12 @@
                     <div style="height: 34px;font-size: 13px;">
                         <div class="btn-group" style="color: white;">
                             <button type="button" class="btn"
-                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
+                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(0,91,200);height: 100%;">
                                 添加文件
                             </button>
                             <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true"
-                                    aria-expanded="false" style="font-size: 13px;background: rgb(42, 195, 138);height: 100%;">
+                                    aria-expanded="false" style="font-size: 13px;background: rgb(0,91,200);height: 100%;">
                                 <span class="caret"></span>
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
@@ -448,10 +452,10 @@
                             <span style="line-height: 32px;">我的文件</span>
                         </div>
                         <div style="display: inline-block;float: right;">
-                            <span style="line-height: 34px;color: rgb(42, 195, 138);">上传须知</span>
+                            <span style="line-height: 34px;color: rgb(0,91,200);">上传须知</span>
                         </div>
                     </div>
-                    <div style="height: 230px;background-color: rgb(218, 238, 229);border-radius: 3px;margin: 15px 0;"></div>
+                    <div style="height: 230px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;"></div>
                 </div>
                 <div class="modal-footer" style="border: none;">
                     <button type="button" class="btn-user"
@@ -545,7 +549,7 @@
     </div>
 </div>
 
-<div id="context-menu">
+<div id="context-menu" style="display: none;">
     <ul>
         <li>移动到</li>
         <li>重命名</li>

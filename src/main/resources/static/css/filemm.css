@@ -260,7 +260,7 @@
 	width: 1px; line-height: 100%;
 }
 .modal-header {
-	padding: 0px 16px; height: 36px; color: rgb(42, 195, 138); line-height: 36px; letter-spacing: 1px; font-size: 14px; font-weight: 400; border-bottom-color: rgb(218, 238, 229); border-bottom-width: 1px; border-bottom-style: solid; position: relative; cursor: move; background-color: rgb(233, 246, 241);
+	padding: 0px 16px; height: 36px; color: rgb(0,91,200); line-height: 36px; letter-spacing: 1px; font-size: 14px; font-weight: 400; border-bottom-width: 1px; border-bottom-style: solid; position: relative; cursor: move; background-color: rgba(0,91,200, 0.1);
 }
 .modal-header .close-icon {
 	padding: 1px; border: 1px solid transparent; border-image: none; top: 8px; width: 20px; height: 20px; text-align: center; right: 16px; line-height: 18px; font-size: 18px; font-style: normal; vertical-align: top; display: inline-block; position: absolute; cursor: pointer;
@@ -4520,7 +4520,7 @@ input::-ms-clear {
 }
 .toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item.router-link-active,
 .btn-user{
-	background: rgb(42, 195, 138); border-color: rgb(42, 195, 138); color: rgb(255, 255, 255);
+	background: rgb(0,91,200); border-color: rgb(0,91,200); color: rgb(255, 255, 255);
 }
 .toolbar .button-chain.button-group--switch [data-v-fccf5e72].button-chain-item.last {
 	border-left-width: 0px;
@@ -5189,16 +5189,16 @@ p[data-v-1caffac9] {
 	fill: #ff750f;
 }
 .team-select__list > li.active {
-	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
+	background: rgba(0,91,172,0.1); color:rgb(0,91,172);
 }
 .team-select__list > li > div:hover {
-	background: rgba(42, 195, 138, 0.1); color: rgb(42, 195, 138);
+	background: rgba(0,91,172,0.1); color:rgb(0,91,172);
 }
 .team-select__arrow {
 	margin-top: 10px; float: right;
 }
 .team-select .add-team {
-	text-align: center; color: rgb(42, 195, 138); line-height: 32px; border-top-color: rgb(242, 246, 253); border-top-width: 1px; border-top-style: solid; cursor: pointer;
+	text-align: center; color: rgb(0,91,172); line-height: 32px; border-top-color: rgb(242, 246, 253); border-top-width: 1px; border-top-style: solid; cursor: pointer;
 }
 .nav-more {
 	width: 90px; height: 60px; vertical-align: middle; z-index: 3;
@@ -5207,7 +5207,7 @@ p[data-v-1caffac9] {
 	background: rgb(255, 255, 255); border-width: 0px 1px 1px; border-style: none solid solid; border-color: currentColor rgb(239, 244, 248) rgb(239, 244, 248); border-image: none; top: 100%; width: 160px; box-shadow: 0px 4px 6px 0px rgba(199,199,199,0.5); -webkit-box-shadow: 0 4px 6px 0 rgba(199, 199, 199, .5);
 }
 .nav-more:hover .nav-more__button {
-	background-color: rgb(31, 179, 117);
+	background-color: rgb(0,91,172);
 }
 .nav-more:hover .nav-more__button span {
 	color: rgb(255, 255, 255);
