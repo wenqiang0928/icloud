@@ -12,66 +12,64 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
+    <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
+    <link rel="stylesheet" type="text/css" href="/css/filemm.css">
 </head>
 <body>
-<link rel="stylesheet" type="text/css" href="/css/fileManage.css">
-<link rel="stylesheet" type="text/css" href="/css/filemm.css">
+    <div id="topPanel" class="yp-header" style="z-index: 99;">
+        <div class="yp-logo">
+            <a href="/" title="资料管理平台">
+                <img src="/img/logo.png">
+                <span>资料管理平台</span>
+            </a>
+        </div>
+        <ul class="nav-left">
+            <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
+            <li><a href="/index/help/">帮助</a></li>
+            <li>
+                <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
+                    <div class="nav-more__button"><span>更多</span></div>
+                    <div class="dropdown-wrap" style="display: none;">
+                        <ul class="nav-more__list"><!----> <!----> <!---->
+                            <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
+                                <ul>
+                                    <li><a>扫描我的文件</a></li>
+                                    <li><a>扫描指定文件夹</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="yp-header__avatarWrap">
+            <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
+                 src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+            <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+                <div data-v-02139d26="" class="corp-detail">
+                    <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
+                    </h2>
+                </div>
 
-<div id="topPanel" class="yp-header" style="z-index: 99;">
-    <div class="yp-logo">
-        <a href="/" title="资料管理平台">
-            <img src="/img/logo.png">
-            <span>资料管理平台</span>
-        </a>
-    </div>
-    <ul class="nav-left">
-        <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-        <li><a href="/index/help/">帮助</a></li>
-        <li>
-            <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
-                <div class="nav-more__button"><span>更多</span></div>
-                <div class="dropdown-wrap" style="display: none;">
-                    <ul class="nav-more__list"><!----> <!----> <!---->
-                        <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
-                            <ul>
-                                <li><a>扫描我的文件</a></li>
-                                <li><a>扫描指定文件夹</a></li>
-                            </ul>
+                <div data-v-02139d26="" class="account-list">
+                    <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
+                        <li data-v-02139d26="">
+                            <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
+                        </li> <!---->
+                        <li data-v-02139d26="">
+                            <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
                         </li>
+                    </ul>
+                    <ul data-v-02139d26="">
+                        <li data-v-02139d26=""><a data-v-02139d26="" href="/">
+                            退出云盘
+                        </a></li>
                     </ul>
                 </div>
             </div>
-        </li>
-    </ul>
-    <div class="yp-header__avatarWrap">
-        <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
-             src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
-        <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
-            <div data-v-02139d26="" class="corp-detail">
-                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
-                </h2>
-            </div>
-
-            <div data-v-02139d26="" class="account-list">
-                <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
-                    <li data-v-02139d26="">
-                        <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
-                    </li> <!---->
-                    <li data-v-02139d26="">
-                        <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
-                    </li>
-                </ul>
-                <ul data-v-02139d26="">
-                    <li data-v-02139d26=""><a data-v-02139d26="" href="/">
-                        退出云盘
-                    </a></li>
-                </ul>
-            </div>
-        </div>
-    </div> <!---->
-</div>
-<div id="center-wrap">
-
+        </div> <!---->
+    </div>
+    <div id="center-wrap">
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item">
@@ -371,7 +369,7 @@
                     <div data-v-e1ba4c6c="" class="mc-list">
                         <ul data-v-e1ba4c6c="" style="display: none;"></ul>
                         <div data-v-e1ba4c6c="" class="emptylist"><img data-v-e1ba4c6c=""
-                                                                       src="/resource/img/my/mc-empty.png"></div>
+                                                                       src=""></div>
                         <div data-v-e1ba4c6c="" class="mc-oper">
                             <div data-v-e1ba4c6c="" class="wrap">
                                 <div data-v-e1ba4c6c="" class="select-all"><a data-v-e1ba4c6c="" onclick="return false;"
@@ -392,8 +390,8 @@
 </div>
 </body>
 </html>
-
-    <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
+<!-- 上传文件 -->
+<div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header"
@@ -439,10 +437,6 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-</div>
-</body>
-</html>
-
 <!-- 新建文件夹 -->
 <div class="modal fade" id="newFolder-modal">
     <div class="modal-dialog">
@@ -461,7 +455,6 @@
         </div>
     </div>
 </div>
-
 <!-- 添加用户 -->
 <div class="modal fade" id="addUserModel">
     <div class="modal-dialog">
@@ -502,7 +495,6 @@
         </div>
     </div>
 </div>
-
 <!-- 删除用户 -->
 <div class="modal fade" id="delUserModel">
     <div class="modal-dialog">

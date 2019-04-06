@@ -13,7 +13,7 @@ function newFolder() {
         "nowDirId": dirPathArr[dirPathArr.length-1],
         "addDirName": $("#new-file-name").val()
     };
-    $.post(url, params, function (result) {
+    $.get(url, params, function (result) {
         if (result.code === 200) {
             freshFileList(dirPathArr[dirPathArr.length-1]);
         }
