@@ -9,6 +9,8 @@
     <script type="text/javascript" src="/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="/js/user_role.js"></script>
     <script type="text/javascript" src="/js/bootstrap-contextmenu.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-treeview.js"></script>
+
 
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
@@ -18,60 +20,60 @@
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
 </head>
 <body>
-    <div id="topPanel" class="yp-header" style="z-index: 99;">
-        <div class="yp-logo">
-            <a href="/" title="资料管理平台">
-                <img src="/img/jinhui.jpg">
-                <span>资料管理平台</span>
-            </a>
-        </div>
-        <ul class="nav-left">
-            <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-            <li><a href="/index/help/">帮助</a></li>
-            <li>
-                <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
-                    <div class="nav-more__button"><span>更多</span></div>
-                    <div class="dropdown-wrap" style="display: none;">
-                        <ul class="nav-more__list"><!----> <!----> <!---->
-                            <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
-                                <ul>
-                                    <li><a>扫描我的文件</a></li>
-                                    <li><a>扫描指定文件夹</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <div class="yp-header__avatarWrap">
-            <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
-                 src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
-            <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
-                <div data-v-02139d26="" class="corp-detail">
-                    <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
-                    </h2>
-                </div>
-
-                <div data-v-02139d26="" class="account-list">
-                    <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
-                        <li data-v-02139d26="">
-                            <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
-                        </li> <!---->
-                        <li data-v-02139d26="">
-                            <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
+<div id="topPanel" class="yp-header" style="z-index: 99;">
+    <div class="yp-logo">
+        <a href="/" title="资料管理平台">
+            <img src="/img/jinhui.jpg">
+            <span>资料管理平台</span>
+        </a>
+    </div>
+    <ul class="nav-left">
+        <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
+        <li><a href="/index/help/">帮助</a></li>
+        <li>
+            <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
+                <div class="nav-more__button"><span>更多</span></div>
+                <div class="dropdown-wrap" style="display: none;">
+                    <ul class="nav-more__list"><!----> <!----> <!---->
+                        <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
+                            <ul>
+                                <li><a>扫描我的文件</a></li>
+                                <li><a>扫描指定文件夹</a></li>
+                            </ul>
                         </li>
-                    </ul>
-                    <ul data-v-02139d26="">
-                        <li data-v-02139d26=""><a data-v-02139d26="" href="/">
-                            退出云盘
-                        </a></li>
                     </ul>
                 </div>
             </div>
-        </div> <!---->
-    </div>
-    <div id="center-wrap">
+        </li>
+    </ul>
+    <div class="yp-header__avatarWrap">
+        <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
+             src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+        <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
+            <div data-v-02139d26="" class="corp-detail">
+                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
+                </h2>
+            </div>
+
+            <div data-v-02139d26="" class="account-list">
+                <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
+                    <li data-v-02139d26="">
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
+                    </li> <!---->
+                    <li data-v-02139d26="">
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#delUserModel">删除用户</a>
+                    </li>
+                </ul>
+                <ul data-v-02139d26="">
+                    <li data-v-02139d26=""><a data-v-02139d26="" href="/">
+                        退出云盘
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+    </div> <!---->
+</div>
+<div id="center-wrap">
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item">
@@ -80,27 +82,27 @@
                 </a>
                 <ul class="sub-list">
                     <li>
-                        <a href="#/fileManage/pic" class="submenu tab-img">
+                        <a class="submenu tab-img" onclick="getDocsByType(1)">
                             <i class="glyphicon glyphicon-picture"></i>图片
                         </a>
                     </li>
                     <li>
-                        <a href="#/fileManage/doc" class="submenu tab-text">
+                        <a class="submenu tab-text" onclick="getDocsByType(2)">
                             <i class="glyphicon glyphicon-folder-open"></i>文档
                         </a>
                     </li>
                     <li>
-                        <a href="#/fileManage/video" class="submenu tab-video">
+                        <a class="submenu tab-video" onclick="getDocsByType(3)">
                             <i class="glyphicon glyphicon-film"></i>视频
                         </a>
                     </li>
                     <li>
-                        <a href="#/fileManage/music" class="submenu tab-music">
+                        <a class="submenu tab-music" onclick="getDocsByType(4)">
                             <i class="glyphicon glyphicon-headphones"></i>音频
                         </a>
                     </li>
                     <li>
-                        <a href="#/fileManage/other" class="submenu tab-other">
+                        <a class="submenu tab-other" onclick="getDocsByType(0)">
                             <i class="glyphicon glyphicon-file"></i>其他
                         </a>
                     </li>
@@ -130,7 +132,8 @@
                             <i class="glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i>新建文件夹
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="delete-div" style="display: none;">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="delete-div"
+                         style="display: none;">
                         <a id="delete-file-button"
                            data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
@@ -138,28 +141,30 @@
                             <i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="rename-div" style="display: none;">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="rename-div"
+                         style="display: none;">
                         <a id="rename-file-button"
                            data-toggle="modal" data-target="#renameDocs-modal"
                            data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                           重命名
+                            重命名
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="move-div" style="display: none;">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="move-div"
+                         style="display: none;">
                         <a id="move-file-button"
-                           data-toggle="modal" data-target="#delFolder-modal"
                            data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                           移动到
+                            移动到
                         </a>
                     </div>
                 </div>
+
                 <div style="float: right">
-                    <i id="search-icon" class="glyphicon glyphicon-search"></i>
-                    <input id="search-input" type="text" class="form-control" aria-describedby="basic-addon1">
+                    <i id="search-icon" class="glyphicon glyphicon-search" onclick="selectDocs()" ></i>
+                    <input id="search-input" type="text" class="form-control" aria-describedby="basic-addon1" onkeyup=" if(event.keyCode===13) {selectDocs()}">>
                 </div>
             </div>
             <div class="dir-path-info" style="margin: 10px 0;">
@@ -420,51 +425,51 @@
 </html>
 <!-- 上传文件 -->
 <div id="upload-modal" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header"
-                     style="position: absolute;top: 0;left: 0;width: 100%;">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                            style="line-height: 36px;">
-                        <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
-                </div>
-                <div class="modal-body" style="margin-top: 25px;height: 300px;">
-                    <div style="height: 34px;font-size: 13px;">
-                        <div class="btn-group" style="color: white;">
-                            <button type="button" class="btn"
-                                    style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(0,91,200);height: 100%;">
-                                添加文件
-                            </button>
-                            <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false" style="font-size: 13px;background: rgb(0,91,200);height: 100%;">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
-                                <li><span>添加文件</span></li>
-                                <li><span>添加文件夹</span></li>
-                            </ul>
-                        </div>
-                        <div style="display: inline-block;">
-                            <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
-                            <span style="line-height: 32px;">我的文件</span>
-                        </div>
-                        <div style="display: inline-block;float: right;">
-                            <span style="line-height: 34px;color: rgb(0,91,200);">上传须知</span>
-                        </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header"
+                 style="position: absolute;top: 0;left: 0;width: 100%;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="line-height: 36px;">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" style="line-height: 36px;">上传文件到资料管理平台</h4>
+            </div>
+            <div class="modal-body" style="margin-top: 25px;height: 300px;">
+                <div style="height: 34px;font-size: 13px;">
+                    <div class="btn-group" style="color: white;">
+                        <button type="button" class="btn"
+                                style="padding-left: 20px;padding-right: 20px;font-size: 13px;background: rgb(0,91,200);height: 100%;">
+                            添加文件
+                        </button>
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false" style="font-size: 13px;background: rgb(0,91,200);height: 100%;">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
+                            <li><span>添加文件</span></li>
+                            <li><span>添加文件夹</span></li>
+                        </ul>
                     </div>
-                    <div style="height: 230px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;"></div>
+                    <div style="display: inline-block;">
+                        <span style="line-height: 32px;margin: 0 0 0 10px;">到：</span>
+                        <span style="line-height: 32px;">我的文件</span>
+                    </div>
+                    <div style="display: inline-block;float: right;">
+                        <span style="line-height: 34px;color: rgb(0,91,200);">上传须知</span>
+                    </div>
                 </div>
-                <div class="modal-footer" style="border: none;">
-                    <button type="button" class="btn-user"
-                            style="width: 70px;letter-spacing: 3px;">完成
-                    </button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                <div style="height: 230px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;"></div>
+            </div>
+            <div class="modal-footer" style="border: none;">
+                <button type="button" class="btn-user"
+                        style="width: 70px;letter-spacing: 3px;">完成
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <!-- 新建文件夹 -->
 <div class="modal fade" id="newFolder-modal">
     <div class="modal-dialog">
@@ -493,6 +498,25 @@
             </div>
             <div class="modal-body" style="top: 36px;">
                 <input type="text" class="form-control" id="new-name" placeholder="请输入新文件名">
+            </div>
+            <div class="modal-footer" style="margin-top: 36px;border: none;">
+                <button class="btn btn-info" data-dismiss="modal">确定</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 移动 -->
+<div class="modal fade" id="moveDocs-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="position: absolute;top: 0;left: 0;width: 100%;">
+                <h4 class="modal-title" style="line-height: 36px;display: inline-block;">移动文件</h4>
+                <button type="button" class="close" data-dismiss="modal" style="line-height: 36px;">&times;</button>
+            </div>
+            <div class="modal-body" style="top: 36px;">
+                <div id="dirTree"></div>
             </div>
             <div class="modal-footer" style="margin-top: 36px;border: none;">
                 <button class="btn btn-info" data-dismiss="modal">确定</button>
@@ -582,7 +606,11 @@
         $("#upload-modal").on('show.bs.modal', centerModals);
         $("#newFolder-modal").on('show.bs.modal', centerModals);
         $("#renameDocs-modal").on('show.bs.modal', centerModals);
-    })
+
+
+    });
+
+
 
 
 </script>

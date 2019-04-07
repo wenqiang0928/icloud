@@ -4,6 +4,7 @@ import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
 import com.tckj.icloud.service.UserService;
+import com.tckj.icloud.vo.ErrorResponse;
 import com.tckj.icloud.vo.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,7 +95,7 @@ public class DocsController {
      * 移动文件/文件夹
      * @param nowDirId      当前目录id
      * @param targetDirId   目标目录id
-     * @param targetId      要移动的文件id
+     * @param ids      要移动的文件id
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/05 9:19
@@ -103,11 +104,11 @@ public class DocsController {
     @ResponseBody
     public ResponseResult moveDocs(@RequestParam(value = "nowDirId")int nowDirId,
                                    @RequestParam(value = "targetDirId")int targetDirId,
-                                   @RequestParam(value = "targetId")int targetId){
+                                   @RequestParam(value = "ids")String ids){
         int userId = 1;
 
         User user = userService.selectById(userId);
-        return docsService.moveDocs(nowDirId,targetDirId,targetId,user);
+        return docsService.moveDocs(nowDirId,targetDirId,ids,user);
     }
 
     /**
@@ -151,6 +152,7 @@ public class DocsController {
      * @date 2019/04/05 9:58
      */
     @GetMapping(value = "findDocs")
+    @ResponseBody
     public ResponseResult findDocs(@RequestParam(value = "name")String name,
                                    @RequestParam(value = "suffix",required = false)String suffix,
                                    @RequestParam(value = "type",required = false)Integer type){
@@ -194,4 +196,33 @@ public class DocsController {
         User user = userService.selectById(userId);
         return docsService.renameDocs(nowDirId,docsId,name,user);
     }
+    /**
+     * 文件夹树
+     * @param
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/07 13:39
+     */
+    @GetMapping(value = "dirTree")
+    @ResponseBody
+    public ResponseResult dirTree(@RequestParam(value = "ids",required = false) String ids){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return docsService.dirTree(ids,user);
+    }
+    /**
+     *
+     * @param type 文件类型 1图片 2文档 3视频 4音频 5其他
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/07 23:34
+     */
+    @GetMapping(value = "getDocsByType")
+    @ResponseBody
+    public ResponseResult getDocsByType(@RequestParam(value = "type")int type){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return docsService.getDocsByType(type,user);
+    }
+
 }

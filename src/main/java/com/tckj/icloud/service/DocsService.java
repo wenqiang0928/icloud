@@ -33,13 +33,13 @@ public interface DocsService {
      * 移动文件/文件夹
      * @param nowDirId
      * @param targetDirId
-     * @param targetId
+     * @param ids
      * @param user
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/05 9:21
      */
-    ResponseResult moveDocs(int nowDirId, int targetDirId, int targetId, User user);
+    ResponseResult moveDocs(int nowDirId, int targetDirId, String ids, User user);
 
     /**
      * 查询目录中所有的文件及文件夹
@@ -95,4 +95,23 @@ public interface DocsService {
 	 * @date 2019/04/06 23:26
 	 */
     ResponseResult renameDocs(int nowDirId, int docsId, String name, User user);
+
+    /**
+     * 文件夹树
+	 * @param ids
+     * @param user
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/07 13:39
+     */
+	ResponseResult dirTree(String ids,User user);
+
+	/**
+	 * 根据文件类型查询
+	 * @param type
+	 * @return com.tckj.icloud.vo.ResponseResult
+	 * @author LiZG
+	 * @date 2019/04/07 23:36
+	 */
+	ResponseResult getDocsByType(int type,User user);
 }

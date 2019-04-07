@@ -7,8 +7,10 @@ import com.tckj.icloud.config.UploadConfig;
 import com.tckj.icloud.constant.Constants;
 import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.Docs;
+import com.tckj.icloud.pojo.SuffixManage;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
+import com.tckj.icloud.service.SuffixManageService;
 import com.tckj.icloud.utils.FileUtils;
 import com.tckj.icloud.vo.ErrorResponse;
 import com.tckj.icloud.vo.ResponseResult;
@@ -19,6 +21,8 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +33,8 @@ import static com.tckj.icloud.utils.UploadUtils.*;
 public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements DocsService {
     @Autowired
     private DocsMapper docsMapper;
+    @Autowired
+    private SuffixManageService suffixManageService;
     @Override
     public void upload(String name, Integer type,  String path, Integer pid, String md5, Integer createUserId, String caseNo, MultipartFile file) throws IOException {
         String spath= UploadConfig.path+path+file.getName();
@@ -53,8 +59,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         if (ObjectUtils.isEmpty(nowDir)){
             return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
-        String path = nowDir.getPath() + "/" + name;
-        Docs newDocs = new Docs(name,path,nowDirId,user.getId(),new Date(),null,new Date());
+        Docs newDocs = new Docs(name,"/",nowDirId,user.getId(),new Date(),null,new Date());
         try{
             docsMapper.insert(newDocs);
             return new SuccessResponse(null);
@@ -65,22 +70,30 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     }
 
     @Override
-    public ResponseResult moveDocs(int nowDirId, int targetDirId, int targetId, User user) {
+    public ResponseResult moveDocs(int nowDirId, int targetDirId, String ids, User user) {
         //TODO 权限判断：是否可移动（待完善）
 
         Docs nowDir = getDocsByIdAndNotDelete(nowDirId);
         Docs targetDir = getDocsByIdAndNotDelete(targetDirId);
-        Docs target = getDocsByIdAndNotDelete(targetId);
-        if (ObjectUtils.isEmpty(nowDir) || ObjectUtils.isEmpty(targetDir) || ObjectUtils.isEmpty(target)){
-            return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
+        if (ObjectUtils.isEmpty(nowDir) || ObjectUtils.isEmpty(targetDir)){
+            return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
-        if (target.getPid() != nowDirId){
-            return new SuccessResponse(Constants.ResultCodeConstants.FILE_WRONG_POSITION);
+
+        String[] idStrArr = ids.split(",");
+        for (String idStr : idStrArr){
+            int targetId = Integer.parseInt(idStr);
+            Docs target = getDocsByIdAndNotDelete(targetId);
+            if (ObjectUtils.isEmpty(target)){
+                return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
+            }
+            if (target.getPid() != nowDirId){
+                return new ResponseResult(Constants.ResultCodeConstants.FILE_WRONG_POSITION);
+            }
+            target.setPid(targetDirId);
+            target.setModifyTime(new Date());
+            docsMapper.updateById(target);
         }
-        target.setPid(targetDirId);
-        target.setPath(targetDir.getPath() + "/" + target.getName());
-        target.setModifyTime(new Date());
-        docsMapper.updateById(target);
+
         return new SuccessResponse(null);
     }
 
@@ -143,6 +156,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         if (type != null){
             wrapper.eq("type",type);
         }
+        wrapper.eq("create_user_id",user.getId());
         List<Docs> docsList = docsMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
     }
@@ -170,7 +184,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
                 //删除该文件夹及文件夹下所有内容
                 deleteByPid(deleteId);
             } else {
-                //文件类型错误
+                //todo 文件类型错误
             }
         }
 
@@ -191,6 +205,91 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         docsMapper.updateById(docs);
 
         return new SuccessResponse(null);
+    }
+
+    @Override
+    public ResponseResult dirTree(String ids,User user) {
+        //TODO 权限检查
+        //如果ids为空，则查所有
+        //否则，将ids剔除
+        List<String> idStrList = new ArrayList<>();
+        if (ids != null && ids.length() > 0) {
+            String[] idStrArr = ids.split(",");
+            idStrList = Arrays.asList(idStrArr);
+        }
+
+        Docs rootQueryDocs = new Docs();
+        rootQueryDocs.setPid(0);
+        rootQueryDocs.setName(user.getName());
+        rootQueryDocs.setType(1);
+        rootQueryDocs.setIsDelete(0);
+        Docs rootDir = docsMapper.selectOne(rootQueryDocs);
+
+        Map<String,Object> map = new HashMap<>(3);
+        map.put("id",rootDir.getId());
+        map.put("text","全部文件夹");
+        map.put("nodes",getSubDir(rootDir.getId(),idStrList));
+
+        List<Map<String,Object>> list = new ArrayList<>();
+        list.add(map);
+
+        return new SuccessResponse(list);
+    }
+
+    @Override
+    public ResponseResult getDocsByType(int type,User user) {
+        //todo 权限检查
+
+        String suffixStr = "";
+        if (type == 0){
+            List<SuffixManage> all = suffixManageService.selectList(new EntityWrapper<>());
+            for (SuffixManage suffixManage:all){
+                suffixStr += suffixManage.getName() + ",";
+            }
+            System.out.println(suffixStr);
+            suffixStr = suffixStr.substring(0,suffixStr.length() - 1);
+        } else {
+            List<String> suffixList = suffixManageService.selectNames(type);
+            for (String suffix : suffixList){
+                suffixStr += suffix + ",";
+            }
+            suffixStr = suffixStr.substring(0,suffixStr.length() - 1);
+
+
+        }
+        Wrapper<Docs> wrapper = new EntityWrapper<>();
+        wrapper.eq("is_delete",0);
+        if (type == 0) {
+            wrapper.notIn("suffix",suffixStr);
+        }else {
+            wrapper.in("suffix", suffixStr);
+        }
+        wrapper.eq("create_user_id",user.getId());
+        List<Docs> docsList = docsMapper.selectList(wrapper);
+
+        return new SuccessResponse(docsList);
+    }
+
+    private List<Map<String,Object>> getSubDir(int dirId,List<String> idStrList){
+        List<Map<String,Object>> resultList = new ArrayList<>();
+        Wrapper<Docs> wrapper = new EntityWrapper<>();
+        wrapper.eq("pid",dirId);
+        wrapper.eq("type",1);
+        wrapper.eq("is_delete",0);
+        List<Docs> docsList = docsMapper.selectList(wrapper);
+        if (docsList != null && docsList.size() > 0){
+            for (Docs docs:docsList){
+                if (idStrList.contains(docs.getId().toString())){
+                    continue;
+                }
+                Map<String,Object> nodeMap = new HashMap<>(3);
+                nodeMap.put("id",docs.getId());
+                nodeMap.put("text",docs.getName());
+                nodeMap.put("nodes",getSubDir(docs.getId(),idStrList));
+                resultList.add(nodeMap);
+            }
+        }
+        return resultList;
     }
 
     /**

@@ -1,5 +1,8 @@
 var dirPathArr = [];
 var pathNameArr = [];
+//移动时，用户选中的节点id
+var nowSelectedNodeId = 0;
+
 
 $(document).ready(function () {
     $('#addFile').bind("click", addFile);
@@ -7,11 +10,47 @@ $(document).ready(function () {
     $('.file-table-title input').bind("change", selectAndUnselectAll);
     $('body').bind("click", hidePopMenu);
     $('#delete-file-button').bind("click", deleteDocs);
+    $('#move-file-button').bind("click", moveDocs);
     $('#renameDocs-modal .modal-footer .btn-info').bind("click", renameDocs);
-
+    $('#moveDocs-modal .modal-footer .btn-info').bind("click", moveDocsConfirm);
 
     showUserDiv();
 });
+//获取treeview数据
+function getTree(ids) {
+    var tree = [];
+    var url = Config.baseUrl + "/docs/dirTree?ids=" + ids;
+    $.ajax({
+        url: url,
+        type: "get",
+        contentType: "application/json",
+        timeout: 30000, //超时时间：30秒
+        async: false,//false-同步（当这个ajax执行完后才会继续执行其他代码）；异步-与其他代码互不影响，一起运行。
+        dataType: "json",
+        success: function (res) {
+            // console.log(data);
+            tree = res.data;
+        }, error: function (data) {
+            console.log(data);
+        }
+    });
+    return tree;
+}
+//获取选中的文件id
+function getSelectedDocsIds() {
+    var selectedDocsArr = $("input[type='checkbox']:checked");
+    var ids = "";
+    if (selectedDocsArr.length > 0) {
+        for (var i = 0; i < selectedDocsArr.length; i++) {
+            var id = selectedDocsArr[i].value;
+            if (id.length > 0) {
+                ids += selectedDocsArr[i].value + ",";
+            }
+        }
+    }
+    ids = ids.substring(0, ids.length - 1);
+    return ids;
+}
 
 //监听页面复选框
 function checkboxChanged() {
@@ -54,7 +93,6 @@ function deleteDocs() {
                 }
             }
         }
-        console.log(selectedDocsArr);
         ids = ids.substring(0, ids.length - 1);
 
         $.ajax({
@@ -98,6 +136,87 @@ function renameDocs() {
             }
         }
     });
+}
+
+//移动
+function moveDocs() {
+    //模态框加载数据
+    var ids = getSelectedDocsIds();
+    var data = getTree(ids);
+    console.log(data);
+    $('#dirTree').treeview({
+        data: data,//节点数据
+        expanded: false,//初始是否展开
+        icon: "glyphicon glyphicon-file",
+        levels: 2,//初始显示层数
+        // icon: "glyphicon glyphicon-stop",
+        // selectedIcon: "glyphicon glyphicon-stop",
+        color: "#000000",
+        backColor: "#FFFFFF",
+        onNodeSelected: function (event, data) {
+            nowSelectedNodeId = data.id;
+            // console.log("you are choose me now :" + data.id);
+            // openFile(data.id);
+        }
+    });
+    //显示模态框
+    $('#moveDocs-modal').modal();
+}
+//移动文件时，确认移动触发
+function moveDocsConfirm() {
+    console.log("ok");
+    var ids = getSelectedDocsIds();
+    var url = Config.baseUrl + "/docs/moveDocs";
+    var params = {
+        "ids": ids,
+        "nowDirId": dirPathArr[dirPathArr.length - 1],
+        "targetDirId": nowSelectedNodeId
+    };
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: params,
+        dataType: "json",
+        success: function (result) {
+            if (result.code === 200) {
+                freshFileList(dirPathArr[dirPathArr.length - 1]);
+            }
+        }
+    });
+}
+//根据类型查询文件
+function getDocsByType(num) {
+    var url = Config.baseUrl + "/docs/getDocsByType?type=" + num;
+    $.ajax({
+        url: url,
+        type: "get",
+        dataType: "json",
+        success: function (result) {
+            if (result.code === 200) {
+                fillUpTable(result.data);
+            }
+        }
+    });
+}
+//搜索文件
+function selectDocs() {
+    var str = $("#search-input").val();
+    if (str === '') {
+
+    } else {
+        var url = Config.baseUrl + "/docs/findDocs?name=" + str;
+        $.ajax({
+            url: url,
+            type: "get",
+            dataType: "json",
+            success: function (result) {
+                if (result.code === 200) {
+                    fillUpTable(result.data);
+                }
+            }
+        });
+    }
 }
 
 function hidePopMenu() {
@@ -236,14 +355,14 @@ function fillUpTable(docsList) {
         onItem: function () {
             // execute on menu item selection
         },
-        bindings:{
-            "move":function (t) {
+        bindings: {
+            "move": function (t) {
                 console.log("move:" + t)
             },
-            "rename":function (t) {
+            "rename": function (t) {
                 console.log("rename:" + t)
             },
-            "delete":function (t) {
+            "delete": function (t) {
                 console.log("delete:" + t)
             }
         }

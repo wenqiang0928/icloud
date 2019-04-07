@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tckj.icloud.mapper.SuffixManageMapper">
+
+
+    <select id="selectNames" resultType="java.lang.String">
+        SELECT NAME FROM `suffix_manage` WHERE TYPE = #{value}
+    </select>
+</mapper>
