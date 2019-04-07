@@ -18,6 +18,9 @@
     <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
     <link rel="stylesheet" type="text/css" href="/css/filemm.css">
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+    <link rel="stylesheet" href="../css/webuploader/webuploader.css">
+    <script src="../js/webuploader/webuploader.js"></script>
+
 </head>
 <body>
 <div id="topPanel" class="yp-header" style="z-index: 99;">
@@ -448,7 +451,7 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" style="font-size: 13px;min-width: 120px;padding: 0;">
-                            <li><span>添加文件</span></li>
+                            <div id="picker"><span>选择文件</span></div>
                             <li><span>添加文件夹</span></li>
                         </ul>
                     </div>
@@ -460,10 +463,10 @@
                         <span style="line-height: 34px;color: rgb(0,91,200);">上传须知</span>
                     </div>
                 </div>
-                <div style="height: 230px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;"></div>
+                <div  id="thelist" class="uploader-list" style="height: 230px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;"></div>
             </div>
             <div class="modal-footer" style="border: none;">
-                <button type="button" class="btn-user"
+                <button type="button" id="ctlBtn" class="btn btn-default"
                         style="width: 70px;letter-spacing: 3px;">完成
                 </button>
             </div>
@@ -610,7 +613,61 @@
 
     });
 
+var $list=$("#thelist");
+    var uploader = WebUploader.create({
 
+        // swf文件路径
+        swf: Config.baseUrl + '/js/Uploader.swf',
 
+        // 文件接收服务端。
+        server: 'http://webuploader.duapp.com/server/fileupload.php',
 
+        // 选择文件的按钮。可选。
+        // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+        pick: '#picker',
+
+        // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+        resize: false
+    });
+    // 当有文件被添加进队列的时候
+    uploader.on( 'fileQueued', function( file ) {
+        $list.append( '<div id="' + file.id + '" class="item">' +
+            '<h4 class="info">' + file.name + '</h4>' +
+            '<p class="state">等待上传...</p>' +
+            '</div>' );
+    });
+
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $li = $( '#'+file.id ),
+            $percent = $li.find('.progress .progress-bar');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<div class="progress progress-striped active">' +
+                '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                '</div>' +
+                '</div>').appendTo( $li ).find('.progress-bar');
+        }
+
+        $li.find('p.state').text('上传中');
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+    uploader.on( 'uploadSuccess', function( file ) {
+        $( '#'+file.id ).find('p.state').text('已上传');
+    });
+
+    uploader.on( 'uploadError', function( file ) {
+        $( '#'+file.id ).find('p.state').text('上传出错');
+    });
+
+    uploader.on( 'uploadComplete', function( file ) {
+        $( '#'+file.id ).find('.progress').fadeOut();
+    });
+
+    //点击上传按钮触发事件
+    $("#ctlBtn").click(function(){
+        console.log("4567");
+        uploader.upload();
+    });
 </script>
