@@ -1,5 +1,6 @@
 package com.tckj.icloud.controller;
 
+import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
 import com.tckj.icloud.service.UserService;
@@ -79,7 +80,7 @@ public class DocsController {
      * @author LiZG
      * @date 2019/04/05 9:08
      */
-    @GetMapping(value = "addDir")
+    @PostMapping(value = "addDir")
     @ResponseBody
     public ResponseResult addDir(@RequestParam(value = "nowDirId") int nowDirId,
                                  @RequestParam(value = "addDirName")String name){
@@ -159,19 +160,38 @@ public class DocsController {
     }
 
     /**
-     * 删除文件/文件夹
+     * 批量删除文件/文件夹
      * @param nowDirId
-     * @param deleteId
+     * @param ids
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/06 8:16
      */
-    @GetMapping(value = "deleteDocs")
+    @DeleteMapping(value = "deleteDocs")
     @ResponseBody
     public ResponseResult deleteDocs(@RequestParam(value = "nowDirId")int nowDirId,
-                                 @RequestParam(value = "deleteId")int deleteId){
+                                 @RequestParam(value = "ids")String ids){
         int userId = 1;
         User user = userService.selectById(userId);
-        return docsService.deleteDocs(nowDirId,deleteId,user);
+        return docsService.deleteDocs(nowDirId,ids,user);
+    }
+
+    /**
+     * 重命名
+     * @param nowDirId
+     * @param docsId
+     * @param name
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/06 22:48
+     */
+    @PostMapping(value = "renameDocs")
+    @ResponseBody
+    public ResponseResult renameDocs(@RequestParam(value = "nowDirId")int nowDirId,
+                                 @RequestParam(value = "docsId")int docsId,
+                                 @RequestParam(value = "name")String name){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return docsService.renameDocs(nowDirId,docsId,name,user);
     }
 }

@@ -74,13 +74,25 @@ public interface DocsService {
     ResponseResult findDocs(String name, String suffix, Integer type, User user);
 
     /** 
-     * 
+     * 删除文件/文件夹
      * @param nowDirId
-     * @param deleteId
+     * @param ids
      * @param user
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/06 8:16
      */
-	ResponseResult deleteDocs(int nowDirId, int deleteId, User user);
+	ResponseResult deleteDocs(int nowDirId, String ids, User user);
+
+	/**
+	 * 重命名
+	 * @param nowDirId
+	 * @param docsId
+	 * @param name
+	 * @param user
+	 * @return com.tckj.icloud.vo.ResponseResult
+	 * @author LiZG
+	 * @date 2019/04/06 23:26
+	 */
+    ResponseResult renameDocs(int nowDirId, int docsId, String name, User user);
 }

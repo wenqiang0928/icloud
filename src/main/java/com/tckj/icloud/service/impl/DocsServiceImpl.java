@@ -148,27 +148,47 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     }
 
     @Override
-    public ResponseResult deleteDocs(int nowDirId, int deleteId, User user) {
+    public ResponseResult deleteDocs(int nowDirId, String ids, User user) {
         //TODO 权限检查
 
+        String[] idStringArr = ids.split(",");
         //先查出要删除的文件对象，如果为文件，直接删除；如果为文件夹，递归删除子文件夹及其中的所有文件
         //删除所有的文佳和文件夹
-        Docs deleteDocs = getDocsByIdAndNotDelete(deleteId);
+        for (String idStr:idStringArr){
+            int deleteId = Integer.parseInt(idStr);
+            Docs deleteDocs = getDocsByIdAndNotDelete(deleteId);
 
-        if (ObjectUtils.isEmpty(deleteDocs)){
+            if (ObjectUtils.isEmpty(deleteDocs)){
+                return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
+            }
+
+            if (deleteDocs.getType() == 2){
+                //文件直接删除
+                docsMapper.deleteLogicById(deleteId);
+                //TODO 服务器删除文件实体
+            } else if (deleteDocs.getType() == 1) {
+                //删除该文件夹及文件夹下所有内容
+                deleteByPid(deleteId);
+            } else {
+                //文件类型错误
+            }
+        }
+
+
+        return new SuccessResponse(null);
+    }
+
+    @Override
+    public ResponseResult renameDocs(int nowDirId, int docsId, String name, User user) {
+        //TODO 权限检查
+
+        Docs docs = getDocsByIdAndNotDelete(docsId);
+        if (ObjectUtils.isEmpty(docs)){
             return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
-
-        if (deleteDocs.getType() == 2){
-            //文件直接删除
-            docsMapper.deleteLogicById(deleteId);
-            //TODO 服务器删除文件实体
-        } else if (deleteDocs.getType() == 1) {
-            //删除该文件夹及文件夹下所有内容
-            deleteByPid(deleteId);
-        } else {
-            //文件类型错误
-        }
+        docs.setName(name);
+        docs.setModifyTime(new Date());
+        docsMapper.updateById(docs);
 
         return new SuccessResponse(null);
     }

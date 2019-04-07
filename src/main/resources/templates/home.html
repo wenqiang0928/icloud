@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
     <link rel="stylesheet" type="text/css" href="/css/fileManage.css">
     <link rel="stylesheet" type="text/css" href="/css/filemm.css">
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
 </head>
 <body>
     <div id="topPanel" class="yp-header" style="z-index: 99;">
@@ -129,28 +130,27 @@
                             <i class="glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i>新建文件夹
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="delete-div" style="display: none;">
                         <a id="delete-file-button"
-                           data-toggle="modal" data-target="#delFolder-modal"
-                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                             <i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="rename-div" style="display: none;">
                         <a id="rename-file-button"
-                           data-toggle="modal" data-target="#delFolder-modal"
-                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           data-toggle="modal" data-target="#renameDocs-modal"
+                           data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                            重命名
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch">
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="move-div" style="display: none;">
                         <a id="move-file-button"
                            data-toggle="modal" data-target="#delFolder-modal"
-                           data-v-fccf5e72="" href="#/fileManage/delFile"
+                           data-v-fccf5e72=""
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                            移动到
@@ -168,7 +168,7 @@
             <div data-v-fccf5e72="" class="table-wrap" style="display: none;">
                 <div class="file-table" style="height: 602px;">
                     <ul class="file-table-title" style="font-weight: 700;">
-                        <li class="column-1"><input type="checkbox"></li>
+                        <li class="column-1"><input type="checkbox" value="" onchange="checkboxChanged();"></li>
                         <li class="column-2">文件名</li>
                         <li class="column-3">大小</li>
                         <li class="column-4">修改日期</li>
@@ -483,6 +483,24 @@
         </div>
     </div>
 </div>
+<!-- 重命名 -->
+<div class="modal fade" id="renameDocs-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="position: absolute;top: 0;left: 0;width: 100%;">
+                <h4 class="modal-title" style="line-height: 36px;display: inline-block;">重命名</h4>
+                <button type="button" class="close" data-dismiss="modal" style="line-height: 36px;">&times;</button>
+            </div>
+            <div class="modal-body" style="top: 36px;">
+                <input type="text" class="form-control" id="new-name" placeholder="请输入新文件名">
+            </div>
+            <div class="modal-footer" style="margin-top: 36px;border: none;">
+                <button class="btn btn-info" data-dismiss="modal">确定</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 添加用户 -->
 <div class="modal fade" id="addUserModel">
     <div class="modal-dialog">
@@ -549,11 +567,12 @@
     </div>
 </div>
 
+
 <div id="context-menu" style="display: none;">
     <ul>
-        <li>移动到</li>
-        <li>重命名</li>
-        <li>删除</li>
+        <li id="move">移动到</li>
+        <li id="rename">重命名</li>
+        <li id="delete">删除</li>
     </ul>
 </div>
 
@@ -562,5 +581,8 @@
         initTable();
         $("#upload-modal").on('show.bs.modal', centerModals);
         $("#newFolder-modal").on('show.bs.modal', centerModals);
+        $("#renameDocs-modal").on('show.bs.modal', centerModals);
     })
+
+
 </script>
