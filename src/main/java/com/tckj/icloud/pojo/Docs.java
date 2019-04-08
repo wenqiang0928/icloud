@@ -22,7 +22,7 @@ public class Docs implements Serializable {
     /**
      * 文件大小
      */
-    private Long size;
+    private String size;
     /**
      * 文件类型 格式后缀
      */
@@ -58,6 +58,10 @@ public class Docs implements Serializable {
      */
     private String caseNo;
     /**
+     * 案件详情
+     */
+    private String caseDesc;
+    /**
      * 修改时间
      */
     private Date modifyTime;
@@ -86,11 +90,11 @@ public class Docs implements Serializable {
         this.type = type;
     }
 
-    public Long getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -168,7 +172,7 @@ public class Docs implements Serializable {
 
     public Docs(){}
 
-    public Docs(String name, Integer type, Long size, String suffix, String md5CheckSum, String path, Integer pid, Integer createUserId, Date createTime, Integer isDelete, String caseNo) {
+    public Docs(String name, Integer type, String size, String suffix, String md5CheckSum, String path, Integer pid, Integer createUserId,  String caseNo, String caseDesc) {
         this.name = name;
         this.type = type;
         this.size = size;
@@ -177,9 +181,11 @@ public class Docs implements Serializable {
         this.path = path;
         this.pid = pid;
         this.createUserId = createUserId;
-        this.createTime = createTime;
-        this.isDelete = isDelete;
+        this.createTime = new Date();
+        this.isDelete = 0;
         this.caseNo = caseNo;
+        this.caseDesc = caseDesc;
+        this.modifyTime = new Date();
     }
     /**
      * 目录

@@ -10,6 +10,7 @@ import com.tckj.icloud.vo.SuccessResponse;
 import com.tckj.icloud.vo.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,14 +40,15 @@ public class UserController {
         User userDb = userService.existUser(user);
         if (userDb != null) {
             session.setAttribute("userName", user.getName());
-            UserRole ur = userRoleService.getUserRoleByUserId(userDb.getId());
-            Role role = roleService.getRole(ur.getRoleId());
+//            UserRole ur = userRoleService.getUserRoleByUserId(userDb.getId());
+            Role role = roleService.getRole(userDb.getRoleId());
             if (role != null) {
                 session.setAttribute("userRole", role.getName());
             } else {
                 session.setAttribute("userRole", "public");
             }
-             return new SuccessResponse(true);
+            session.setAttribute("user", userDb);
+            return new SuccessResponse(true);
         } else {
             return new SuccessResponse(false);
         }
@@ -58,8 +60,9 @@ public class UserController {
      * @return
      */
     @GetMapping("home")
-    public String home(ModelAndView modelAndView) {
-        modelAndView.addObject("userList",userService.getAllUsers());
+    public String home(Model modelAndView, HttpSession session) {
+        modelAndView.addAttribute("userList", userService.getAllUsers());
+        modelAndView.addAttribute("userId", userService.getAllUsers());
         return "home";
     }
 
@@ -87,7 +90,7 @@ public class UserController {
 
     @PostMapping("userAdd")
     @ResponseBody
-    public Object userAdd(String name, String password, String alarm,Integer roleId) {
+    public Object userAdd(String name, String password, String alarm, Integer roleId) {
         User user = new User();
         user.setName(name);
         user.setPassword(password);
@@ -99,6 +102,7 @@ public class UserController {
         }
         return new SuccessResponse("用户已经存在");
     }
+
     @PostMapping("delUser")
     @ResponseBody
     public Object delUser(User user) {

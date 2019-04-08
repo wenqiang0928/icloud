@@ -40,4 +40,9 @@ public class ResponseResult {
         this.code = constants.getCode();
         this.message = constants.getMsg();
     }
+    public ResponseResult(Constants.ResultCodeConstants constants,Object data){
+        this.code = constants.getCode();
+        this.message = constants.getMsg();
+        this.data=data;
+    }
 }

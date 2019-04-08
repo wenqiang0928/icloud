@@ -1,18 +1,32 @@
 package com.tckj.icloud.controller;
 
+import com.tckj.icloud.constant.Constants;
 import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
+import com.tckj.icloud.service.StorageService;
 import com.tckj.icloud.service.UserService;
 import com.tckj.icloud.vo.ErrorResponse;
+import com.tckj.icloud.vo.MultipartFileParam;
 import com.tckj.icloud.vo.ResponseResult;
+import com.tckj.icloud.vo.SuccessResponse;
+import org.apache.commons.io.FileUtils;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequestMapping("docs")
@@ -22,19 +36,21 @@ public class DocsController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/upload")
-    public void upload(String name, Integer type, String path, Integer pid,
-                       String md5,
-                       Long size,
-                       Integer chunks,
-                       Integer chunk, Integer uploadUserId, String caseNo,
-                       MultipartFile file) throws IOException {
-        if (chunks != null && chunks != 0) {
-            docsService.uploadWithBlock(name, type, path, pid, md5, size, chunks, chunk, uploadUserId, caseNo, file);
-        } else {
-            docsService.upload(name, type, path, pid, md5, uploadUserId, caseNo, file);
-        }
-    }
+    private static Logger logger= LoggerFactory.getLogger(DocsController.class);
+
+//    @PostMapping("/upload")
+//    public void upload(String name, Integer type, String path, Integer pid,
+//                       String md5,
+//                       Long size,
+//                       Integer chunks,
+//                       Integer chunk, Integer uploadUserId, String caseNo,
+//                       MultipartFile file) throws IOException {
+//        if (chunks != null && chunks != 0) {
+//            docsService.uploadWithBlock(name, type, path, pid, md5, size, chunks, chunk, uploadUserId, caseNo, file);
+//        } else {
+//            docsService.upload(name, type, path, pid, md5, uploadUserId, caseNo, file);
+//        }
+//    }
 
     /**
      * 下载文件
@@ -84,10 +100,8 @@ public class DocsController {
     @PostMapping(value = "addDir")
     @ResponseBody
     public ResponseResult addDir(@RequestParam(value = "nowDirId") int nowDirId,
-                                 @RequestParam(value = "addDirName")String name){
-        int userId = 1;
-
-        User user = userService.selectById(userId);
+                                 @RequestParam(value = "addDirName")String name,HttpSession session){
+        User user=(User) session.getAttribute("user");
         return docsService.addDir(nowDirId,name,user);
     }
 
@@ -104,10 +118,8 @@ public class DocsController {
     @ResponseBody
     public ResponseResult moveDocs(@RequestParam(value = "nowDirId")int nowDirId,
                                    @RequestParam(value = "targetDirId")int targetDirId,
-                                   @RequestParam(value = "ids")String ids){
-        int userId = 1;
-
-        User user = userService.selectById(userId);
+                                   @RequestParam(value = "ids")String ids,HttpSession session){
+        User user=(User) session.getAttribute("user");
         return docsService.moveDocs(nowDirId,targetDirId,ids,user);
     }
 
@@ -120,10 +132,11 @@ public class DocsController {
      */
     @GetMapping(value = "getAllDocsByPid")
     @ResponseBody
-    public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId")int dirId){
-        int userId = 1;
-
-        User user = userService.selectById(userId);
+    public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId")int dirId,HttpSession session){
+//        int userId = 1;
+////
+////        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.getAllDocsByPid(dirId,user);
     }
     /**
@@ -135,10 +148,11 @@ public class DocsController {
      */
     @GetMapping(value = "getDetail")
     @ResponseBody
-    public ResponseResult getDetail(@RequestParam(value = "id")int id){
-        int userId = 1;
-
-        User user = userService.selectById(userId);
+    public ResponseResult getDetail(@RequestParam(value = "id")int id,HttpSession session){
+//        int userId = 1;
+//
+//        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.getDetail(id,user);
     }
 
@@ -155,9 +169,10 @@ public class DocsController {
     @ResponseBody
     public ResponseResult findDocs(@RequestParam(value = "name")String name,
                                    @RequestParam(value = "suffix",required = false)String suffix,
-                                   @RequestParam(value = "type",required = false)Integer type){
-        int userId = 1;
-        User user = userService.selectById(userId);
+                                   @RequestParam(value = "type",required = false)Integer type,HttpSession session){
+//        int userId = 1;
+//        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.findDocs(name,suffix,type,user);
     }
 
@@ -172,9 +187,10 @@ public class DocsController {
     @DeleteMapping(value = "deleteDocs")
     @ResponseBody
     public ResponseResult deleteDocs(@RequestParam(value = "nowDirId")int nowDirId,
-                                 @RequestParam(value = "ids")String ids){
-        int userId = 1;
-        User user = userService.selectById(userId);
+                                 @RequestParam(value = "ids")String ids,HttpSession session){
+//        int userId = 1;
+//        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.deleteDocs(nowDirId,ids,user);
     }
 
@@ -191,9 +207,10 @@ public class DocsController {
     @ResponseBody
     public ResponseResult renameDocs(@RequestParam(value = "nowDirId")int nowDirId,
                                  @RequestParam(value = "docsId")int docsId,
-                                 @RequestParam(value = "name")String name){
-        int userId = 1;
-        User user = userService.selectById(userId);
+                                 @RequestParam(value = "name")String name,HttpSession session){
+//        int userId = 1;
+//        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.renameDocs(nowDirId,docsId,name,user);
     }
     /**
@@ -205,9 +222,10 @@ public class DocsController {
      */
     @GetMapping(value = "dirTree")
     @ResponseBody
-    public ResponseResult dirTree(@RequestParam(value = "ids",required = false) String ids){
-        int userId = 1;
-        User user = userService.selectById(userId);
+    public ResponseResult dirTree(@RequestParam(value = "ids",required = false) String ids,HttpSession session){
+//        int userId = 1;
+//        User user = userService.selectById(userId);
+        User user=(User) session.getAttribute("user");
         return docsService.dirTree(ids,user);
     }
     /**
@@ -219,10 +237,79 @@ public class DocsController {
      */
     @GetMapping(value = "getDocsByType")
     @ResponseBody
-    public ResponseResult getDocsByType(@RequestParam(value = "type")int type){
-        int userId = 1;
-        User user = userService.selectById(userId);
+    public ResponseResult getDocsByType(@RequestParam(value = "type")int type,HttpSession session){
+        User user=(User) session.getAttribute("user");
+//        User user = userService.selectById(userId);
         return docsService.getDocsByType(type,user);
     }
+
+
+    //================================================================================================================
+
+
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+    /**
+     * 秒传判断，断点判断
+     *
+     * @return
+     */
+    @RequestMapping(value = "checkFileMd5", method = RequestMethod.POST)
+    @ResponseBody
+    public Object checkFileMd5(String md5) throws IOException {
+        Object processingObj = stringRedisTemplate.opsForHash().get(Constants.FILE_UPLOAD_STATUS, md5);
+        if (processingObj == null) {
+            return new ResponseResult(Constants.ResultCodeConstants.NO_HAVE);
+        }
+        String processingStr = processingObj.toString();
+        boolean processing = Boolean.parseBoolean(processingStr);
+        String value = stringRedisTemplate.opsForValue().get(Constants.FILE_MD5_KEY + md5);
+        if (processing) {
+            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE,value);
+        } else {
+            File confFile = new File(value);
+            byte[] completeList = FileUtils.readFileToByteArray(confFile);
+            List<String> missChunkList = new LinkedList<>();
+            for (int i = 0; i < completeList.length; i++) {
+                if (completeList[i] != Byte.MAX_VALUE) {
+                    missChunkList.add(i + "");
+                }
+            }
+            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE,missChunkList);
+        }
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param param
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Object fileUpload(MultipartFileParam param, HttpServletRequest request) {
+        User user=(User) request.getSession().getAttribute("user");
+        param.setUser(user);
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        if (isMultipart) {
+            logger.info("上传文件start。");
+            try {
+                // 方法1
+                //storageService.uploadFileRandomAccessFile(param);
+                // 方法2 这个更快点
+                storageService.uploadFileByMappedByteBuffer(param);
+            } catch (IOException e) {
+                e.printStackTrace();
+                logger.error("文件上传失败。{}", param.toString());
+            }
+            logger.info("上传文件end。");
+        }
+        return new SuccessResponse("上传成功");
+    }
+
 
 }

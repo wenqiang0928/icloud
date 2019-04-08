@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     showUserDiv();
 });
+
 //获取treeview数据
 function getTree(ids) {
     var tree = [];
@@ -36,6 +37,7 @@ function getTree(ids) {
     });
     return tree;
 }
+
 //获取选中的文件id
 function getSelectedDocsIds() {
     var selectedDocsArr = $("input[type='checkbox']:checked");
@@ -162,6 +164,7 @@ function moveDocs() {
     //显示模态框
     $('#moveDocs-modal').modal();
 }
+
 //移动文件时，确认移动触发
 function moveDocsConfirm() {
     console.log("ok");
@@ -185,6 +188,7 @@ function moveDocsConfirm() {
         }
     });
 }
+
 //根据类型查询文件
 function getDocsByType(num) {
     var url = Config.baseUrl + "/docs/getDocsByType?type=" + num;
@@ -199,6 +203,7 @@ function getDocsByType(num) {
         }
     });
 }
+
 //搜索文件
 function selectDocs() {
     var str = $("#search-input").val();
@@ -382,6 +387,7 @@ function initTable() {
     $.get(url, params, function (result) {
         if (result.code === 200) {
             freshFileList(result.data.nowDir.id);
+
         }
     });
 }
