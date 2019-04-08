@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : iflytekQ
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
  Source Server Version : 50723
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 08/04/2019 18:00:45
+ Date: 08/04/2019 22:22:50
 */
 
 SET NAMES utf8mb4;
@@ -37,14 +37,14 @@ CREATE TABLE `docs`  (
   `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
   `case_desc` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '案件详情',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of docs
 -- ----------------------------
 INSERT INTO `docs` VALUES (1, 'admin', 1, '0', NULL, NULL, '/admin', 0, 1, '2019-04-06 03:10:00', 0, NULL, NULL, NULL);
 INSERT INTO `docs` VALUES (2, '1', 1, '0', NULL, NULL, '/admin/1', 1, 1, '2019-04-06 03:10:00', 1, NULL, NULL, NULL);
-INSERT INTO `docs` VALUES (3, '2', 1, '0', NULL, NULL, '/admin/2', 1, 1, '2019-04-06 03:10:03', 0, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (3, '2', 1, '0', NULL, NULL, '/admin/2', 1, 1, '2019-04-06 03:10:03', 1, NULL, NULL, NULL);
 INSERT INTO `docs` VALUES (4, '3', 1, '0', NULL, NULL, '/admin/3', 1, 1, '2019-04-06 03:10:05', 0, NULL, NULL, NULL);
 INSERT INTO `docs` VALUES (5, '1', 1, '0', NULL, NULL, '/admin/1/1', 2, 1, '2019-04-06 03:10:20', 1, NULL, NULL, NULL);
 INSERT INTO `docs` VALUES (6, '2', 1, '0', NULL, NULL, '/admin/1/2', 2, 1, '2019-04-06 03:10:23', 1, NULL, NULL, NULL);
@@ -54,10 +54,11 @@ INSERT INTO `docs` VALUES (9, 'a', 1, '0', NULL, NULL, '/admin/1/1/a', 5, 1, '20
 INSERT INTO `docs` VALUES (41, '对对对', 1, '0', NULL, NULL, '/admin/3/对对对', 4, 1, '2019-04-08 07:52:45', 0, NULL, '2019-04-08 07:52:45', NULL);
 INSERT INTO `docs` VALUES (42, 'log-info-2018-12-19.0.log', 2, '211638', 'log', 'cc40e8f733609491cdf81f51710fb0df', '/admin/3/对对对/log-info-2018-12-19.0.log', 41, 1, '2019-04-08 07:52:59', 0, NULL, '2019-04-08 07:52:59', NULL);
 INSERT INTO `docs` VALUES (43, 'log-info-2018-12-05.0.log', 2, '17.6 KB', 'log', '32f99a6d4931c194a84e4c1c12f4c54b', '/admin/3/对对对/log-info-2018-12-05.0.log', 41, 1, '2019-04-08 08:02:16', 0, NULL, '2019-04-08 08:02:16', NULL);
-INSERT INTO `docs` VALUES (44, 'log-info-2018-12-04.0.log', 2, '107 KB', 'log', '05f9103a0143bed051aaea60cf7af896', '/admin/3/对对对/log-info-2018-12-04.0.log', 41, 1, '2019-04-08 08:03:43', 0, '333', '2019-04-08 08:03:43', '4454');
+INSERT INTO `docs` VALUES (44, 'log-info-2018-12-04.0.log', 2, '107 KB', 'log', '05f9103a0143bed051aaea60cf7af896', '/admin/3/对对对/log-info-2018-12-04.0.log', 41, 1, '2019-04-08 08:03:43', 1, '333', '2019-04-08 08:03:43', '4454');
 INSERT INTO `docs` VALUES (45, 'test', 1, '0', NULL, NULL, '/test', 0, 5, '2019-04-08 08:36:05', 0, NULL, '2019-04-08 08:36:05', NULL);
 INSERT INTO `docs` VALUES (46, 'test', 1, '0', NULL, NULL, '/test/test', 45, 5, '2019-04-08 08:36:11', 0, NULL, '2019-04-08 08:36:11', NULL);
 INSERT INTO `docs` VALUES (47, 'log-warn-2018-12-19.0.log', 2, '127 B', 'log', '072fbff73780aa54542c1659639bf8b7', '/test/test/log-warn-2018-12-19.0.log', 46, 5, '2019-04-08 08:51:17', 0, NULL, '2019-04-08 08:51:17', NULL);
+INSERT INTO `docs` VALUES (48, 'P001.jpg', 2, '597 KB', 'jpg', '62519e9afcca4a8a7d31b376d4501a34', '/admin/P001.jpg', 1, 1, '2019-04-08 12:55:19', 0, NULL, '2019-04-08 12:55:19', NULL);
 
 -- ----------------------------
 -- Table structure for file
@@ -114,24 +115,6 @@ CREATE TABLE `rule`  (
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
-
-insert  into `rule`(`id`,`name`) values (1,'all'),(2,'private');
-
-/*Table structure for table `suffix_manage` */
-
-DROP TABLE IF EXISTS `suffix_manage`;
-
-CREATE TABLE `suffix_manage` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(10) DEFAULT NULL COMMENT '扩展名',
-  `type` int(11) DEFAULT NULL COMMENT '类型 1图片 2文档 3视频 4音频 0其他',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_unique` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
-
-/*Data for the table `suffix_manage` */
-
-insert  into `suffix_manage`(`id`,`name`,`type`) values (1,'.bmp',1),(2,'.jpg',1),(3,'.jpeg',1),(4,'.png',1),(5,'.gif',1),(6,'.doc',2),(7,'.docs',2),(8,'.xls',2),(9,'.xlsx',2),(10,'.ppt',2),(11,'.pptx',2),(12,'.txt',2),(13,'.avi',3),(14,'.mpg',3),(15,'.mlv',3),(16,'.mpe',3),(17,'.mov',3),(18,'.qt',3),(19,'.asf',3),(20,'.rm',3),(21,'.mp4',3),(22,'.rmvb',3),(23,'.mp3',4),(24,'.wav',4),(25,'.wma',4),(26,'.mid',4),(27,'.m4a',4);
 
 -- ----------------------------
 -- Records of rule
