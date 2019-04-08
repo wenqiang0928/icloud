@@ -11,6 +11,17 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/icloud?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useSSL=true
     username: root
     password: 123456
+  redis:
+    host: 127.0.0.1
+    port: 6379
+#    password: 123456
+  servlet:
+    multipart:
+      max-file-size: 5GB
+      max-request-size: 10MB
+
+
+
 #
 #mybatis:
 #  typeAliasesPackage: com.tckj.icloud.pojo
@@ -48,3 +59,9 @@ mybatis-plus:
 
 upload:
   path: ./upload/
+
+breakpoint:
+  upload:
+    dir: E:/data0/uploads/
+    #1024*1024=1 048 576,5M=5 242 880
+    chunkSize: 5 242 880

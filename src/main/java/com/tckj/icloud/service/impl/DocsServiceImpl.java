@@ -3,7 +3,7 @@ package com.tckj.icloud.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.tckj.icloud.config.UploadConfig;
+//import com.tckj.icloud.config.UploadConfig;
 import com.tckj.icloud.constant.Constants;
 import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.Docs;
@@ -11,10 +11,10 @@ import com.tckj.icloud.pojo.SuffixManage;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.DocsService;
 import com.tckj.icloud.service.SuffixManageService;
-import com.tckj.icloud.utils.FileUtils;
 import com.tckj.icloud.vo.ErrorResponse;
 import com.tckj.icloud.vo.ResponseResult;
 import com.tckj.icloud.vo.SuccessResponse;
+//import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -28,42 +28,45 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.tckj.icloud.utils.UploadUtils.*;
+//import static com.tckj.icloud.utils.UploadUtils.*;
 @Service
 public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements DocsService {
     @Autowired
     private DocsMapper docsMapper;
     @Autowired
     private SuffixManageService suffixManageService;
+
     @Override
-    public void upload(String name, Integer type,  String path, Integer pid, String md5, Integer createUserId, String caseNo, MultipartFile file) throws IOException {
-        String spath= UploadConfig.path+path+file.getName();
-        FileUtils.write(spath,file.getInputStream());
-        docsMapper.insert(new Docs(name,type,file.getSize(),file.getName().substring(file.getName().lastIndexOf(".")+1),md5,path,pid,createUserId,new Date(),0,caseNo));
+    public void upload(String name, Integer type, String path, Integer pid, String md5, Integer createUserId, String caseNo, MultipartFile file) throws IOException {
+//        String spath= UploadConfig.path+path+file.getName();
+//        FileUtils.write(spath,file.getInputStream());
+//        docsMapper.insert(new Docs(name,type,file.getSize(),file.getName().substring(file.getName().lastIndexOf(".")+1),md5,path,pid,createUserId,new Date(),0,caseNo));
     }
 
     @Override
     public void uploadWithBlock(String name, Integer type, String path, Integer pid, String md5, Long size, Integer chunks, Integer chunk, Integer createUserId, String caseNo, MultipartFile file) throws IOException {
-        String fileName = getFileName(md5, chunks);
-        FileUtils.writeWithBlok(UploadConfig.path + fileName, size, file.getInputStream(), file.getSize(), chunks, chunk);
-        addChunk(md5,chunk);
-        if (isUploaded(md5)) {
-            removeKey(md5);
-            docsMapper.insert(new Docs(name,type,file.getSize(),file.getName().substring(file.getName().lastIndexOf(".")+1),md5,path,pid,createUserId,new Date(),0,caseNo));
-        }
+//        String fileName = getFileName(md5, chunks);
+//        FileUtils.writeWithBlok(UploadConfig.path + fileName, size, file.getInputStream(), file.getSize(), chunks, chunk);
+//        addChunk(md5,chunk);
+//        if (isUploaded(md5)) {
+//            removeKey(md5);
+//            docsMapper.insert(new Docs(name,type,file.getSize(),file.getName().substring(file.getName().lastIndexOf(".")+1),md5,path,pid,createUserId,new Date(),0,caseNo));
+//        }
     }
+
     @Override
     public ResponseResult addDir(int nowDirId, String name, User user) {
         initDir(user);
         Docs nowDir = getDocsByIdAndNotDelete(nowDirId);
-        if (ObjectUtils.isEmpty(nowDir)){
+        if (ObjectUtils.isEmpty(nowDir)) {
             return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
-        Docs newDocs = new Docs(name,"/",nowDirId,user.getId(),new Date(),null,new Date());
-        try{
+        Docs tempDoc = docsMapper.selectById(nowDirId);
+        Docs newDocs = new Docs(name, tempDoc.getPath() + "/" + name, nowDirId, user.getId(), new Date(), null, new Date());
+        try {
             docsMapper.insert(newDocs);
             return new SuccessResponse(null);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ErrorResponse(null);
         }
@@ -75,18 +78,18 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
 
         Docs nowDir = getDocsByIdAndNotDelete(nowDirId);
         Docs targetDir = getDocsByIdAndNotDelete(targetDirId);
-        if (ObjectUtils.isEmpty(nowDir) || ObjectUtils.isEmpty(targetDir)){
+        if (ObjectUtils.isEmpty(nowDir) || ObjectUtils.isEmpty(targetDir)) {
             return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
 
         String[] idStrArr = ids.split(",");
-        for (String idStr : idStrArr){
+        for (String idStr : idStrArr) {
             int targetId = Integer.parseInt(idStr);
             Docs target = getDocsByIdAndNotDelete(targetId);
-            if (ObjectUtils.isEmpty(target)){
+            if (ObjectUtils.isEmpty(target)) {
                 return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
             }
-            if (target.getPid() != nowDirId){
+            if (target.getPid() != nowDirId) {
                 return new ResponseResult(Constants.ResultCodeConstants.FILE_WRONG_POSITION);
             }
             target.setPid(targetDirId);
@@ -103,7 +106,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
 
         //如果当前是根目录，则dirId应该传0，根据pid=0进行查询
         Docs nowDir;
-        if (dirId == 0){
+        if (dirId == 0) {
             initDir(user);
             Docs queryDocs = new Docs();
             queryDocs.setPid(0);
@@ -113,20 +116,19 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
             nowDir = docsMapper.selectOne(queryDocs);
         } else {
             nowDir = docsMapper.selectById(dirId);
-
         }
 
-
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("pid",dirId);
-        wrapper.eq("is_delete",0);
+        wrapper.eq("pid", dirId);
+        wrapper.eq("is_delete", 0);
+
         List<Docs> docsList = docsMapper.selectList(wrapper);
 
-        Map<String,Object> resultMap = new HashMap<>(2);
+        Map<String, Object> resultMap = new HashMap<>(2);
         //当前文件夹内容
-        resultMap.put("docsList",docsList);
+        resultMap.put("docsList", docsList);
         //当前文件夹对象
-        resultMap.put("nowDir",nowDir);
+        resultMap.put("nowDir", nowDir);
 
         return new SuccessResponse(resultMap);
     }
@@ -138,7 +140,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         //判断当前文件/文件夹是否存在
         Docs docs = getDocsByIdAndNotDelete(id);
 
-        if (ObjectUtils.isEmpty(docs)){
+        if (ObjectUtils.isEmpty(docs)) {
             return new SuccessResponse(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
         return new SuccessResponse(docs);
@@ -149,14 +151,14 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         //TODO 权限检查
 
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.like("name",name);
-        if (suffix != null && suffix.trim().length() > 0){
-            wrapper.eq("suffix",suffix);
+        wrapper.like("name", name);
+        if (suffix != null && suffix.trim().length() > 0) {
+            wrapper.eq("suffix", suffix);
         }
-        if (type != null){
-            wrapper.eq("type",type);
+        if (type != null) {
+            wrapper.eq("type", type);
         }
-        wrapper.eq("create_user_id",user.getId());
+        wrapper.eq("create_user_id", user.getId());
         List<Docs> docsList = docsMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
     }
@@ -168,15 +170,15 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         String[] idStringArr = ids.split(",");
         //先查出要删除的文件对象，如果为文件，直接删除；如果为文件夹，递归删除子文件夹及其中的所有文件
         //删除所有的文佳和文件夹
-        for (String idStr:idStringArr){
+        for (String idStr : idStringArr) {
             int deleteId = Integer.parseInt(idStr);
             Docs deleteDocs = getDocsByIdAndNotDelete(deleteId);
 
-            if (ObjectUtils.isEmpty(deleteDocs)){
+            if (ObjectUtils.isEmpty(deleteDocs)) {
                 return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
             }
 
-            if (deleteDocs.getType() == 2){
+            if (deleteDocs.getType() == 2) {
                 //文件直接删除
                 docsMapper.deleteLogicById(deleteId);
                 //TODO 服务器删除文件实体
@@ -197,7 +199,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         //TODO 权限检查
 
         Docs docs = getDocsByIdAndNotDelete(docsId);
-        if (ObjectUtils.isEmpty(docs)){
+        if (ObjectUtils.isEmpty(docs)) {
             return new ResponseResult(Constants.ResultCodeConstants.FILE_NOT_EXIST);
         }
         docs.setName(name);
@@ -208,7 +210,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     }
 
     @Override
-    public ResponseResult dirTree(String ids,User user) {
+    public ResponseResult dirTree(String ids, User user) {
         //TODO 权限检查
         //如果ids为空，则查所有
         //否则，将ids剔除
@@ -225,67 +227,67 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         rootQueryDocs.setIsDelete(0);
         Docs rootDir = docsMapper.selectOne(rootQueryDocs);
 
-        Map<String,Object> map = new HashMap<>(3);
-        map.put("id",rootDir.getId());
-        map.put("text","全部文件夹");
-        map.put("nodes",getSubDir(rootDir.getId(),idStrList));
+        Map<String, Object> map = new HashMap<>(3);
+        map.put("id", rootDir.getId());
+        map.put("text", "全部文件夹");
+        map.put("nodes", getSubDir(rootDir.getId(), idStrList));
 
-        List<Map<String,Object>> list = new ArrayList<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         list.add(map);
 
         return new SuccessResponse(list);
     }
 
     @Override
-    public ResponseResult getDocsByType(int type,User user) {
+    public ResponseResult getDocsByType(int type, User user) {
         //todo 权限检查
 
         String suffixStr = "";
-        if (type == 0){
+        if (type == 0) {
             List<SuffixManage> all = suffixManageService.selectList(new EntityWrapper<>());
-            for (SuffixManage suffixManage:all){
+            for (SuffixManage suffixManage : all) {
                 suffixStr += suffixManage.getName() + ",";
             }
             System.out.println(suffixStr);
-            suffixStr = suffixStr.substring(0,suffixStr.length() - 1);
+            suffixStr = suffixStr.substring(0, suffixStr.length() - 1);
         } else {
             List<String> suffixList = suffixManageService.selectNames(type);
-            for (String suffix : suffixList){
+            for (String suffix : suffixList) {
                 suffixStr += suffix + ",";
             }
-            suffixStr = suffixStr.substring(0,suffixStr.length() - 1);
+            suffixStr = suffixStr.substring(0, suffixStr.length() - 1);
 
 
         }
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("is_delete",0);
+        wrapper.eq("is_delete", 0);
         if (type == 0) {
-            wrapper.notIn("suffix",suffixStr);
-        }else {
+            wrapper.notIn("suffix", suffixStr);
+        } else {
             wrapper.in("suffix", suffixStr);
         }
-        wrapper.eq("create_user_id",user.getId());
+        wrapper.eq("create_user_id", user.getId());
         List<Docs> docsList = docsMapper.selectList(wrapper);
 
         return new SuccessResponse(docsList);
     }
 
-    private List<Map<String,Object>> getSubDir(int dirId,List<String> idStrList){
-        List<Map<String,Object>> resultList = new ArrayList<>();
+    private List<Map<String, Object>> getSubDir(int dirId, List<String> idStrList) {
+        List<Map<String, Object>> resultList = new ArrayList<>();
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("pid",dirId);
-        wrapper.eq("type",1);
-        wrapper.eq("is_delete",0);
+        wrapper.eq("pid", dirId);
+        wrapper.eq("type", 1);
+        wrapper.eq("is_delete", 0);
         List<Docs> docsList = docsMapper.selectList(wrapper);
-        if (docsList != null && docsList.size() > 0){
-            for (Docs docs:docsList){
-                if (idStrList.contains(docs.getId().toString())){
+        if (docsList != null && docsList.size() > 0) {
+            for (Docs docs : docsList) {
+                if (idStrList.contains(docs.getId().toString())) {
                     continue;
                 }
-                Map<String,Object> nodeMap = new HashMap<>(3);
-                nodeMap.put("id",docs.getId());
-                nodeMap.put("text",docs.getName());
-                nodeMap.put("nodes",getSubDir(docs.getId(),idStrList));
+                Map<String, Object> nodeMap = new HashMap<>(3);
+                nodeMap.put("id", docs.getId());
+                nodeMap.put("text", docs.getName());
+                nodeMap.put("nodes", getSubDir(docs.getId(), idStrList));
                 resultList.add(nodeMap);
             }
         }
@@ -294,12 +296,13 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
 
     /**
      * 递归删除文件夹及里面的子文件/子文件夹
+     *
      * @param pid
      * @return void
      * @author LiZG
      * @date 2019/04/06 10:05
      */
-    private void deleteByPid(int pid){
+    private void deleteByPid(int pid) {
         /*
         两种方案：
         1、先查出所有的pid，再根据pid进行删除
@@ -311,8 +314,8 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         docsMapper.deleteLogicById(pid);
         //查询pid的子文件/文件夹，如果是文件，直接删除；如果是文件夹，再调一次这个方法
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("is_delete",0);
-        wrapper.eq("pid",pid);
+        wrapper.eq("is_delete", 0);
+        wrapper.eq("pid", pid);
         List<Docs> subDocsList = docsMapper.selectList(wrapper);
         if (subDocsList != null && subDocsList.size() > 0) {
             for (Docs docs : subDocsList) {
@@ -328,12 +331,13 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
 
     /**
      * 创建用户根目录
+     *
      * @param user
      * @return boolean
      * @author LiZG
      * @date 2019/04/05 23:17
      */
-    private boolean initDir(User user){
+    private boolean initDir(User user) {
         //从数据库查询，如果根目录已存在，直接返回true
         //如果根目录不存在，则创建根目录
         Docs queryDocs = new Docs();
@@ -343,7 +347,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         Docs resultRootDir = docsMapper.selectOne(queryDocs);
         if (ObjectUtils.isEmpty(resultRootDir)) {
             String path = "/" + user.getName();
-            Docs rootDir = new Docs(user.getName(), path, 0, user.getId(), new Date(), null,new Date());
+            Docs rootDir = new Docs(user.getName(), path, 0, user.getId(), new Date(), null, new Date());
             Integer sign = docsMapper.insert(rootDir);
             if (sign != null && sign == 1) {
                 return true;
@@ -354,10 +358,11 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
             return true;
         }
     }
+
     /**
      * 根据id查询未删除的docs
      */
-    private Docs getDocsByIdAndNotDelete(int id){
+    private Docs getDocsByIdAndNotDelete(int id) {
         Docs docs = new Docs();
         docs.setIsDelete(0);
         docs.setId(id);

@@ -1,85 +1,119 @@
 /*
-SQLyog Ultimate v10.42 
-MySQL - 5.7.20-log : Database - icloud
-*********************************************************************
-*/
+ Navicat Premium Data Transfer
 
-/*!40101 SET NAMES utf8 */;
+ Source Server         : iflytekQ
+ Source Server Type    : MySQL
+ Source Server Version : 50723
+ Source Host           : localhost:3306
+ Source Schema         : icloud
 
-/*!40101 SET SQL_MODE=''*/;
+ Target Server Type    : MySQL
+ Target Server Version : 50723
+ File Encoding         : 65001
 
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`icloud` /*!40100 DEFAULT CHARACTER SET utf8 */;
+ Date: 08/04/2019 18:00:45
+*/
 
-USE `icloud`;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
-/*Table structure for table `docs` */
-
+-- ----------------------------
+-- Table structure for docs
+-- ----------------------------
 DROP TABLE IF EXISTS `docs`;
-
-CREATE TABLE `docs` (
+CREATE TABLE `docs`  (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL COMMENT '文件或者目录名称',
-  `type` int(10) DEFAULT NULL COMMENT '1 目录 2  文件',
-  `size` int(10) NOT NULL DEFAULT '0' COMMENT '文件大小 目录为0',
-  `suffix` varchar(255) DEFAULT NULL COMMENT '文件类型 格式后缀',
-  `md5_check_sum` varchar(255) DEFAULT NULL COMMENT '文件的md5校验值',
-  `path` varchar(1000) NOT NULL COMMENT '目录的相对路径',
-  `pid` int(10) DEFAULT NULL COMMENT '父亲id',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件或者目录名称',
+  `type` int(10) NULL DEFAULT NULL COMMENT '1 目录 2  文件',
+  `size` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '文件大小 目录为0',
+  `suffix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件类型 格式后缀',
+  `md5_check_sum` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件的md5校验值',
+  `path` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '目录的相对路径',
+  `pid` int(10) NULL DEFAULT NULL COMMENT '父亲id',
   `create_user_id` int(10) NOT NULL COMMENT '上传者userId',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `is_delete` int(10) NOT NULL DEFAULT '0' COMMENT '是否逻辑删除 0-》1是',
-  `case_no` varchar(255) DEFAULT NULL COMMENT '案件号',
-  `modify_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime(0) NOT NULL COMMENT '创建时间',
+  `is_delete` int(10) NOT NULL DEFAULT 0 COMMENT '是否逻辑删除 0-》1是',
+  `case_no` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '案件号',
+  `modify_time` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `case_desc` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '案件详情',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-/*Data for the table `docs` */
+-- ----------------------------
+-- Records of docs
+-- ----------------------------
+INSERT INTO `docs` VALUES (1, 'admin', 1, '0', NULL, NULL, '/admin', 0, 1, '2019-04-06 03:10:00', 0, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (2, '1', 1, '0', NULL, NULL, '/admin/1', 1, 1, '2019-04-06 03:10:00', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (3, '2', 1, '0', NULL, NULL, '/admin/2', 1, 1, '2019-04-06 03:10:03', 0, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (4, '3', 1, '0', NULL, NULL, '/admin/3', 1, 1, '2019-04-06 03:10:05', 0, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (5, '1', 1, '0', NULL, NULL, '/admin/1/1', 2, 1, '2019-04-06 03:10:20', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (6, '2', 1, '0', NULL, NULL, '/admin/1/2', 2, 1, '2019-04-06 03:10:23', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (7, '3', 1, '0', NULL, NULL, '/admin/1/3', 2, 1, '2019-04-06 03:10:25', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (8, '3', 1, '0', NULL, NULL, '/admin/1/1/3', 5, 1, '2019-04-06 03:10:35', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (9, 'a', 1, '0', NULL, NULL, '/admin/1/1/a', 5, 1, '2019-04-06 03:10:38', 1, NULL, NULL, NULL);
+INSERT INTO `docs` VALUES (41, '对对对', 1, '0', NULL, NULL, '/admin/3/对对对', 4, 1, '2019-04-08 07:52:45', 0, NULL, '2019-04-08 07:52:45', NULL);
+INSERT INTO `docs` VALUES (42, 'log-info-2018-12-19.0.log', 2, '211638', 'log', 'cc40e8f733609491cdf81f51710fb0df', '/admin/3/对对对/log-info-2018-12-19.0.log', 41, 1, '2019-04-08 07:52:59', 0, NULL, '2019-04-08 07:52:59', NULL);
+INSERT INTO `docs` VALUES (43, 'log-info-2018-12-05.0.log', 2, '17.6 KB', 'log', '32f99a6d4931c194a84e4c1c12f4c54b', '/admin/3/对对对/log-info-2018-12-05.0.log', 41, 1, '2019-04-08 08:02:16', 0, NULL, '2019-04-08 08:02:16', NULL);
+INSERT INTO `docs` VALUES (44, 'log-info-2018-12-04.0.log', 2, '107 KB', 'log', '05f9103a0143bed051aaea60cf7af896', '/admin/3/对对对/log-info-2018-12-04.0.log', 41, 1, '2019-04-08 08:03:43', 0, '333', '2019-04-08 08:03:43', '4454');
+INSERT INTO `docs` VALUES (45, 'test', 1, '0', NULL, NULL, '/test', 0, 5, '2019-04-08 08:36:05', 0, NULL, '2019-04-08 08:36:05', NULL);
+INSERT INTO `docs` VALUES (46, 'test', 1, '0', NULL, NULL, '/test/test', 45, 5, '2019-04-08 08:36:11', 0, NULL, '2019-04-08 08:36:11', NULL);
+INSERT INTO `docs` VALUES (47, 'log-warn-2018-12-19.0.log', 2, '127 B', 'log', '072fbff73780aa54542c1659639bf8b7', '/test/test/log-warn-2018-12-19.0.log', 46, 5, '2019-04-08 08:51:17', 0, NULL, '2019-04-08 08:51:17', NULL);
 
-insert  into `docs`(`id`,`name`,`type`,`size`,`suffix`,`md5_check_sum`,`path`,`pid`,`create_user_id`,`create_time`,`is_delete`,`case_no`,`modify_time`) values (1,'admin',1,0,NULL,NULL,'/admin',0,1,'2019-04-06 03:10:00',0,NULL,NULL),(2,'23456',1,0,NULL,NULL,'/admin/1',15,1,'2019-04-06 03:10:00',0,NULL,'2019-04-07 15:14:18'),(3,'2',1,0,NULL,NULL,'/admin/2',1,1,'2019-04-06 03:10:03',0,NULL,'2019-04-08 13:23:07'),(4,'3',1,0,NULL,NULL,'/admin/3',23,1,'2019-04-06 03:10:05',0,NULL,'2019-04-07 16:34:29'),(5,'1',1,0,NULL,NULL,'/admin/1/1',2,1,'2019-04-06 03:10:20',0,NULL,NULL),(6,'2',1,0,NULL,NULL,'/admin/1/2',2,1,'2019-04-06 03:10:23',0,NULL,NULL),(7,'3',1,0,NULL,NULL,'/admin/1/3',2,1,'2019-04-06 03:10:25',0,NULL,NULL),(8,'3',1,0,NULL,NULL,'/admin/1/1/3',5,1,'2019-04-06 03:10:35',0,NULL,NULL),(9,'a',1,0,NULL,NULL,'/admin/1/1/a',5,1,'2019-04-06 03:10:38',0,NULL,NULL),(10,'1',1,0,NULL,NULL,'/admin/1/1/1',5,1,'2019-04-06 03:10:41',0,NULL,NULL),(11,'2',1,0,NULL,NULL,'/admin/2/2',3,1,'2019-04-06 10:59:09',0,NULL,'2019-04-06 10:59:09'),(12,'2',1,0,NULL,NULL,'/admin/2/2',3,1,'2019-04-06 10:59:24',0,NULL,'2019-04-06 10:59:24'),(13,'2',1,0,NULL,NULL,'/admin/2/2',3,1,'2019-04-06 10:59:26',0,NULL,'2019-04-06 10:59:26'),(14,'2',1,0,NULL,NULL,'/admin/2/2',3,1,'2019-04-06 11:02:29',0,NULL,'2019-04-06 11:02:29'),(15,'1',1,0,NULL,NULL,'/admin/1',23,1,'2019-04-06 12:10:39',0,NULL,'2019-04-07 16:34:29'),(16,'adfsaf',1,0,NULL,NULL,'/admin/adfsaf',1,1,'2019-04-06 15:35:52',0,NULL,'2019-04-06 15:35:52'),(17,'baobao',1,0,NULL,NULL,'/admin/1/1/3/baobao',8,1,'2019-04-06 15:38:44',0,NULL,'2019-04-06 15:38:44'),(18,'text.txt',2,4,'.txt',NULL,'/adfsafasdfa',23,1,'2019-04-08 00:05:09',0,NULL,'2019-04-08 13:22:37'),(19,'text.mo',2,4,'.mo',NULL,'/adfsafasdfa',25,1,'2019-04-08 00:05:09',0,NULL,'2019-04-08 08:16:41'),(20,'text.png',2,4,'.png',NULL,'/adfsafasdfa',1,1,'2019-04-08 00:05:09',0,NULL,'2019-04-08 00:05:12'),(21,'text.avi',2,4,'.avi',NULL,'/adfsafasdfa',4,1,'2019-04-08 00:05:09',0,NULL,'2019-04-08 13:00:13'),(22,'text.mp3',2,4,'.mp3',NULL,'/adfsafasdfa',4,1,'2019-04-08 00:05:09',0,NULL,'2019-04-08 13:00:13'),(23,'123',1,0,NULL,NULL,'/',1,1,'2019-04-07 16:33:44',0,NULL,'2019-04-08 13:12:48'),(24,'二位若群翁',1,0,NULL,NULL,'/',23,1,'2019-04-08 00:48:19',0,NULL,'2019-04-08 00:48:28'),(25,'54320',1,0,NULL,NULL,'/',4,1,'2019-04-08 08:16:10',0,NULL,'2019-04-08 08:16:19');
-
-/*Table structure for table `role` */
-
-DROP TABLE IF EXISTS `role`;
-
-CREATE TABLE `role` (
+-- ----------------------------
+-- Table structure for file
+-- ----------------------------
+DROP TABLE IF EXISTS `file`;
+CREATE TABLE `file`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT '0',
-  `parent_role_id` varchar(50) DEFAULT '0',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件名称',
+  `md5` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '文件路径',
+  `upload_time` datetime(0) NOT NULL COMMENT '上传时间',
+  `upload_user_id` int(11) NOT NULL COMMENT '上传者id',
+  `case_no` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '案件号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色表';
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-/*Data for the table `role` */
+-- ----------------------------
+-- Table structure for role
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0',
+  `parent_role_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色表' ROW_FORMAT = Dynamic;
 
-insert  into `role`(`id`,`name`,`parent_role_id`) values (1,'admin','0'),(2,'public','0');
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES (1, 'admin', '0');
+INSERT INTO `role` VALUES (2, 'public', '0');
 
-/*Table structure for table `role_rule` */
-
+-- ----------------------------
+-- Table structure for role_rule
+-- ----------------------------
 DROP TABLE IF EXISTS `role_rule`;
-
-CREATE TABLE `role_rule` (
+CREATE TABLE `role_rule`  (
   `role_id` int(11) NOT NULL COMMENT '角色id',
   `rule_id` int(11) NOT NULL COMMENT '权限id'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色权限表';
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色权限表' ROW_FORMAT = Dynamic;
 
-/*Data for the table `role_rule` */
+-- ----------------------------
+-- Records of role_rule
+-- ----------------------------
+INSERT INTO `role_rule` VALUES (1, 1);
 
-insert  into `role_rule`(`role_id`,`rule_id`) values (1,1);
-
-/*Table structure for table `rule` */
-
+-- ----------------------------
+-- Table structure for rule
+-- ----------------------------
 DROP TABLE IF EXISTS `rule`;
-
-CREATE TABLE `rule` (
+CREATE TABLE `rule`  (
   `id` int(4) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='权限表';
-
-/*Data for the table `rule` */
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
 insert  into `rule`(`id`,`name`) values (1,'all'),(2,'private');
 
@@ -99,37 +133,47 @@ CREATE TABLE `suffix_manage` (
 
 insert  into `suffix_manage`(`id`,`name`,`type`) values (1,'.bmp',1),(2,'.jpg',1),(3,'.jpeg',1),(4,'.png',1),(5,'.gif',1),(6,'.doc',2),(7,'.docs',2),(8,'.xls',2),(9,'.xlsx',2),(10,'.ppt',2),(11,'.pptx',2),(12,'.txt',2),(13,'.avi',3),(14,'.mpg',3),(15,'.mlv',3),(16,'.mpe',3),(17,'.mov',3),(18,'.qt',3),(19,'.asf',3),(20,'.rm',3),(21,'.mp4',3),(22,'.rmvb',3),(23,'.mp3',4),(24,'.wav',4),(25,'.wma',4),(26,'.mid',4),(27,'.m4a',4);
 
-/*Table structure for table `user` */
+-- ----------------------------
+-- Records of rule
+-- ----------------------------
+INSERT INTO `rule` VALUES (1, 'all');
+INSERT INTO `rule` VALUES (2, 'private');
 
+-- ----------------------------
+-- Table structure for user
+-- ----------------------------
 DROP TABLE IF EXISTS `user`;
-
-CREATE TABLE `user` (
+CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `name` varchar(255) NOT NULL COMMENT '用户姓名',
-  `alarm` varchar(255) NOT NULL COMMENT '警号',
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户姓名',
+  `alarm` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '警号',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
   `role_id` int(11) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-/*Data for the table `user` */
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'admin', 'admin', 'admin', 1);
+INSERT INTO `user` VALUES (4, 'wxq', 'wxq', 'wxq', 2);
+INSERT INTO `user` VALUES (5, 'test', 'test', 'test', 2);
 
-insert  into `user`(`id`,`name`,`alarm`,`password`,`role_id`) values (1,'admin','admin','admin',0),(4,'wxq','wxq','wxq',0);
-
-/*Table structure for table `user_role` */
-
+-- ----------------------------
+-- Table structure for user_role
+-- ----------------------------
 DROP TABLE IF EXISTS `user_role`;
-
-CREATE TABLE `user_role` (
+CREATE TABLE `user_role`  (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `role_id` int(11) NOT NULL COMMENT '角色id'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色表';
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色表' ROW_FORMAT = Dynamic;
 
-/*Data for the table `user_role` */
+-- ----------------------------
+-- Records of user_role
+-- ----------------------------
+INSERT INTO `user_role` VALUES (1, 1);
+INSERT INTO `user_role` VALUES (2, 2);
+INSERT INTO `user_role` VALUES (2, 2);
+INSERT INTO `user_role` VALUES (4, 2);
 
-insert  into `user_role`(`user_id`,`role_id`) values (1,1),(2,2),(2,2),(4,2);
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+SET FOREIGN_KEY_CHECKS = 1;
