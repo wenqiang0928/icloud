@@ -115,6 +115,24 @@ CREATE TABLE `rule`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '权限表' ROW_FORMAT = Dynamic;
 
+insert  into `rule`(`id`,`name`) values (1,'all'),(2,'private');
+
+/*Table structure for table `suffix_manage` */
+
+DROP TABLE IF EXISTS `suffix_manage`;
+
+CREATE TABLE `suffix_manage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) DEFAULT NULL COMMENT '扩展名',
+  `type` int(11) DEFAULT NULL COMMENT '类型 1图片 2文档 3视频 4音频 0其他',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_unique` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+/*Data for the table `suffix_manage` */
+
+insert  into `suffix_manage`(`id`,`name`,`type`) values (1,'.bmp',1),(2,'.jpg',1),(3,'.jpeg',1),(4,'.png',1),(5,'.gif',1),(6,'.doc',2),(7,'.docs',2),(8,'.xls',2),(9,'.xlsx',2),(10,'.ppt',2),(11,'.pptx',2),(12,'.txt',2),(13,'.avi',3),(14,'.mpg',3),(15,'.mlv',3),(16,'.mpe',3),(17,'.mov',3),(18,'.qt',3),(19,'.asf',3),(20,'.rm',3),(21,'.mp4',3),(22,'.rmvb',3),(23,'.mp3',4),(24,'.wav',4),(25,'.wma',4),(26,'.mid',4),(27,'.m4a',4);
+
 -- ----------------------------
 -- Records of rule
 -- ----------------------------
