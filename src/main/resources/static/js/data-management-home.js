@@ -118,6 +118,8 @@ function deleteDocs() {
 
 //重命名
 function renameDocs() {
+    console.log("rename");
+
     var url = Config.baseUrl + "/docs/renameDocs";
     var params = {
         "docsId": $("input[type='checkbox']:checked")[0].value,
@@ -180,7 +182,7 @@ function moveDocsConfirm() {
         dataType: "json",
         success: function (result) {
             if (result.code === 200) {
-                freshFileList(dirPathArr[dirPathArr.length - 1]);
+                initTable();
             }
         }
     });
@@ -194,7 +196,9 @@ function getDocsByType(num) {
         dataType: "json",
         success: function (result) {
             if (result.code === 200) {
+                $('.dir-path-info').html("全部文件");
                 fillUpTable(result.data);
+
             }
         }
     });
@@ -202,9 +206,7 @@ function getDocsByType(num) {
 //搜索文件
 function selectDocs() {
     var str = $("#search-input").val();
-    if (str === '') {
-
-    } else {
+    if (str.length > 0) {
         var url = Config.baseUrl + "/docs/findDocs?name=" + str;
         $.ajax({
             url: url,
@@ -218,7 +220,23 @@ function selectDocs() {
         });
     }
 }
+//右键重命名
+function renameContext() {
+    //判断选中的checkbox
+    var count = $("input[type='checkbox']:checked").length;
+    if (count === 1) {
+        //显示模态框
+        $('#renameDocs-modal').modal();
+    }
+}
 
+//查询全部文件
+function getAllDocs() {
+    dirPathArr = [];
+    pathNameArr = [];
+    initTable();
+    $('.dir-path-info').html("全部文件");
+}
 function hidePopMenu() {
     $("#context-menu").hide();
 }
@@ -247,11 +265,6 @@ function newFolder() {
             }
         }
     });
-    // $.get(url, params, function (result) {
-    //     if (result.code === 200) {
-    //         freshFileList(dirPathArr[dirPathArr.length - 1]);
-    //     }
-    // });
 }
 
 function addFile() {
@@ -296,6 +309,9 @@ function freshFileList(dirId) {
     });
 }
 
+
+
+
 function freshDirPath() {
     if (dirPathArr.length === 1) {
         $('.dir-path-info').html("全部文件");
@@ -331,7 +347,7 @@ function fillUpTable(docsList) {
         var fileIcon = "<i class='glyphicon glyphicon-file' style='color: #eee;margin-right: 8px;'></i>";
         rows += "<li style='font-size: 13px;'><ul>" +
             "<li class='column-1'><input type='checkbox' value='" + doc.id + "' onchange='checkboxChanged()'></li>" +
-            "<li class='column-2 context' data-toggle='context' data-target='#context-menu'>" +
+            "<li class='column-2 context'>" +
             "<span onclick='freshFileList(" + doc.id + ")'>" + (doc.type === 1 ? floderIcon : fileIcon) + doc.name + "</span>" +
             "</li>" +
             "<li class='column-3'>" + (doc.size ? doc.size : "-") + "</li>" +
@@ -351,20 +367,16 @@ function fillUpTable(docsList) {
                 }
                 target.checked = true;
             }
-        },
-        onItem: function () {
-            // execute on menu item selection
-        },
-        bindings: {
-            "move": function (t) {
-                console.log("move:" + t)
-            },
-            "rename": function (t) {
-                console.log("rename:" + t)
-            },
-            "delete": function (t) {
-                console.log("delete:" + t)
+            var count = $("input[type='checkbox']:checked").length;
+            if (count > 1) {
+                $("#renameContext").hide();
+            } else if(count === 1) {
+                $("#renameContext").show();
             }
+        },
+        onItem: function (context,e) {
+            // execute on menu item selection
+            // console.log(e.target);
         }
     });
     $(".file-list input").bind("click", function () {

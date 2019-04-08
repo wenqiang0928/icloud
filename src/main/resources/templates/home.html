@@ -77,8 +77,8 @@
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item">
-                <a href="#/fileManage/my" class="router-link-active" style="padding: 0 15px;">
-                    <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;"></i>全部文件
+                <a class="router-link-active" style="padding: 0 15px;" onclick="getAllDocs();">
+                    <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;" ></i>全部文件
                 </a>
                 <ul class="sub-list">
                     <li>
@@ -163,8 +163,9 @@
                 </div>
 
                 <div style="float: right">
-                    <i id="search-icon" class="glyphicon glyphicon-search" onclick="selectDocs()" ></i>
-                    <input id="search-input" type="text" class="form-control" aria-describedby="basic-addon1" onkeyup=" if(event.keyCode===13) {selectDocs()}">>
+                    <i id="search-icon" class="glyphicon glyphicon-search" onclick="selectDocs()"></i>
+                    <input id="search-input" type="text" class="form-control" aria-describedby="basic-addon1"
+                           onkeyup=" if(event.keyCode===13) {selectDocs()}">>
                 </div>
             </div>
             <div class="dir-path-info" style="margin: 10px 0;">
@@ -580,7 +581,6 @@
                 <input type="text" class="form-control" name="alarm"
                        id="del_alarm" placeholder="请输入警号">
             </div>
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" onclick="User.delUser()">删除</button>
                 <button type="button" class="btn btn-secondary"
@@ -590,13 +590,11 @@
         </div>
     </div>
 </div>
-
-
 <div id="context-menu" style="display: none;">
     <ul>
-        <li id="move">移动到</li>
-        <li id="rename">重命名</li>
-        <li id="delete">删除</li>
+        <li id="moveContext" onclick="moveDocs();">移动到</li>
+        <li id="renameContext" onclick="renameContext();">重命名</li>
+        <li id="deleteContext" onclick="deleteDocs();">删除</li>
     </ul>
 </div>
 
@@ -606,11 +604,5 @@
         $("#upload-modal").on('show.bs.modal', centerModals);
         $("#newFolder-modal").on('show.bs.modal', centerModals);
         $("#renameDocs-modal").on('show.bs.modal', centerModals);
-
-
     });
-
-
-
-
 </script>
