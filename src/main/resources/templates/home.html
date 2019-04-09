@@ -20,7 +20,10 @@
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
     <link rel="stylesheet" href="../css/webuploader/webuploader.css">
     <script src="../js/webuploader/webuploader.js"></script>
-
+    //ModelView取值
+    <script th:inline="javascript">
+        var user = [[${user}]]
+    </script>
 </head>
 <body>
 <div id="topPanel" class="yp-header" style="z-index: 99;">
@@ -54,12 +57,12 @@
              src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
         <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
             <div data-v-02139d26="" class="corp-detail">
-                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.userName}"></span>
+                <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.user.name}"></span>
                 </h2>
             </div>
 
             <div data-v-02139d26="" class="account-list">
-                <ul data-v-02139d26="" th:if="${session.userRole=='admin'}">
+                <ul data-v-02139d26="" th:if="${session.user.roleId==1}">
                     <li data-v-02139d26="">
                         <a data-v-02139d26="" data-toggle="modal" data-target="#addUserModel">添加用户</a>
                     </li> <!---->
@@ -81,7 +84,7 @@
         <ul class="menu-list nav">
             <li class="menu-list-item">
                 <a class="router-link-active" style="padding: 0 15px;" onclick="getAllDocs();">
-                    <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;" ></i>全部文件
+                    <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;"></i>全部文件
                 </a>
                 <ul class="sub-list">
                     <li>
@@ -614,7 +617,7 @@
     var $btn = $('#ctlBtn');
     var $thelist = $('#thelist');
     var chunkSize = 5 * 1024 * 1024;
-    var userId='${userId}';
+    var userId = '${userId}';
     debugger
     // HOOK 这个必须要再uploader实例化前面
     WebUploader.Uploader.register({
@@ -728,9 +731,9 @@
         var file = obj.file;
         data.md5 = file.md5 || '';
         // data.uid = userId;
-        data.caseNo=$("#caseNo").val();
-        data.caseDesc=$("#caseDesc").val();
-        data.dirId=dirPathArr[dirPathArr.length - 1];
+        data.caseNo = $("#caseNo").val();
+        data.caseDesc = $("#caseDesc").val();
+        data.dirId = dirPathArr[dirPathArr.length - 1];
     };
     // 上传中
     uploader.on('uploadProgress', function (file, percentage) {

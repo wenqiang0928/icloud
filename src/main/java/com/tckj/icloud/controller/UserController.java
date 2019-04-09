@@ -39,14 +39,6 @@ public class UserController {
     public Object loginConfirm(User user, HttpSession session) {
         User userDb = userService.existUser(user);
         if (userDb != null) {
-            session.setAttribute("userName", user.getName());
-//            UserRole ur = userRoleService.getUserRoleByUserId(userDb.getId());
-            Role role = roleService.getRole(userDb.getRoleId());
-            if (role != null) {
-                session.setAttribute("userRole", role.getName());
-            } else {
-                session.setAttribute("userRole", "public");
-            }
             session.setAttribute("user", userDb);
             return new SuccessResponse(true);
         } else {
@@ -61,8 +53,8 @@ public class UserController {
      */
     @GetMapping("home")
     public String home(Model modelAndView, HttpSession session) {
-        modelAndView.addAttribute("userList", userService.getAllUsers());
-        modelAndView.addAttribute("userId", userService.getAllUsers());
+//        modelAndView.addAttribute("userList", userService.getAllUsers());
+        modelAndView.addAttribute("user", session.getAttribute("user"));
         return "home";
     }
 
