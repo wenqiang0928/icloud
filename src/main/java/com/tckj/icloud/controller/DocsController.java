@@ -75,9 +75,8 @@ public class DocsController {
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
             fis.close();
-
             // 设置response的Header
-            response.setHeader("Content-disposition", "attachment;filename=" + filename);
+            response.setHeader("Content-disposition", "attachment;filename=" + new String(filename.getBytes("GB2312"), "ISO_8859_1"));
 //            response.setHeader("Content-length", "" + file.length());
             if(ext.equals("JPG")){
                 response.setContentType("image/jpeg");
