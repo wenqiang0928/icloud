@@ -130,7 +130,7 @@ public class StorageServiceImpl implements StorageService {
             String fullName = param.getFile().getOriginalFilename();
             String suffixs = fullName.substring(fullName.lastIndexOf(".") + 1);
             Docs tempDoc = docsMapper.selectById(param.getDirId());
-            docsMapper.insert(new Docs(fileName, 2, convertFileSize(param.getFile().getSize()), suffixs, param.getMd5(), tempDoc.getPath() + "/" + fullName, tempDoc.getId(),
+            docsMapper.insert(new Docs(fileName, 2, convertFileSize(param.getFile().getSize()), suffixs, param.getMd5(), finalDirPath + tempDoc.getPath() + "/" + fullName, tempDoc.getId(),
                     param.getUser().getId(), param.getCaseNo(), param.getCaseDesc()));
             //删除conf 文件
             FileUtils.deleteQuietly(new File(uploadDirPath + "/" + fullName + ".conf"));

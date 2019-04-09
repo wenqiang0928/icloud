@@ -25,6 +25,12 @@
     </script>
 </head>
 <body>
+<div id="preview-box" style="display: none;z-index: 999; position: fixed;height: 500px;width: 800px;top: 50%;margin-top: -250px;left: 50%;margin-left: -400px;">
+    <div onclick="closePreviewBox()" style="width: fit-content;font-size: 15px;z-index: 999;background-color: rgb(0,91,200);height: 20px;line-height: 20px;">关闭</div>
+    <div style="height: calc(100% - 20px);">
+        <video id="video-player" preload="auto" controls="controls" style="z-index: 999;width: 100%;height: 100%;"></video>
+    </div>
+</div>
 <div id="topPanel" class="yp-header" style="z-index: 99;">
     <div class="yp-logo">
         <a href="/" title="资料管理平台">
@@ -166,6 +172,24 @@
                            class="button-chain-item router-link-exact-active router-link-active"
                            style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
                             移动到
+                        </a>
+                    </div>
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="preview-div"
+                         style="display: none;">
+                        <a id="preview-file-button"
+                           data-v-fccf5e72=""
+                           class="button-chain-item router-link-exact-active router-link-active"
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
+                            预览
+                        </a>
+                    </div>
+                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="download-div"
+                         style="display: none;">
+                        <a id="download-file-button"
+                           data-v-fccf5e72=""
+                           class="button-chain-item router-link-exact-active router-link-active"
+                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
+                            下载
                         </a>
                     </div>
                 </div>

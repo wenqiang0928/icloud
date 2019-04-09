@@ -11,6 +11,8 @@ $(document).ready(function () {
     $('body').bind("click", hidePopMenu);
     $('#delete-file-button').bind("click", deleteDocs);
     $('#move-file-button').bind("click", moveDocs);
+    $('#preview-file-button').bind("click", previewDocs);
+    $('#download-file-button').bind("click", downloadDocs);
     $('#renameDocs-modal .modal-footer .btn-info').bind("click", renameDocs);
     $('#moveDocs-modal .modal-footer .btn-info').bind("click", moveDocsConfirm);
 
@@ -61,14 +63,28 @@ function checkboxChanged() {
         $("#delete-div").hide();
         $("#rename-div").hide();
         $("#move-div").hide();
+        $("#preview-div").hide();
+        $("#download-div").hide();
     } else if (count === 1) {
         $("#delete-div").show();
         $("#rename-div").show();
         $("#move-div").show();
+        var selectedDocsArr = $("input[type='checkbox']:checked");
+        var path = selectedDocsArr.data("path");
+        var type = selectedDocsArr.data("type");
+        var suffix = path.substring(path.lastIndexOf(".") + 1);
+        if(suffix.toLowerCase() == "mp4") {
+            $("#preview-div").show();
+        }
+        if(type != "1") {
+            $("#download-div").show();
+        }
     } else if (count > 1) {
         $("#delete-div").show();
         $("#move-div").show();
         $('#rename-div').hide();
+        $("#preview-div").hide();
+        $("#download-div").hide();
     }
 }
 
@@ -116,6 +132,46 @@ function deleteDocs() {
             }
         });
     });
+}
+
+// 预览视频
+function previewDocs() {
+    var selectedDocsArr = $("input[type='checkbox']:checked");
+    var path = selectedDocsArr.data("path");
+    // var suffix = path.substring(path.lastIndexOf(".") + 1);
+    // if(suffix.toLowerCase() != "mp4") {
+    //     return;
+    // }
+    var source = document.createElement("source");
+    source.src = "/docs/getVideoStream?path=" + path;
+    source.type = "video/mp4";
+    $("#video-player").html(source);
+    $("#preview-box").show();
+}
+
+// 关闭预览窗口
+function closePreviewBox() {
+    $("#preview-box").hide();
+    $("#video-player")[0].pause();
+    $("#video-player").html("");
+}
+
+// 下载文件
+function downloadDocs() {
+    var selectedDocsArr = $("input[type='checkbox']:checked");
+    var path = selectedDocsArr.data("path");
+    var form = $("<form>");   //定义一个form表单
+    form.attr('style','display:none');   //下面为在form表单中添加查询参数
+    form.attr('target','');
+    form.attr('method','post');
+    form.attr('action',"/docs/downLoad");
+    var input1 = $('<input>');
+    input1.attr('type','hidden');
+    input1.attr('name','path');
+    input1.attr('value',path);
+    $('body').append(form);  //将表单放置在web中
+    form.append(input1);   //将查询参数控件提交到表单上
+    form.submit();   //表单提交
 }
 
 //重命名
@@ -385,7 +441,7 @@ function fillUpTable(docsList) {
         var floderIcon = "<i class='glyphicon glyphicon-folder-close' style='color: rgb(255,214,89);margin-right: 8px;'></i>";
         var fileIcon = "<i class='glyphicon glyphicon-file' style='color: #eee;margin-right: 8px;'></i>";
         rows += "<li style='font-size: 13px;'><ul>" +
-            "<li class='column-1'><input type='checkbox' value='" + doc.id + "' onchange='checkboxChanged()'></li>" +
+            "<li class='column-1'><input type='checkbox' value='" + doc.id + "' data-path='" + doc.path + "' data-type='" + doc.type + "' onchange='checkboxChanged()'></li>" +
             "<li class='column-2 context'>" +
             "<span onclick='freshFileList(" + doc.id + ")'>" + (doc.type === 1 ? floderIcon : fileIcon) + doc.name + "</span>" +
             "</li>" +

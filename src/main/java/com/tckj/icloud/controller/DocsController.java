@@ -60,7 +60,7 @@ public class DocsController {
      * @return
      */
     @PostMapping("/downLoad")
-    public HttpServletResponse download(String path, HttpServletResponse response) {
+    public void download(String path, HttpServletResponse response) {
         try {
             // path是指欲下载的文件的路径。
             File file = new File(path);
@@ -68,26 +68,52 @@ public class DocsController {
             String filename = file.getName();
             // 取得文件的后缀名。
             String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
-
+            // 清空response
+            response.reset();
             // 以流的形式下载文件。
             InputStream fis = new BufferedInputStream(new FileInputStream(path));
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
             fis.close();
-            // 清空response
-            response.reset();
+
             // 设置response的Header
-            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
-            response.addHeader("Content-Length", "" + file.length());
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
+            response.setHeader("Content-disposition", "attachment;filename=" + filename);
+//            response.setHeader("Content-length", "" + file.length());
+            if(ext.equals("JPG")){
+                response.setContentType("image/jpeg");
+            }else if(ext.equals("PNG")){
+                response.setContentType("image/png");
+            }else if(ext.equals("MP4")){
+                response.setContentType("video/mp4");
+            }
+            OutputStream toClient = response.getOutputStream();
+//            response.setContentType("application/octet-stream");
             toClient.write(buffer);
             toClient.flush();
             toClient.close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        return response;
+    }
+
+    @GetMapping(value = "/getVideoStream")
+    public void getVideoStream(String path, HttpServletResponse response) {
+        try {
+            FileInputStream fis;
+            OutputStream os;
+            fis = new FileInputStream(path);
+            int size = fis.available();
+            byte data[] = new byte[size];
+            fis.read(data);
+            fis.close();
+            response.setContentType("video/mp4");
+            os = response.getOutputStream();
+            os.write(data);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+
+        }
     }
 
     /**
