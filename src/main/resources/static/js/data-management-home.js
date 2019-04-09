@@ -293,7 +293,8 @@ function centerModals() {
 function freshFileList(dirId) {
     var url = Config.baseUrl + "/docs/getAllDocsByPid";
     var params = {
-        "dirId": dirId
+        "dirId": dirId,
+        "userId":user.id
     };
     $.get(url, params, function (result) {
         if (result.code === 200) {
@@ -314,7 +315,40 @@ function freshFileList(dirId) {
     });
 }
 
+function freshFileListForOtherUser(dirId,userId) {
+    var url = Config.baseUrl + "/docs/getAllDocsByPid";
+    var params = {
+        "dirId": 0,
+        "userId":userId
+    };
+    $.get(url, params, function (result) {
+        if (result.code === 200) {
+            var url = Config.baseUrl + "/docs/getAllDocsByPid";
+            var params = {
+                "dirId": result.data.nowDir.id,
+                "userId":userId
+            };
+            $.get(url, params, function (result) {
+                if (result.code === 200) {
+                    if (result.data.docsList.length) {
+                        fillUpTable(result.data.docsList);
+                        $(".empty-wrap").hide();
+                        $(".table-wrap").show();
+                    } else {
+                        $(".table-wrap").hide();
+                        $(".empty-wrap").show();
+                    }
+                    if (dirPathArr[dirPathArr.length - 1] !== result.data.nowDir.id) {
+                        dirPathArr[dirPathArr.length] = result.data.nowDir.id;// 存储当前路径
+                        pathNameArr[result.data.nowDir.id] = result.data.nowDir.name;// 存储当前路径名
+                        freshDirPath();
+                    }
+                }
+            });
+        }
+    });
 
+}
 
 
 function freshDirPath() {
@@ -394,7 +428,8 @@ function fillUpTable(docsList) {
 function initTable() {
     var url = Config.baseUrl + "/docs/getAllDocsByPid";
     var params = {
-        "dirId": 0
+        "dirId": 0,
+        "userId":user.id
     };
     $.get(url, params, function (result) {
         if (result.code === 200) {

@@ -36,7 +36,7 @@ public class DocsController {
     @Autowired
     private UserService userService;
 
-    private static Logger logger= LoggerFactory.getLogger(DocsController.class);
+    private static Logger logger = LoggerFactory.getLogger(DocsController.class);
 
 //    @PostMapping("/upload")
 //    public void upload(String name, Integer type, String path, Integer pid,
@@ -54,6 +54,7 @@ public class DocsController {
 
     /**
      * 下载文件
+     *
      * @param path
      * @param response
      * @return
@@ -91,6 +92,7 @@ public class DocsController {
 
     /**
      * 新建文件夹
+     *
      * @param nowDirId
      * @param name
      * @return com.tckj.icloud.vo.ResponseResult
@@ -100,31 +102,33 @@ public class DocsController {
     @PostMapping(value = "addDir")
     @ResponseBody
     public ResponseResult addDir(@RequestParam(value = "nowDirId") int nowDirId,
-                                 @RequestParam(value = "addDirName")String name,HttpSession session){
-        User user=(User) session.getAttribute("user");
-        return docsService.addDir(nowDirId,name,user);
+                                 @RequestParam(value = "addDirName") String name, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return docsService.addDir(nowDirId, name, user);
     }
 
     /**
      * 移动文件/文件夹
-     * @param nowDirId      当前目录id
-     * @param targetDirId   目标目录id
-     * @param ids      要移动的文件id
+     *
+     * @param nowDirId    当前目录id
+     * @param targetDirId 目标目录id
+     * @param ids         要移动的文件id
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/05 9:19
      */
     @PostMapping(value = "moveDocs")
     @ResponseBody
-    public ResponseResult moveDocs(@RequestParam(value = "nowDirId")int nowDirId,
-                                   @RequestParam(value = "targetDirId")int targetDirId,
-                                   @RequestParam(value = "ids")String ids,HttpSession session){
-        User user=(User) session.getAttribute("user");
-        return docsService.moveDocs(nowDirId,targetDirId,ids,user);
+    public ResponseResult moveDocs(@RequestParam(value = "nowDirId") int nowDirId,
+                                   @RequestParam(value = "targetDirId") int targetDirId,
+                                   @RequestParam(value = "ids") String ids, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return docsService.moveDocs(nowDirId, targetDirId, ids, user);
     }
 
     /**
      * 查询该目录下的文件
+     *
      * @param dirId
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
@@ -132,15 +136,15 @@ public class DocsController {
      */
     @GetMapping(value = "getAllDocsByPid")
     @ResponseBody
-    public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId")int dirId,HttpSession session){
-//        int userId = 1;
-////
-////        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.getAllDocsByPid(dirId,user);
+    public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId") int dirId, Integer userId, HttpSession session) {
+
+        User user = userService.selectById(userId);
+        return docsService.getAllDocsByPid(dirId, user);
     }
+
     /**
      * 获取文件/文件夹详情
+     *
      * @param id
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
@@ -148,36 +152,38 @@ public class DocsController {
      */
     @GetMapping(value = "getDetail")
     @ResponseBody
-    public ResponseResult getDetail(@RequestParam(value = "id")int id,HttpSession session){
+    public ResponseResult getDetail(@RequestParam(value = "id") int id, HttpSession session) {
 //        int userId = 1;
 //
 //        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.getDetail(id,user);
+        User user = (User) session.getAttribute("user");
+        return docsService.getDetail(id, user);
     }
 
     /**
      * 文件搜索
-     * @param name      文件名
-     * @param suffix    文件类型：图片，文档，视频，音频
-     * @param type      1目录  2文件
+     *
+     * @param name   文件名
+     * @param suffix 文件类型：图片，文档，视频，音频
+     * @param type   1目录  2文件
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/05 9:58
      */
     @GetMapping(value = "findDocs")
     @ResponseBody
-    public ResponseResult findDocs(@RequestParam(value = "name")String name,
-                                   @RequestParam(value = "suffix",required = false)String suffix,
-                                   @RequestParam(value = "type",required = false)Integer type,HttpSession session){
+    public ResponseResult findDocs(@RequestParam(value = "name") String name,
+                                   @RequestParam(value = "suffix", required = false) String suffix,
+                                   @RequestParam(value = "type", required = false) Integer type, HttpSession session) {
 //        int userId = 1;
 //        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.findDocs(name,suffix,type,user);
+        User user = (User) session.getAttribute("user");
+        return docsService.findDocs(name, suffix, type, user);
     }
 
     /**
      * 批量删除文件/文件夹
+     *
      * @param nowDirId
      * @param ids
      * @return com.tckj.icloud.vo.ResponseResult
@@ -186,16 +192,17 @@ public class DocsController {
      */
     @DeleteMapping(value = "deleteDocs")
     @ResponseBody
-    public ResponseResult deleteDocs(@RequestParam(value = "nowDirId")int nowDirId,
-                                 @RequestParam(value = "ids")String ids,HttpSession session){
+    public ResponseResult deleteDocs(@RequestParam(value = "nowDirId") int nowDirId,
+                                     @RequestParam(value = "ids") String ids, HttpSession session) {
 //        int userId = 1;
 //        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.deleteDocs(nowDirId,ids,user);
+        User user = (User) session.getAttribute("user");
+        return docsService.deleteDocs(nowDirId, ids, user);
     }
 
     /**
      * 重命名
+     *
      * @param nowDirId
      * @param docsId
      * @param name
@@ -205,16 +212,18 @@ public class DocsController {
      */
     @PostMapping(value = "renameDocs")
     @ResponseBody
-    public ResponseResult renameDocs(@RequestParam(value = "nowDirId")int nowDirId,
-                                 @RequestParam(value = "docsId")int docsId,
-                                 @RequestParam(value = "name")String name,HttpSession session){
+    public ResponseResult renameDocs(@RequestParam(value = "nowDirId") int nowDirId,
+                                     @RequestParam(value = "docsId") int docsId,
+                                     @RequestParam(value = "name") String name, HttpSession session) {
 //        int userId = 1;
 //        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.renameDocs(nowDirId,docsId,name,user);
+        User user = (User) session.getAttribute("user");
+        return docsService.renameDocs(nowDirId, docsId, name, user);
     }
+
     /**
      * 文件夹树
+     *
      * @param
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
@@ -222,14 +231,14 @@ public class DocsController {
      */
     @GetMapping(value = "dirTree")
     @ResponseBody
-    public ResponseResult dirTree(@RequestParam(value = "ids",required = false) String ids,HttpSession session){
+    public ResponseResult dirTree(@RequestParam(value = "ids", required = false) String ids, HttpSession session) {
 //        int userId = 1;
 //        User user = userService.selectById(userId);
-        User user=(User) session.getAttribute("user");
-        return docsService.dirTree(ids,user);
+        User user = (User) session.getAttribute("user");
+        return docsService.dirTree(ids, user);
     }
+
     /**
-     *
      * @param type 文件类型 1图片 2文档 3视频 4音频 5其他
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
@@ -237,10 +246,10 @@ public class DocsController {
      */
     @GetMapping(value = "getDocsByType")
     @ResponseBody
-    public ResponseResult getDocsByType(@RequestParam(value = "type")int type,HttpSession session){
-        User user=(User) session.getAttribute("user");
+    public ResponseResult getDocsByType(@RequestParam(value = "type") int type, HttpSession session) {
+        User user = (User) session.getAttribute("user");
 //        User user = userService.selectById(userId);
-        return docsService.getDocsByType(type,user);
+        return docsService.getDocsByType(type, user);
     }
 
 
@@ -251,6 +260,7 @@ public class DocsController {
     private StorageService storageService;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
     /**
      * 秒传判断，断点判断
      *
@@ -267,7 +277,7 @@ public class DocsController {
         boolean processing = Boolean.parseBoolean(processingStr);
         String value = stringRedisTemplate.opsForValue().get(Constants.FILE_MD5_KEY + md5);
         if (processing) {
-            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE,value);
+            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE, value);
         } else {
             File confFile = new File(value);
             byte[] completeList = FileUtils.readFileToByteArray(confFile);
@@ -277,7 +287,7 @@ public class DocsController {
                     missChunkList.add(i + "");
                 }
             }
-            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE,missChunkList);
+            return new ResponseResult(Constants.ResultCodeConstants.IS_HAVE, missChunkList);
         }
     }
 
@@ -292,7 +302,7 @@ public class DocsController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
     public Object fileUpload(MultipartFileParam param, HttpServletRequest request) {
-        User user=(User) request.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
         param.setUser(user);
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (isMultipart) {

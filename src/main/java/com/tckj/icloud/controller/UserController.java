@@ -53,7 +53,7 @@ public class UserController {
      */
     @GetMapping("home")
     public String home(Model modelAndView, HttpSession session) {
-//        modelAndView.addAttribute("userList", userService.getAllUsers());
+        modelAndView.addAttribute("userList", userService.getAllUsers());
         modelAndView.addAttribute("user", session.getAttribute("user"));
         return "home";
     }
