@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#sign-up').bind("click", signUp);
     $('#user-name').bind("keydown", toSignUp);
     $('#password').bind("keydown", toSignUp);
-    showUserDiv();
+    // showUserDiv();
 })
 
 function toSignUp(event) {

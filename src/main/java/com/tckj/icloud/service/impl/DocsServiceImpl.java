@@ -119,9 +119,9 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         }
 
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("pid", dirId);
-        wrapper.eq("is_delete", 0);
-
+        wrapper.eq("pid",dirId);
+        wrapper.eq("is_delete",0);
+        wrapper.orderBy("modify_time",false);
         List<Docs> docsList = docsMapper.selectList(wrapper);
 
         Map<String, Object> resultMap = new HashMap<>(2);
@@ -159,6 +159,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
             wrapper.eq("type", type);
         }
         wrapper.eq("create_user_id", user.getId());
+        wrapper.orderBy("modify_time",false);
         List<Docs> docsList = docsMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
     }

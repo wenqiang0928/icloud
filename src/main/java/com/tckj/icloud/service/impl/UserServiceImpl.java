@@ -4,9 +4,12 @@ import com.alibaba.druid.util.StringUtils;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.tckj.icloud.constant.Constants;
 import com.tckj.icloud.mapper.UserMapper;
 import com.tckj.icloud.pojo.User;
 import com.tckj.icloud.service.UserService;
+import com.tckj.icloud.vo.ResponseResult;
+import com.tckj.icloud.vo.SuccessResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +77,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public Boolean delUser(User user) {
         return userMapper.delete(new EntityWrapper<User>().eq("name",user.getName()).eq("alarm",user.getAlarm()))>0;
+    }
+
+    @Override
+    public ResponseResult modifyPassword(String oldPassWord, String modifyPassword,User user) {
+        if (!user.getPassword().equals(oldPassWord)){
+            return new ResponseResult(Constants.ResultCodeConstants.USER_WRONG_PASSWORD);
+        }
+        user.setPassword(modifyPassword);
+        userMapper.updateAllColumnById(user);
+        return new SuccessResponse(null);
     }
 
 }

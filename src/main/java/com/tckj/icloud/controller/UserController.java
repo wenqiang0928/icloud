@@ -6,6 +6,7 @@ import com.tckj.icloud.pojo.UserRole;
 import com.tckj.icloud.service.RoleService;
 import com.tckj.icloud.service.UserRoleService;
 import com.tckj.icloud.service.UserService;
+import com.tckj.icloud.vo.ResponseResult;
 import com.tckj.icloud.vo.SuccessResponse;
 import com.tckj.icloud.vo.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +104,21 @@ public class UserController {
             return new SuccessResponse("用户已经删除");
         }
         return new SuccessResponse("用户删除失败");
+    }
+    /**
+     * 修改密码
+     * @param oldPassWord
+     * @param modifyPassword
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/09 22:11
+     */
+    @PostMapping(value = "modifyPassword")
+    @ResponseBody
+    public ResponseResult modifyPassword(@RequestParam(value = "oldPassWord")String oldPassWord,
+                                         @RequestParam(value = "modifyPassword")String modifyPassword){
+        int userId = 1;
+        User user = userService.selectById(userId);
+        return userService.modifyPassword(oldPassWord,modifyPassword,user);
     }
 }
