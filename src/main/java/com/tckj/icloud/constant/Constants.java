@@ -42,8 +42,6 @@ public interface Constants {
         FILE_NOT_EXIST(-201,"文件/文件夹不存在！"),
         FILE_WRONG_POSITION(-202,"要移动的文件不在当前文件夹中"),
 
-
-
         /**
          * 1 开头为判断文件在系统的状态
          */
@@ -51,7 +49,11 @@ public interface Constants {
 
         NO_HAVE(101, "该文件没有上传过。"),
 
-        ING_HAVE(102, "该文件上传了一部分。");
+        ING_HAVE(102, "该文件上传了一部分。"),
+        /**
+         * 用户管理
+         */
+        USER_WRONG_PASSWORD(-301,"密码不正确");
 
         private final int code;
         private final String msg;

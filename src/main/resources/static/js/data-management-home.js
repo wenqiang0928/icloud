@@ -176,26 +176,31 @@ function downloadDocs() {
 
 //重命名
 function renameDocs() {
-    console.log("rename");
+    var count = $("input[type='checkbox']:checked").length;
+    if (count === 1) {
+        var url = Config.baseUrl + "/docs/renameDocs";
+        var params = {
+            "docsId": $("input[type='checkbox']:checked")[0].value,
+            "nowDirId": dirPathArr[dirPathArr.length - 1],
+            "name": $("#new-name").val()
+        };
 
-    var url = Config.baseUrl + "/docs/renameDocs";
-    var params = {
-        "docsId": $("input[type='checkbox']:checked")[0].value,
-        "nowDirId": dirPathArr[dirPathArr.length - 1],
-        "name": $("#new-name").val()
-    };
-
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: params,
-        dataType: "json",
-        success: function (result) {
-            if (result.code === 200) {
-                freshFileList(dirPathArr[dirPathArr.length - 1]);
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: params,
+            dataType: "json",
+            success: function (result) {
+                if (result.code === 200) {
+                    freshFileList(dirPathArr[dirPathArr.length - 1]);
+                    $("#new-name").val(null);
+                    $("#delete-div").hide();
+                    $("#rename-div").hide();
+                    $("#move-div").hide();
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 //移动
@@ -241,7 +246,10 @@ function moveDocsConfirm() {
         dataType: "json",
         success: function (result) {
             if (result.code === 200) {
-                initTable();
+                freshFileList(dirPathArr[dirPathArr.length - 1]);
+                $("#delete-div").hide();
+                $("#rename-div").hide();
+                $("#move-div").hide();
             }
         }
     });
@@ -297,6 +305,10 @@ function getAllDocs() {
     pathNameArr = [];
     initTable();
     $('.dir-path-info').html("全部文件");
+}
+//删除数组最后一个元素
+function truncate(arr) {
+    return arr.slice(0,-1);
 }
 function hidePopMenu() {
     $("#context-menu").hide();
@@ -408,6 +420,7 @@ function freshFileListForOtherUser(dirId,userId) {
 
 
 function freshDirPath() {
+    debugger
     if (dirPathArr.length === 1) {
         $('.dir-path-info').html("全部文件");
     } else if (dirPathArr.length > 1) {
@@ -416,8 +429,10 @@ function freshDirPath() {
             if (index > 0) {
                 if (index < dirPathArr.length - 1) {
                     path += "<span>\></span><a onclick='toPath(" + index + ")'>" + pathNameArr[dirPathArr[index]] + "</a>";
+                    console.log("if : " + dirPathArr[index]);
                 } else {
                     path += "<span>></span>" + pathNameArr[dirPathArr[index]];
+                    console.log("else : " + dirPathArr[index]);
                 }
             }
         });

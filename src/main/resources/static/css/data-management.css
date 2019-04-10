@@ -51,6 +51,10 @@ html,body{
 #login-module .btn-group{
     top: 65%;
 }
+#login-module .forget-password{
+    top: 55%;
+    left: 70%;
+}
 #login-module div span{
     min-width: 81.6px;
 }

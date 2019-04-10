@@ -35,6 +35,10 @@ public class DocsController {
     private DocsService docsService;
     @Autowired
     private UserService userService;
+	@Autowired
+	private StorageService storageService;
+	@Autowired
+	private StringRedisTemplate stringRedisTemplate;
 
     private static Logger logger = LoggerFactory.getLogger(DocsController.class);
 
@@ -162,8 +166,7 @@ public class DocsController {
     @GetMapping(value = "getAllDocsByPid")
     @ResponseBody
     public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId") int dirId, Integer userId, HttpSession session) {
-
-        User user = userService.selectById(userId);
+		User user = (User) session.getAttribute("user");
         return docsService.getAllDocsByPid(dirId, user);
     }
 
@@ -178,9 +181,6 @@ public class DocsController {
     @GetMapping(value = "getDetail")
     @ResponseBody
     public ResponseResult getDetail(@RequestParam(value = "id") int id, HttpSession session) {
-//        int userId = 1;
-//
-//        User user = userService.selectById(userId);
         User user = (User) session.getAttribute("user");
         return docsService.getDetail(id, user);
     }
@@ -277,14 +277,6 @@ public class DocsController {
         return docsService.getDocsByType(type, user);
     }
 
-
-    //================================================================================================================
-
-
-    @Autowired
-    private StorageService storageService;
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 秒传判断，断点判断

@@ -1,6 +1,7 @@
 package com.tckj.icloud.service;
 
 import com.tckj.icloud.pojo.User;
+import com.tckj.icloud.vo.ResponseResult;
 
 import java.util.List;
 
@@ -62,4 +63,14 @@ public interface UserService {
      * @return
      */
     Boolean delUser(User user);
+    /**
+     * 修改密码
+     * @param oldPassWord
+     * @param newPassword
+     * @param user
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/09 22:10
+     */
+	ResponseResult modifyPassword(String oldPassWord, String newPassword,User user);
 }

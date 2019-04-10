@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <head>
     <title>资料管理平台</title>
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
@@ -82,6 +82,13 @@
                     </li>
                     <li data-v-02139d26="">
                         <a data-v-02139d26="" data-toggle="modal" data-target="#queUsercloudModel">查看用户网盘</a>
+                    </li>
+                </ul>
+                <ul data-v-02139d26="">
+                    <li data-v-02139d26="">
+                        <a data-v-02139d26="" data-toggle="modal" data-target="#modifyPasswordModal">
+                            修改密码
+                        </a>
                     </li>
                 </ul>
                 <ul data-v-02139d26="">
@@ -573,22 +580,22 @@
                            aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group user-name" style="margin-top: 2%">
-                    <span class="input-group-addon" id="basic-addon2">警&nbsp;&nbsp;&nbsp;号：</span>
+                    <span class="input-group-addon">警&nbsp;&nbsp;&nbsp;号：</span>
                     <input id="new_alarm" type="text" class="form-control" placeholder="请输入警号"
                            aria-describedby="basic-addon2">
                 </div>
                 <div class="input-group password" style="margin-top: 2%">
-                    <span class="input-group-addon" id="basic-addon2">密&nbsp;&nbsp;&nbsp;码：</span>
+                    <span class="input-group-addon">密&nbsp;&nbsp;&nbsp;码：</span>
                     <input id="new_password" type="text" class="form-control" placeholder="请输入密码"
                            aria-describedby="basic-addon2">
                 </div>
                 <div class="input-group password" style="margin-top: 2%">
-                    <span class="input-group-addon" id="basic-addon2">确认密码：</span>
+                    <span class="input-group-addon">确认密码：</span>
                     <input id="confirm_password" type="text" class="form-control" placeholder="请重新输入密码"
                            aria-describedby="basic-addon2">
                 </div>
                 <div class="input-group user-name" style="margin-top: 2%;margin-bottom: 2%">
-                    <span class="input-group-addon" id="basic-addon2">角&nbsp;&nbsp;&nbsp;色：</span>
+                    <span class="input-group-addon">角&nbsp;&nbsp;&nbsp;色：</span>
                     <select class="form-control" id="roleId">
                         <option value="1">admin</option>
                         <option value="2">public</option>
@@ -658,12 +665,30 @@
                     </tr>
                     </tbody>
                 </table>
+<!-- 修改密码 -->
+<div class="modal fade" id="modifyPasswordModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <label>原密码</label>
+                <input type="password" class="form-control" id="old_password" placeholder="请输入原密码">
+                <label>新密码</label>
+                <input type="password" class="form-control" id="modify_password" placeholder="请输入新密码">
+                <label>确认密码</label>
+                <input type="password" class="form-control" id="confirm_modify_password" placeholder="再次输入新密码">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" onclick="User.modifyPassword()">确认</button>
+                <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">关闭
+                </button>
             </div>
         </div>
     </div>
 </div>
-
-
 <div id="context-menu" style="display: none;">
     <ul>
         <li id="moveContext" onclick="moveDocs();">移动到</li>
