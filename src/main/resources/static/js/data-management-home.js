@@ -256,7 +256,10 @@ function moveDocsConfirm() {
 }
 
 //根据类型查询文件
-function getDocsByType(num) {
+function getDocsByType(num, e) {
+    $(".all-doc-button").removeClass("router-link-active");
+    $(".sub-list a").removeClass("router-link-active");
+    $(e).addClass("router-link-active");
     var url = Config.baseUrl + "/docs/getDocsByType?type=" + num;
     $.ajax({
         url: url,
@@ -264,7 +267,31 @@ function getDocsByType(num) {
         dataType: "json",
         success: function (result) {
             if (result.code === 200) {
-                $('.dir-path-info').html("全部文件");
+                var title;
+                switch (num) {
+                    case 0: {
+                        title = "其他";
+                        break;
+                    }
+                    case 1: {
+                        title = "图片";
+                        break;
+                    }
+                    case 2: {
+                        title = "文档";
+                        break;
+                    }
+                    case 3: {
+                        title = "视频";
+                        break;
+                    }
+                    case 4: {
+                        title = "音频";
+                        break;
+                    }
+                }
+                console.log(title);
+                $('.dir-path-info').html(title);
                 fillUpTable(result.data);
 
             }
@@ -301,6 +328,8 @@ function renameContext() {
 
 //查询全部文件
 function getAllDocs() {
+    $(".all-doc-button").addClass("router-link-active");
+    $(".sub-list a").removeClass("router-link-active");
     dirPathArr = [];
     pathNameArr = [];
     initTable();
@@ -420,7 +449,6 @@ function freshFileListForOtherUser(dirId,userId) {
 
 
 function freshDirPath() {
-    debugger
     if (dirPathArr.length === 1) {
         $('.dir-path-info').html("全部文件");
     } else if (dirPathArr.length > 1) {

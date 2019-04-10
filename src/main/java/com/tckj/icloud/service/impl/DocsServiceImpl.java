@@ -247,14 +247,14 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         if (type == 0) {
             List<SuffixManage> all = suffixManageService.selectList(new EntityWrapper<>());
             for (SuffixManage suffixManage : all) {
-                suffixStr += suffixManage.getName() + ",";
+                suffixStr += suffixManage.getName().replaceFirst(".", "") + ",";
             }
             System.out.println(suffixStr);
             suffixStr = suffixStr.substring(0, suffixStr.length() - 1);
         } else {
             List<String> suffixList = suffixManageService.selectNames(type);
             for (String suffix : suffixList) {
-                suffixStr += suffix + ",";
+                suffixStr += suffix.replaceFirst(".", "") + ",";
             }
             suffixStr = suffixStr.substring(0, suffixStr.length() - 1);
 
