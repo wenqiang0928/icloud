@@ -665,6 +665,10 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- 修改密码 -->
 <div class="modal fade" id="modifyPasswordModal">
     <div class="modal-dialog">
@@ -812,7 +816,9 @@
         console.log("fileQueued");
         $thelist.append('<div id="' + file.id + '" class="item" style="background-color:#cccccc;width: 100%;height: auto;padding: 10px;margin-bottom: 1px">' +
             '<h4 class="info">' + file.name + '</h4>' +
-            '<button class="remove-this" style="margin-left: 70%;border: none" >移除</button>' +
+            '<button class="remove-this" style="margin-left: 65%;border: none" >移除</button>' +
+            // '<button class="pause-this" style="display:none;border: none;margin-left: 5px" >暂停</button>' +
+            // '<button class="start-this" style="display:none;border: none;margin-left: 5px" >开始</button>' +
             '<p class="state" style="float: left;color: yellowgreen;padding-top: 5px;padding-left: 4%">等待上传...</p>' +
             '</div>');
     });
@@ -829,6 +835,7 @@
     };
     // 上传中
     uploader.on('uploadProgress', function (file, percentage) {
+        $(".pause-this").css("display","inline-block");
         getProgressBar(file, percentage, "FILE", "上传进度");
     });
     // 上传返回结果
@@ -838,7 +845,8 @@
             text = "文件妙传功能，文件已上传。"
         }
         $('#' + file.id).find('p.state').text(text);
-        uploader.removeFile(file,true);
+        console.log(file);
+        uploader.removeFile(file);
         //移除已经上传完毕的对话
         $('#' + file.id).hide(800);
     });
@@ -846,6 +854,7 @@
         $('#' + file.id).find('p.state').text('上传出错');
     });
     uploader.on('uploadComplete', function (file) {
+        $btn.text("开始上传")
         // 隐藏进度条
         fadeOutProgress(file, 'MD5');
         fadeOutProgress(file, 'FILE');
@@ -855,13 +864,37 @@
     // 文件上传
     $btn.on('click', function () {
         console.log("上传...");
-        uploader.upload();
+        // if ($(this).text()=="开始上传") {
+            uploader.upload();
+            // $(this).text("暂停上传");
+        // }else{
+        //     uploader.stop();
+        //     $(this).text("开始上传");
+        // }
         console.log("上传成功");
     });
 
-    $thelist.on('click', '.remove-this', function (file) {
-        // uploader.removeFile(file,true);
-        $('#' + file.id).hide(500);
+    //移除队列中的不想上传的文件
+    $thelist.on('click', '.remove-this', function () {
+        console.log(this)
+        uploader.removeFile(this.parentElement.id,true);
+        $('#' + this.parentElement.id).hide(500);
+    });
+    //暂停单个文件
+    $thelist.on('click', '.pause-this', function () {
+        $(".pause-this").css("display","none");
+        $(".start-this").css("display","inline-block");
+        uploader.stop( uploader.getFile(this.parentElement.id));
+        $(this).text("开始");
+        $(this).removeClass("pause-this").addClass("start-this");
+    });
+    //开始单个问及爱你
+    $thelist.on('click', '.start-this', function () {
+        $(".pause-this").css("display","inline-block");
+        $(".start-this").css("display","none")
+        uploader.upload(this.parentElement.id);
+        $(this).text("暂停");
+        $(this).removeClass("start-this").addClass("pause-this");
     });
 
 
