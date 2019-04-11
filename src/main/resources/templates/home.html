@@ -46,26 +46,26 @@
     </div>
     <ul class="nav-left">
         <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
-        <li><a href="/index/help/">帮助</a></li>
-        <li>
-            <div class="drop-down nav-more drop-down nav-more" id="guideTarget1">
-                <div class="nav-more__button"><span>更多</span></div>
-                <div class="dropdown-wrap" style="display: none;">
-                    <ul class="nav-more__list"><!----> <!----> <!---->
-                        <li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>
-                            <ul>
-                                <li><a>扫描我的文件</a></li>
-                                <li><a>扫描指定文件夹</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </li>
+        <!--<li><a href="/index/help/">帮助</a></li>-->
+        <!--<li>-->
+            <!--<div class="drop-down nav-more drop-down nav-more" id="guideTarget1">-->
+                <!--<div class="nav-more__button"><span>更多</span></div>-->
+                <!--<div class="dropdown-wrap" style="display: none;">-->
+                    <!--<ul class="nav-more__list">&lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;-->
+                        <!--<li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>-->
+                            <!--<ul>-->
+                                <!--<li><a>扫描我的文件</a></li>-->
+                                <!--<li><a>扫描指定文件夹</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
     </ul>
     <div class="yp-header__avatarWrap">
         <img id="guideTarget2" data-toggle="popover" data-placement="bottom" alt="头像"
-             src="https://p1.ssl.qhmsg.com/dm/110_110_100/t01ff97cf587599d047.jpg">
+             src="/img/head.png">
         <div id="user-info" data-v-02139d26="" class="vip-info yp-header__avatarWrap__vip">
             <div data-v-02139d26="" class="corp-detail">
                 <h2 data-v-02139d26="" class="titles"><span data-v-02139d26="" th:text="${session.user.name}"></span>
@@ -104,32 +104,32 @@
     <div id="leftPanel" class="left-panel layoutaside">
         <ul class="menu-list nav">
             <li class="menu-list-item">
-                <a class="router-link-active" style="padding: 0 15px;" onclick="getAllDocs();">
+                <a class="all-doc-button router-link-active" style="padding: 0 15px;" onclick="getAllDocs();">
                     <i class="glyphicon glyphicon-home" style="margin-left: 25px;margin-right: 10px;"></i>全部文件
                 </a>
                 <ul class="sub-list">
                     <li>
-                        <a class="submenu tab-img" onclick="getDocsByType(1)">
+                        <a class="submenu tab-img" onclick="getDocsByType(1, this)">
                             <i class="glyphicon glyphicon-picture"></i>图片
                         </a>
                     </li>
                     <li>
-                        <a class="submenu tab-text" onclick="getDocsByType(2)">
+                        <a class="submenu tab-text" onclick="getDocsByType(2, this)">
                             <i class="glyphicon glyphicon-folder-open"></i>文档
                         </a>
                     </li>
                     <li>
-                        <a class="submenu tab-video" onclick="getDocsByType(3)">
+                        <a class="submenu tab-video" onclick="getDocsByType(3, this)">
                             <i class="glyphicon glyphicon-film"></i>视频
                         </a>
                     </li>
                     <li>
-                        <a class="submenu tab-music" onclick="getDocsByType(4)">
+                        <a class="submenu tab-music" onclick="getDocsByType(4, this)">
                             <i class="glyphicon glyphicon-headphones"></i>音频
                         </a>
                     </li>
                     <li>
-                        <a class="submenu tab-other" onclick="getDocsByType(0)">
+                        <a class="submenu tab-other" onclick="getDocsByType(0, this)">
                             <i class="glyphicon glyphicon-file"></i>其他
                         </a>
                     </li>
@@ -159,52 +159,52 @@
                             <i class="glyphicon glyphicon-folder-open" style="margin-right: 5px;"></i>新建文件夹
                         </a>
                     </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="delete-div"
-                         style="display: none;">
-                        <a id="delete-file-button"
-                           data-v-fccf5e72=""
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                            <i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除
-                        </a>
-                    </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="rename-div"
-                         style="display: none;">
-                        <a id="rename-file-button"
-                           data-toggle="modal" data-target="#renameDocs-modal"
-                           data-v-fccf5e72=""
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                            重命名
-                        </a>
-                    </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="move-div"
-                         style="display: none;">
-                        <a id="move-file-button"
-                           data-v-fccf5e72=""
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                            移动到
-                        </a>
-                    </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="preview-div"
-                         style="display: none;">
-                        <a id="preview-file-button"
-                           data-v-fccf5e72=""
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                            预览
-                        </a>
-                    </div>
-                    <div data-v-fccf5e72="" class="button-chain button-group--switch" id="download-div"
-                         style="display: none;">
-                        <a id="download-file-button"
-                           data-v-fccf5e72=""
-                           class="button-chain-item router-link-exact-active router-link-active"
-                           style="letter-spacing: 2px;border-radius: 3px;width: 80px;">
-                            下载
-                        </a>
-                    </div>
+                    <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="delete-div"-->
+                         <!--style="display: none;">-->
+                        <!--<a id="delete-file-button"-->
+                           <!--data-v-fccf5e72=""-->
+                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                            <!--<i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="rename-div"-->
+                         <!--style="display: none;">-->
+                        <!--<a id="rename-file-button"-->
+                           <!--data-toggle="modal" data-target="#renameDocs-modal"-->
+                           <!--data-v-fccf5e72=""-->
+                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                            <!--重命名-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="move-div"-->
+                         <!--style="display: none;">-->
+                        <!--<a id="move-file-button"-->
+                           <!--data-v-fccf5e72=""-->
+                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                            <!--移动到-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="preview-div"-->
+                         <!--style="display: none;">-->
+                        <!--<a id="preview-file-button"-->
+                           <!--data-v-fccf5e72=""-->
+                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                            <!--预览-->
+                        <!--</a>-->
+                    <!--</div>-->
+                    <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="download-div"-->
+                         <!--style="display: none;">-->
+                        <!--<a id="download-file-button"-->
+                           <!--data-v-fccf5e72=""-->
+                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                            <!--下载-->
+                        <!--</a>-->
+                    <!--</div>-->
                 </div>
 
                 <div style="float: right">
@@ -697,6 +697,8 @@
     <ul>
         <li id="moveContext" onclick="moveDocs();">移动到</li>
         <li id="renameContext" onclick="renameContext();">重命名</li>
+        <li id="previewContext" onclick="previewDocs();">预览</li>
+        <li id="downloadContext" onclick="downloadDocs();">下载</li>
         <li id="deleteContext" onclick="deleteDocs();">删除</li>
     </ul>
 </div>
@@ -714,7 +716,7 @@
     var $thelist = $('#thelist');
     var chunkSize = 5 * 1024 * 1024;
     var userId = '${userId}';
-    debugger
+
     // HOOK 这个必须要再uploader实例化前面
     WebUploader.Uploader.register({
         'before-send-file': 'beforeSendFile',

@@ -1,4 +1,4 @@
-var dirPathArr = [];
+                                    var dirPathArr = [];
 var pathNameArr = [];
 //移动时，用户选中的节点id
 var nowSelectedNodeId = 0;
@@ -15,6 +15,12 @@ $(document).ready(function () {
     $('#download-file-button').bind("click", downloadDocs);
     $('#renameDocs-modal .modal-footer .btn-info').bind("click", renameDocs);
     $('#moveDocs-modal .modal-footer .btn-info').bind("click", moveDocsConfirm);
+
+    $(document).ready(function(){
+        $(document).bind("contextmenu",function(e){
+            return false;
+        });
+    });
 
     showUserDiv();
 });
@@ -256,7 +262,10 @@ function moveDocsConfirm() {
 }
 
 //根据类型查询文件
-function getDocsByType(num) {
+function getDocsByType(num, e) {
+    $(".all-doc-button").removeClass("router-link-active");
+    $(".sub-list a").removeClass("router-link-active");
+    $(e).addClass("router-link-active");
     var url = Config.baseUrl + "/docs/getDocsByType?type=" + num;
     $.ajax({
         url: url,
@@ -264,7 +273,31 @@ function getDocsByType(num) {
         dataType: "json",
         success: function (result) {
             if (result.code === 200) {
-                $('.dir-path-info').html("全部文件");
+                var title;
+                switch (num) {
+                    case 0: {
+                        title = "其他";
+                        break;
+                    }
+                    case 1: {
+                        title = "图片";
+                        break;
+                    }
+                    case 2: {
+                        title = "文档";
+                        break;
+                    }
+                    case 3: {
+                        title = "视频";
+                        break;
+                    }
+                    case 4: {
+                        title = "音频";
+                        break;
+                    }
+                }
+                console.log(title);
+                $('.dir-path-info').html(title);
                 fillUpTable(result.data);
 
             }
@@ -301,6 +334,8 @@ function renameContext() {
 
 //查询全部文件
 function getAllDocs() {
+    $(".all-doc-button").addClass("router-link-active");
+    $(".sub-list a").removeClass("router-link-active");
     dirPathArr = [];
     pathNameArr = [];
     initTable();
@@ -420,7 +455,6 @@ function freshFileListForOtherUser(dirId,userId) {
 
 
 function freshDirPath() {
-    debugger
     if (dirPathArr.length === 1) {
         $('.dir-path-info').html("全部文件");
     } else if (dirPathArr.length > 1) {
@@ -468,8 +502,9 @@ function fillUpTable(docsList) {
     $(".context").contextmenu({
         target: '#context-menu',
         before: function () {
+            console.log(event.srcElement.tagName);
             // execute code before context menu if shown
-            var target = $(event.srcElement).prev().find('input').get(0);
+            var target = $(event.srcElement).parents().closest('li').find("input")[0];
             if (!target.checked) {
                 var inputArr = $('.column-1 input');
                 for (var i = 0; i < inputArr.length; i++) {
@@ -477,11 +512,27 @@ function fillUpTable(docsList) {
                 }
                 target.checked = true;
             }
-            var count = $("input[type='checkbox']:checked").length;
+            var selectedDocsArr = $("input[type='checkbox']:checked");
+            var count = selectedDocsArr.length;
             if (count > 1) {
                 $("#renameContext").hide();
+                $("#previewContext").hide();
+                $("#downloadContext").hide();
             } else if(count === 1) {
                 $("#renameContext").show();
+                var path = selectedDocsArr.data("path");
+                var type = selectedDocsArr.data("type");
+                var suffix = path.substring(path.lastIndexOf(".") + 1);
+                if(suffix.toLowerCase() == "mp4") {
+                    $("#previewContext").show();
+                } else {
+                    $("#previewContext").hide();
+                }
+                if(type != "1") {
+                    $("#downloadContext").show();
+                } else {
+                    $("#downloadContext").hide();
+                }
             }
         },
         onItem: function (context,e) {
