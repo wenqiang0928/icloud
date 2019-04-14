@@ -193,6 +193,20 @@ public class DocsController {
     }
 
     /**
+     * 还原已删除文件
+     *
+     * @param ids
+     * @param session
+     * @return
+     */
+    @PostMapping(value = "restoreFile")
+    @ResponseBody
+    public ResponseResult restoreFile(@RequestParam(value = "ids") String ids,HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return this.docsService.restoreDeleteDocs(ids.split(","), user);
+    }
+
+    /**
      * 获取文件/文件夹详情
      *
      * @param id

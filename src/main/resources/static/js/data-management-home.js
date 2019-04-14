@@ -3,6 +3,8 @@ var pathNameArr = [];
 //移动时，用户选中的节点id
 var nowSelectedNodeId = 0;
 
+// 列表属性 0-正常文件 1-回收站文件
+var listType = 0;
 
 $(document).ready(function () {
     $('#addFile').bind("click", addFile);
@@ -61,6 +63,20 @@ function getSelectedDocsIds() {
     return ids;
 }
 
+/**
+ * 监听全选按钮状态
+ *
+ */
+function allFileSelect() {
+    setTimeout(function () {
+        if (listType == 0) {
+            checkboxChanged();
+        } else {
+            deleteBtnChange();
+        }
+    }, 10);
+}
+
 //监听页面复选框
 function checkboxChanged() {
     var count = $("input[type='checkbox']:checked").length;
@@ -68,7 +84,6 @@ function checkboxChanged() {
         $("#delete-div").hide();
         $("#rename-div").hide();
         $("#move-div").hide();
-        $("#preview-div").hide();
         $("#download-div").hide();
     } else if (count === 1) {
         $("#delete-div").show();
@@ -77,10 +92,6 @@ function checkboxChanged() {
         var selectedDocsArr = $("input[type='checkbox']:checked");
         var path = selectedDocsArr.data("path");
         var type = selectedDocsArr.data("type");
-        var suffix = path.substring(path.lastIndexOf(".") + 1);
-        if (suffix.toLowerCase() == "mp4") {
-            $("#preview-div").show();
-        }
         if (type != "1") {
             $("#download-div").show();
         }
@@ -88,9 +99,20 @@ function checkboxChanged() {
         $("#delete-div").show();
         $("#move-div").show();
         $('#rename-div').hide();
-        $("#preview-div").hide();
         $("#download-div").hide();
     }
+}
+
+/**
+ * 删除列表顶部按钮状态变化
+ */
+function deleteBtnChange() {
+    var count = $(".file-list input[type='checkbox']:checked").length;
+    // if (count > 0) {
+    //     $("#restore-div").show();
+    // } else {
+    //     $("#restore-div").hide();
+    // }
 }
 
 
@@ -345,8 +367,11 @@ function renameContext() {
 
 //查询全部文件
 function getAllDocs() {
+    listType = 0;
     $("#upload-button").show();
     $("#new-file-button").show();
+    $("#restore-div").hide();
+    $(".file-table-title input").get(0).checked = false;
     $(".all-doc-button").addClass("router-link-active");
     $(".sub-list a,.delete-doc-button").removeClass("router-link-active");
     dirPathArr = [];
@@ -359,17 +384,28 @@ function getAllDocs() {
  * 查看回收站
  */
 function getDeleteFile() {
+    listType = 1;
+    $(".file-table-title input").get(0).checked = false;
     $("#upload-button").hide();
     $("#new-file-button").hide();
     $('.dir-path-info').html("");
+    $("#restore-div").show();
     $(".delete-doc-button").addClass("router-link-active");
     $(".sub-list a,.all-doc-button").removeClass("router-link-active");
     dirPathArr = [];
     pathNameArr = [];
+    getDeleteList();
+}
+
+/**
+ * 获取已删除文件列表
+ *
+ */
+function getDeleteList() {
     var url = Config.baseUrl + "/docs/getDeleteDocs";
     $.get(url, {}, function (result) {
         if (result.code === 200) {
-            fillUpTable(result.data.docsList);
+            fillDeleteDocList(result.data.docsList);
             if (result.data.docsList.length && result.data.docsList.length > 0) {
                 $(".empty-wrap").hide();
                 $(".table-wrap").show();
@@ -379,6 +415,32 @@ function getDeleteFile() {
             }
         }
     });
+}
+
+/**
+ * 执行还原文件操作
+ *
+ */
+function restoreFile() {
+    var selected = $(".file-list input[type='checkbox']:checked");
+    var count = selected.length;
+    if (count > 0) {
+        var list = [];
+        $.each(selected, function(index, item) {
+            list.push(item.value);
+        });
+        $.ajax({
+            url: Config.baseUrl + "/docs/restoreFile",
+            type: "POST",
+            data: {
+                ids: list.join(",")
+            },
+            dataType: "json",
+            success: function (result) {
+                getDeleteList();
+            }
+        });
+    }
 }
 
 //删除数组最后一个元素
@@ -435,6 +497,8 @@ function centerModals() {
 }
 
 function freshFileList(dirId) {
+    listType = 0;
+    $(".file-table-title input").get(0).checked = false;
     if (event && event.srcElement) {
         var clicked = $(event.srcElement).parents().closest('li').find("input")[0];
         if (clicked && $(clicked).data("type") != "1") {
@@ -534,6 +598,33 @@ function toPath(index) {
     freshFileList(dirPathArr[dirPathArr.length - 1]);
 }
 
+/**
+ * 渲染回收站列表
+ *
+ * @param docsList
+ */
+function fillDeleteDocList(docsList) {
+    var rows = "";
+    docsList.forEach(function (doc) {
+        var floderIcon = "<i class='glyphicon glyphicon-folder-close' style='color: rgb(255,214,89);margin-right: 8px;'></i>";
+        var fileIcon = "<i class='glyphicon glyphicon-file' style='color: #eee;margin-right: 8px;'></i>";
+        rows += "<li style='font-size: 13px;'><ul>" +
+            "<li class='column-1'><input type='checkbox' value='" + doc.id + "' data-path='" + doc.path + "' data-type='" + doc.type + "' onchange='deleteBtnChange()'></li>" +
+            "<li class='column-2'>" +
+            "<span style='cursor: unset;'>" + (doc.type === 1 ? floderIcon : fileIcon) + doc.name + "</span>" +
+            "</li>" +
+            "<li class='column-3'>" + (doc.size ? doc.size : "-") + "</li>" +
+            "<li class='column-4'>" + doc.createTime + "</li>" +
+            "</ul></li>";
+    });
+    $(".file-table .file-list").html(rows);
+    $(".file-list input").bind("click", function () {
+        if (!$(this).get(0).checked) {
+            $(".file-table-title input").get(0).checked = false;
+        }
+    });
+}
+
 function fillUpTable(docsList) {
     var rows = "";
     docsList.forEach(function (doc) {
@@ -572,12 +663,6 @@ function fillUpTable(docsList) {
                 $("#renameContext").show();
                 var path = selectedDocsArr.data("path");
                 var type = selectedDocsArr.data("type");
-                var suffix = path.substring(path.lastIndexOf(".") + 1);
-                // if (suffix.toLowerCase() == "mp4") {
-                //     $("#previewContext").show();
-                // } else {
-                //     $("#previewContext").hide();
-                // }
                 if (type != "1") {
                     $("#downloadContext").show();
                 } else {

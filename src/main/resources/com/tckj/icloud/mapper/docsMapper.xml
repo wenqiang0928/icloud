@@ -6,4 +6,11 @@
         UPDATE `docs` SET is_delete = 1 WHERE id = #{value}
     </select>
 
+    <update id="updateDeleteStatus">
+        update docs set is_delete = ${status} where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>

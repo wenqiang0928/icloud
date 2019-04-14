@@ -151,8 +151,12 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
     }
 
     @Override
-    public ResponseResult restoreDeleteDocs(int pid, User user) {
-        return null;
+    public ResponseResult restoreDeleteDocs(String[] ids, User user) {
+        List<Integer> list = Arrays.asList(ids).stream().map(item -> {
+            return Integer.parseInt(item);
+        }).collect(Collectors.toList());
+        this.docsMapper.updateDeleteStatus(list, 0);
+        return new SuccessResponse(null);
     }
 
     @Override

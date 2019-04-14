@@ -65,11 +65,11 @@ public interface DocsService {
     /**
      * 还原已删除文件
      *
-     * @param pid
+     * @param ids
      * @param user
      * @return
      */
-    ResponseResult restoreDeleteDocs(int pid, User user);
+    ResponseResult restoreDeleteDocs(String[] ids, User user);
 
     /**
      * 获取文件/文件夹详情
