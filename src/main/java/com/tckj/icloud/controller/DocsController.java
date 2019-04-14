@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,10 +36,10 @@ public class DocsController {
     private DocsService docsService;
     @Autowired
     private UserService userService;
-	@Autowired
-	private StorageService storageService;
-	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private StorageService storageService;
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     private static Logger logger = LoggerFactory.getLogger(DocsController.class);
 
@@ -82,11 +83,11 @@ public class DocsController {
             // 设置response的Header
             response.setHeader("Content-disposition", "attachment;filename=" + new String(filename.getBytes("GB2312"), "ISO_8859_1"));
 //            response.setHeader("Content-length", "" + file.length());
-            if(ext.equals("JPG")){
+            if (ext.equals("JPG")) {
                 response.setContentType("image/jpeg");
-            }else if(ext.equals("PNG")){
+            } else if (ext.equals("PNG")) {
                 response.setContentType("image/png");
-            }else if(ext.equals("MP4")){
+            } else if (ext.equals("MP4")) {
                 response.setContentType("video/mp4");
             }
             OutputStream toClient = response.getOutputStream();
@@ -99,8 +100,8 @@ public class DocsController {
         }
     }
 
-    @GetMapping(value = "/getVideoStream")
-    public void getVideoStream(String path, HttpServletResponse response) {
+    @GetMapping(value = "/getFileStream")
+    public void getFileStream(String path, HttpServletResponse response) {
         try {
             FileInputStream fis;
             OutputStream os;
@@ -109,7 +110,15 @@ public class DocsController {
             byte data[] = new byte[size];
             fis.read(data);
             fis.close();
-            response.setContentType("video/mp4");
+            String suffix = path.substring(path.lastIndexOf(".") + 1).toLowerCase();
+            String[] audio = {"mp4", "avi"};
+            String[] image = {"jpg", "png"};
+            if (Arrays.asList(audio).contains(suffix)) {
+                response.setContentType("video/" + suffix);
+            }
+            if (Arrays.asList(image).contains(suffix)) {
+                response.setContentType("image/" + suffix);
+            }
             os = response.getOutputStream();
             os.write(data);
             os.flush();
@@ -166,8 +175,21 @@ public class DocsController {
     @GetMapping(value = "getAllDocsByPid")
     @ResponseBody
     public ResponseResult getAllDocsByPid(@RequestParam(value = "dirId") int dirId, Integer userId, HttpSession session) {
-		User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         return docsService.getAllDocsByPid(dirId, user);
+    }
+
+    /**
+     * 查找删除文件
+     *
+     * @param session
+     * @return
+     */
+    @GetMapping(value = "getDeleteDocs")
+    @ResponseBody
+    public ResponseResult getDeleteDocs(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return this.docsService.geDeleteDocs(user);
     }
 
     /**

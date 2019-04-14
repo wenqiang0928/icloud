@@ -7,19 +7,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface DocsService {
-    void upload(String name,Integer type,String path,Integer pid,
-                String md5,Integer createUserId,String caseNo,
+    void upload(String name, Integer type, String path, Integer pid,
+                String md5, Integer createUserId, String caseNo,
                 MultipartFile file) throws IOException;
 
-    void uploadWithBlock(String name,Integer type,String path,Integer pid,
+    void uploadWithBlock(String name, Integer type, String path, Integer pid,
                          String md5,
                          Long size,
                          Integer chunks,
-                         Integer chunk,Integer uploadUserId,String caseNo,
+                         Integer chunk, Integer uploadUserId, String caseNo,
                          MultipartFile file) throws IOException;
 
     /**
      * 新建文件夹
+     *
      * @param nowDirId
      * @param name
      * @param user
@@ -31,6 +32,7 @@ public interface DocsService {
 
     /**
      * 移动文件/文件夹
+     *
      * @param nowDirId
      * @param targetDirId
      * @param ids
@@ -43,6 +45,7 @@ public interface DocsService {
 
     /**
      * 查询目录中所有的文件及文件夹
+     *
      * @param dirId
      * @param user
      * @return com.tckj.icloud.vo.ResponseResult
@@ -52,7 +55,25 @@ public interface DocsService {
     ResponseResult getAllDocsByPid(int dirId, User user);
 
     /**
+     * 查找删除文件
+     *
+     * @param user
+     * @return
+     */
+    ResponseResult geDeleteDocs(User user);
+
+    /**
+     * 还原已删除文件
+     *
+     * @param pid
+     * @param user
+     * @return
+     */
+    ResponseResult restoreDeleteDocs(int pid, User user);
+
+    /**
      * 获取文件/文件夹详情
+     *
      * @param id
      * @param user
      * @return com.tckj.icloud.vo.ResponseResult
@@ -63,6 +84,7 @@ public interface DocsService {
 
     /**
      * 文件搜索
+     *
      * @param name
      * @param suffix
      * @param type
@@ -73,8 +95,9 @@ public interface DocsService {
      */
     ResponseResult findDocs(String name, String suffix, Integer type, User user);
 
-    /** 
+    /**
      * 删除文件/文件夹
+     *
      * @param nowDirId
      * @param ids
      * @param user
@@ -82,36 +105,39 @@ public interface DocsService {
      * @author LiZG
      * @date 2019/04/06 8:16
      */
-	ResponseResult deleteDocs(int nowDirId, String ids, User user);
+    ResponseResult deleteDocs(int nowDirId, String ids, User user);
 
-	/**
-	 * 重命名
-	 * @param nowDirId
-	 * @param docsId
-	 * @param name
-	 * @param user
-	 * @return com.tckj.icloud.vo.ResponseResult
-	 * @author LiZG
-	 * @date 2019/04/06 23:26
-	 */
+    /**
+     * 重命名
+     *
+     * @param nowDirId
+     * @param docsId
+     * @param name
+     * @param user
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/06 23:26
+     */
     ResponseResult renameDocs(int nowDirId, int docsId, String name, User user);
 
     /**
      * 文件夹树
-	 * @param ids
+     *
+     * @param ids
      * @param user
      * @return com.tckj.icloud.vo.ResponseResult
      * @author LiZG
      * @date 2019/04/07 13:39
      */
-	ResponseResult dirTree(String ids,User user);
+    ResponseResult dirTree(String ids, User user);
 
-	/**
-	 * 根据文件类型查询
-	 * @param type
-	 * @return com.tckj.icloud.vo.ResponseResult
-	 * @author LiZG
-	 * @date 2019/04/07 23:36
-	 */
-	ResponseResult getDocsByType(int type,User user);
+    /**
+     * 根据文件类型查询
+     *
+     * @param type
+     * @return com.tckj.icloud.vo.ResponseResult
+     * @author LiZG
+     * @date 2019/04/07 23:36
+     */
+    ResponseResult getDocsByType(int type, User user);
 }

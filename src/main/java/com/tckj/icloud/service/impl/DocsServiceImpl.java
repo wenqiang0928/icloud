@@ -27,6 +27,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //import static com.tckj.icloud.utils.UploadUtils.*;
 @Service
@@ -119,9 +120,9 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         }
 
         Wrapper<Docs> wrapper = new EntityWrapper<>();
-        wrapper.eq("pid",dirId);
-        wrapper.eq("is_delete",0);
-        wrapper.orderBy("modify_time",false);
+        wrapper.eq("pid", dirId);
+        wrapper.eq("is_delete", 0);
+        wrapper.orderBy("modify_time", false);
         List<Docs> docsList = docsMapper.selectList(wrapper);
 
         Map<String, Object> resultMap = new HashMap<>(2);
@@ -131,6 +132,27 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
         resultMap.put("nowDir", nowDir);
 
         return new SuccessResponse(resultMap);
+    }
+
+    @Override
+    public ResponseResult geDeleteDocs(User user) {
+        Wrapper<Docs> wrapper = new EntityWrapper<>();
+        wrapper.eq("create_user_id", user.getId()).eq("is_delete", 1).orderBy("modify_time", false);
+        List<Docs> docsList = docsMapper.selectList(wrapper);
+        List<Integer> idList = docsList.stream().map(item -> {
+            return item.getId();
+        }).collect(Collectors.toList());
+        List<Docs> res = docsList.stream().filter(item -> {
+            return !idList.contains(item.getPid());
+        }).collect(Collectors.toList());
+        Map<String, Object> resultMap = new HashMap<>(2);
+        resultMap.put("docsList", res);
+        return new SuccessResponse(resultMap);
+    }
+
+    @Override
+    public ResponseResult restoreDeleteDocs(int pid, User user) {
+        return null;
     }
 
     @Override
@@ -159,7 +181,7 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
             wrapper.eq("type", type);
         }
         wrapper.eq("create_user_id", user.getId());
-        wrapper.orderBy("modify_time",false);
+        wrapper.orderBy("modify_time", false);
         List<Docs> docsList = docsMapper.selectList(wrapper);
         return new SuccessResponse(docsList);
     }
@@ -303,7 +325,8 @@ public class DocsServiceImpl extends ServiceImpl<DocsMapper, Docs> implements Do
      * @author LiZG
      * @date 2019/04/06 10:05
      */
-    private void deleteByPid(int pid) {
+    private void
+    deleteByPid(int pid) {
         /*
         两种方案：
         1、先查出所有的pid，再根据pid进行删除

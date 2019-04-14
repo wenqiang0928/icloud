@@ -1,4 +1,4 @@
-                                    var dirPathArr = [];
+var dirPathArr = [];
 var pathNameArr = [];
 //移动时，用户选中的节点id
 var nowSelectedNodeId = 0;
@@ -11,13 +11,12 @@ $(document).ready(function () {
     $('body').bind("click", hidePopMenu);
     $('#delete-file-button').bind("click", deleteDocs);
     $('#move-file-button').bind("click", moveDocs);
-    $('#preview-file-button').bind("click", previewDocs);
     $('#download-file-button').bind("click", downloadDocs);
     $('#renameDocs-modal .modal-footer .btn-info').bind("click", renameDocs);
     $('#moveDocs-modal .modal-footer .btn-info').bind("click", moveDocsConfirm);
 
-    $(document).ready(function(){
-        $(document).bind("contextmenu",function(e){
+    $(document).ready(function () {
+        $(document).bind("contextmenu", function (e) {
             return false;
         });
     });
@@ -79,10 +78,10 @@ function checkboxChanged() {
         var path = selectedDocsArr.data("path");
         var type = selectedDocsArr.data("type");
         var suffix = path.substring(path.lastIndexOf(".") + 1);
-        if(suffix.toLowerCase() == "mp4") {
+        if (suffix.toLowerCase() == "mp4") {
             $("#preview-div").show();
         }
-        if(type != "1") {
+        if (type != "1") {
             $("#download-div").show();
         }
     } else if (count > 1) {
@@ -140,26 +139,35 @@ function deleteDocs() {
     });
 }
 
-// 预览视频
-function previewDocs() {
-    var selectedDocsArr = $("input[type='checkbox']:checked");
-    var path = selectedDocsArr.data("path");
-    // var suffix = path.substring(path.lastIndexOf(".") + 1);
-    // if(suffix.toLowerCase() != "mp4") {
-    //     return;
-    // }
-    var source = document.createElement("source");
-    source.src = "/docs/getVideoStream?path=" + path;
-    source.type = "video/mp4";
-    $("#video-player").html(source);
-    $("#preview-box").show();
-}
-
-// 关闭预览窗口
-function closePreviewBox() {
-    $("#preview-box").hide();
-    $("#video-player")[0].pause();
-    $("#video-player").html("");
+/**
+ * 预览文件
+ *
+ * @param path
+ */
+function doPreview(path) {
+    $("#preview-modal").on("hidden.bs.modal", function () {
+        $("#preview-view").html("");
+    });
+    var suffix = path.substring(path.lastIndexOf(".") + 1);
+    if (["mp4", "avi"].indexOf(suffix.toLowerCase()) != -1) {
+        var video = document.createElement("video");
+        video.controls = true;
+        video.preload = "auto";
+        video.autoplay = true;
+        var source = document.createElement("source");
+        source.src = "/docs/getFileStream?path=" + path;
+        source.type = "video/" + suffix;
+        $(video).html(source).css({width: "100%"});
+        $("#preview-view").html(video);
+        $("#preview-modal").modal("show");
+    }
+    if (["jpg", "png"].indexOf(suffix.toLowerCase()) != -1) {
+        var img = document.createElement("img");
+        img.src = "/docs/getFileStream?path=" + path;
+        $(img).css({maxWidth: '100%', maxHeight: '100%'});
+        $("#preview-view").html(img).css({textAlign: 'center'});
+        $("#preview-modal").modal("show");
+    }
 }
 
 // 下载文件
@@ -167,14 +175,14 @@ function downloadDocs() {
     var selectedDocsArr = $("input[type='checkbox']:checked");
     var path = selectedDocsArr.data("path");
     var form = $("<form>");   //定义一个form表单
-    form.attr('style','display:none');   //下面为在form表单中添加查询参数
-    form.attr('target','');
-    form.attr('method','post');
-    form.attr('action',"/docs/downLoad");
+    form.attr('style', 'display:none');   //下面为在form表单中添加查询参数
+    form.attr('target', '');
+    form.attr('method', 'post');
+    form.attr('action', "/docs/downLoad");
     var input1 = $('<input>');
-    input1.attr('type','hidden');
-    input1.attr('name','path');
-    input1.attr('value',path);
+    input1.attr('type', 'hidden');
+    input1.attr('name', 'path');
+    input1.attr('value', path);
     $('body').append(form);  //将表单放置在web中
     form.append(input1);   //将查询参数控件提交到表单上
     form.submit();   //表单提交
@@ -263,8 +271,10 @@ function moveDocsConfirm() {
 
 //根据类型查询文件
 function getDocsByType(num, e) {
+    $("#upload-button").show();
+    $("#new-file-button").show();
     $(".all-doc-button").removeClass("router-link-active");
-    $(".sub-list a").removeClass("router-link-active");
+    $(".sub-list a,.delete-doc-button").removeClass("router-link-active");
     $(e).addClass("router-link-active");
     var url = Config.baseUrl + "/docs/getDocsByType?type=" + num;
     $.ajax({
@@ -322,6 +332,7 @@ function selectDocs() {
         });
     }
 }
+
 //右键重命名
 function renameContext() {
     //判断选中的checkbox
@@ -334,17 +345,47 @@ function renameContext() {
 
 //查询全部文件
 function getAllDocs() {
+    $("#upload-button").show();
+    $("#new-file-button").show();
     $(".all-doc-button").addClass("router-link-active");
-    $(".sub-list a").removeClass("router-link-active");
+    $(".sub-list a,.delete-doc-button").removeClass("router-link-active");
     dirPathArr = [];
     pathNameArr = [];
     initTable();
     $('.dir-path-info').html("全部文件");
 }
+
+/**
+ * 查看回收站
+ */
+function getDeleteFile() {
+    $("#upload-button").hide();
+    $("#new-file-button").hide();
+    $('.dir-path-info').html("");
+    $(".delete-doc-button").addClass("router-link-active");
+    $(".sub-list a,.all-doc-button").removeClass("router-link-active");
+    dirPathArr = [];
+    pathNameArr = [];
+    var url = Config.baseUrl + "/docs/getDeleteDocs";
+    $.get(url, {}, function (result) {
+        if (result.code === 200) {
+            fillUpTable(result.data.docsList);
+            if (result.data.docsList.length && result.data.docsList.length > 0) {
+                $(".empty-wrap").hide();
+                $(".table-wrap").show();
+            } else {
+                $(".empty-wrap").show();
+                $(".table-wrap").hide();
+            }
+        }
+    });
+}
+
 //删除数组最后一个元素
 function truncate(arr) {
-    return arr.slice(0,-1);
+    return arr.slice(0, -1);
 }
+
 function hidePopMenu() {
     $("#context-menu").hide();
 }
@@ -394,10 +435,18 @@ function centerModals() {
 }
 
 function freshFileList(dirId) {
+    if (event && event.srcElement) {
+        var clicked = $(event.srcElement).parents().closest('li').find("input")[0];
+        if (clicked && $(clicked).data("type") != "1") {
+            var path = $(clicked).data("path");
+            doPreview(path);
+            return;
+        }
+    }
     var url = Config.baseUrl + "/docs/getAllDocsByPid";
     var params = {
         "dirId": dirId,
-        "userId":user.id
+        "userId": user.id
     };
     $.get(url, params, function (result) {
         if (result.code === 200) {
@@ -416,20 +465,21 @@ function freshFileList(dirId) {
             }
         }
     });
+
 }
 
-function freshFileListForOtherUser(dirId,userId) {
+function freshFileListForOtherUser(dirId, userId) {
     var url = Config.baseUrl + "/docs/getAllDocsByPid";
     var params = {
         "dirId": 0,
-        "userId":userId
+        "userId": userId
     };
     $.get(url, params, function (result) {
         if (result.code === 200) {
             var url = Config.baseUrl + "/docs/getAllDocsByPid";
             var params = {
                 "dirId": result.data.nowDir.id,
-                "userId":userId
+                "userId": userId
             };
             $.get(url, params, function (result) {
                 if (result.code === 200) {
@@ -518,24 +568,24 @@ function fillUpTable(docsList) {
                 $("#renameContext").hide();
                 $("#previewContext").hide();
                 $("#downloadContext").hide();
-            } else if(count === 1) {
+            } else if (count === 1) {
                 $("#renameContext").show();
                 var path = selectedDocsArr.data("path");
                 var type = selectedDocsArr.data("type");
                 var suffix = path.substring(path.lastIndexOf(".") + 1);
-                if(suffix.toLowerCase() == "mp4") {
-                    $("#previewContext").show();
-                } else {
-                    $("#previewContext").hide();
-                }
-                if(type != "1") {
+                // if (suffix.toLowerCase() == "mp4") {
+                //     $("#previewContext").show();
+                // } else {
+                //     $("#previewContext").hide();
+                // }
+                if (type != "1") {
                     $("#downloadContext").show();
                 } else {
                     $("#downloadContext").hide();
                 }
             }
         },
-        onItem: function (context,e) {
+        onItem: function (context, e) {
             // execute on menu item selection
             // console.log(e.target);
         }
@@ -551,7 +601,7 @@ function initTable() {
     var url = Config.baseUrl + "/docs/getAllDocsByPid";
     var params = {
         "dirId": 0,
-        "userId":user.id
+        "userId": user.id
     };
     $.get(url, params, function (result) {
         if (result.code === 200) {

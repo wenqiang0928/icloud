@@ -11,7 +11,7 @@
     <script type="text/javascript" src="/js/bootstrap-contextmenu.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-treeview.js"></script>
 
-
+    <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
@@ -26,17 +26,6 @@
 
 </head>
 <body>
-<div id="preview-box"
-     style="display: none;z-index: 999; position: fixed;height: 500px;width: 800px;top: 50%;margin-top: -250px;left: 50%;margin-left: -400px;">
-    <div onclick="closePreviewBox()"
-         style="width: fit-content;font-size: 15px;z-index: 999;background-color: rgb(0,91,200);height: 20px;line-height: 20px;">
-        关闭
-    </div>
-    <div style="height: calc(100% - 20px);">
-        <video id="video-player" preload="auto" controls="controls"
-               style="z-index: 999;width: 100%;height: 100%;"></video>
-    </div>
-</div>
 <div id="topPanel" class="yp-header" style="z-index: 99;">
     <div class="yp-logo">
         <a href="/" title="资料管理平台">
@@ -48,19 +37,19 @@
         <li><a href="#/fileManage" class="router-link-active">文件 </a></li>
         <!--<li><a href="/index/help/">帮助</a></li>-->
         <!--<li>-->
-            <!--<div class="drop-down nav-more drop-down nav-more" id="guideTarget1">-->
-                <!--<div class="nav-more__button"><span>更多</span></div>-->
-                <!--<div class="dropdown-wrap" style="display: none;">-->
-                    <!--<ul class="nav-more__list">&lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;-->
-                        <!--<li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>-->
-                            <!--<ul>-->
-                                <!--<li><a>扫描我的文件</a></li>-->
-                                <!--<li><a>扫描指定文件夹</a></li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-            <!--</div>-->
+        <!--<div class="drop-down nav-more drop-down nav-more" id="guideTarget1">-->
+        <!--<div class="nav-more__button"><span>更多</span></div>-->
+        <!--<div class="dropdown-wrap" style="display: none;">-->
+        <!--<ul class="nav-more__list">&lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt; &lt;!&ndash;&ndash;&gt;-->
+        <!--<li class="nav-more__secondary-menu clean-repeat-wrap"><span>清理重复文件</span>-->
+        <!--<ul>-->
+        <!--<li><a>扫描我的文件</a></li>-->
+        <!--<li><a>扫描指定文件夹</a></li>-->
+        <!--</ul>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
         <!--</li>-->
     </ul>
     <div class="yp-header__avatarWrap">
@@ -135,6 +124,11 @@
                     </li>
                 </ul>
             </li>
+            <li class="menu-list-item">
+                <a class="delete-doc-button" style="padding: 0 15px;" onclick="getDeleteFile();">
+                    <i class="glyphicon glyphicon-inbox" style="margin-left: 25px;margin-right: 10px;"></i>回收站
+                </a>
+            </li>
         </ul>
     </div>
     <div id="app" class="center-panel"><!---->
@@ -160,50 +154,50 @@
                         </a>
                     </div>
                     <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="delete-div"-->
-                         <!--style="display: none;">-->
-                        <!--<a id="delete-file-button"-->
-                           <!--data-v-fccf5e72=""-->
-                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
-                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
-                            <!--<i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除-->
-                        <!--</a>-->
+                    <!--style="display: none;">-->
+                    <!--<a id="delete-file-button"-->
+                    <!--data-v-fccf5e72=""-->
+                    <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                    <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                    <!--<i class="glyphicon glyphicon-trash" style="margin-right: 5px;"></i>删除-->
+                    <!--</a>-->
                     <!--</div>-->
                     <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="rename-div"-->
-                         <!--style="display: none;">-->
-                        <!--<a id="rename-file-button"-->
-                           <!--data-toggle="modal" data-target="#renameDocs-modal"-->
-                           <!--data-v-fccf5e72=""-->
-                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
-                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
-                            <!--重命名-->
-                        <!--</a>-->
+                    <!--style="display: none;">-->
+                    <!--<a id="rename-file-button"-->
+                    <!--data-toggle="modal" data-target="#renameDocs-modal"-->
+                    <!--data-v-fccf5e72=""-->
+                    <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                    <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                    <!--重命名-->
+                    <!--</a>-->
                     <!--</div>-->
                     <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="move-div"-->
-                         <!--style="display: none;">-->
-                        <!--<a id="move-file-button"-->
-                           <!--data-v-fccf5e72=""-->
-                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
-                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
-                            <!--移动到-->
-                        <!--</a>-->
+                    <!--style="display: none;">-->
+                    <!--<a id="move-file-button"-->
+                    <!--data-v-fccf5e72=""-->
+                    <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                    <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                    <!--移动到-->
+                    <!--</a>-->
                     <!--</div>-->
                     <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="preview-div"-->
-                         <!--style="display: none;">-->
-                        <!--<a id="preview-file-button"-->
-                           <!--data-v-fccf5e72=""-->
-                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
-                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
-                            <!--预览-->
-                        <!--</a>-->
+                    <!--style="display: none;">-->
+                    <!--<a id="preview-file-button"-->
+                    <!--data-v-fccf5e72=""-->
+                    <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                    <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                    <!--预览-->
+                    <!--</a>-->
                     <!--</div>-->
                     <!--<div data-v-fccf5e72="" class="button-chain button-group&#45;&#45;switch" id="download-div"-->
-                         <!--style="display: none;">-->
-                        <!--<a id="download-file-button"-->
-                           <!--data-v-fccf5e72=""-->
-                           <!--class="button-chain-item router-link-exact-active router-link-active"-->
-                           <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
-                            <!--下载-->
-                        <!--</a>-->
+                    <!--style="display: none;">-->
+                    <!--<a id="download-file-button"-->
+                    <!--data-v-fccf5e72=""-->
+                    <!--class="button-chain-item router-link-exact-active router-link-active"-->
+                    <!--style="letter-spacing: 2px;border-radius: 3px;width: 80px;">-->
+                    <!--下载-->
+                    <!--</a>-->
                     <!--</div>-->
                 </div>
 
@@ -548,6 +542,25 @@
     </div>
 </div>
 
+<!-- 预览 -->
+<div class="modal fade" id="preview-modal">
+    <div class="modal-dialog" style="width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header" style="position: absolute;top: 0;left: 0;width: 100%;">
+                <h4 class="modal-title" style="line-height: 36px;display: inline-block;">预览</h4>
+                <button type="button" class="close" data-dismiss="modal" style="line-height: 36px;">&times;</button>
+            </div>
+            <div class="modal-body" style="top: 36px;">
+                <div id="preview-view"></div>
+            </div>
+            <div class="modal-footer" style="margin-top: 36px;border: none;">
+                <button class="btn btn-info" data-dismiss="modal">确定</button>
+                <button class="btn btn-secondary" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 移动 -->
 <div class="modal fade" id="moveDocs-modal">
     <div class="modal-dialog">
@@ -697,7 +710,6 @@
     <ul>
         <li id="moveContext" onclick="moveDocs();">移动到</li>
         <li id="renameContext" onclick="renameContext();">重命名</li>
-        <li id="previewContext" onclick="previewDocs();">预览</li>
         <li id="downloadContext" onclick="downloadDocs();">下载</li>
         <li id="deleteContext" onclick="deleteDocs();">删除</li>
     </ul>
@@ -837,7 +849,7 @@
     };
     // 上传中
     uploader.on('uploadProgress', function (file, percentage) {
-        $(".pause-this").css("display","inline-block");
+        $(".pause-this").css("display", "inline-block");
         getProgressBar(file, percentage, "FILE", "上传进度");
     });
     // 上传返回结果
@@ -867,8 +879,8 @@
     $btn.on('click', function () {
         console.log("上传...");
         // if ($(this).text()=="开始上传") {
-            uploader.upload();
-            // $(this).text("暂停上传");
+        uploader.upload();
+        // $(this).text("暂停上传");
         // }else{
         //     uploader.stop();
         //     $(this).text("开始上传");
@@ -879,21 +891,21 @@
     //移除队列中的不想上传的文件
     $thelist.on('click', '.remove-this', function () {
         console.log(this)
-        uploader.removeFile(this.parentElement.id,true);
+        uploader.removeFile(this.parentElement.id, true);
         $('#' + this.parentElement.id).hide(500);
     });
     //暂停单个文件
     $thelist.on('click', '.pause-this', function () {
-        $(".pause-this").css("display","none");
-        $(".start-this").css("display","inline-block");
-        uploader.stop( uploader.getFile(this.parentElement.id));
+        $(".pause-this").css("display", "none");
+        $(".start-this").css("display", "inline-block");
+        uploader.stop(uploader.getFile(this.parentElement.id));
         $(this).text("开始");
         $(this).removeClass("pause-this").addClass("start-this");
     });
     //开始单个问及爱你
     $thelist.on('click', '.start-this', function () {
-        $(".pause-this").css("display","inline-block");
-        $(".start-this").css("display","none")
+        $(".pause-this").css("display", "inline-block");
+        $(".start-this").css("display", "none")
         uploader.upload(this.parentElement.id);
         $(this).text("暂停");
         $(this).removeClass("start-this").addClass("pause-this");
