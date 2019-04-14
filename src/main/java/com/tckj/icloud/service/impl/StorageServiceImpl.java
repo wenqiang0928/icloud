@@ -1,5 +1,6 @@
 package com.tckj.icloud.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.tckj.icloud.constant.Constants;
 import com.tckj.icloud.mapper.DocsMapper;
 import com.tckj.icloud.pojo.Docs;
@@ -17,6 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 
+import javax.validation.constraints.Max;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -26,6 +28,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * @author wenxinqiang
@@ -130,8 +133,9 @@ public class StorageServiceImpl implements StorageService {
             String fullName = param.getFile().getOriginalFilename();
             String suffixs = fullName.substring(fullName.lastIndexOf(".") + 1);
             Docs tempDoc = docsMapper.selectById(param.getDirId());
+//
             docsMapper.insert(new Docs(fileName, 2, convertFileSize(param.getFile().getSize()), suffixs, param.getMd5(), finalDirPath + tempDoc.getPath() + "/" + fullName, tempDoc.getId(),
-                    param.getUser().getId(), param.getCaseNo(), param.getCaseDesc()));
+                    param.getUser().getId(), param.getCaseNo(), param.getCaseDesc(),param.getCaseName(),param.getCaseAddr(),param.getCaseTime(),param.getPoliceSentiment()));
             //删除conf 文件
             FileUtils.deleteQuietly(new File(uploadDirPath + "/" + fullName + ".conf"));
             System.out.println("upload complete !!" + flag + " name=" + fileName);

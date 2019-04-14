@@ -39,6 +39,57 @@ public class MultipartFileParam {
      */
     private Integer dirId;
 
+    /**
+     * 警情编号
+     */
+    private String policeSentiment;
+
+    /**
+     * 案件名称
+     */
+    private String caseName;
+
+    /**
+     *案发时间
+     */
+    private String caseTime;
+    /**
+     * 案发地点
+     */
+    private String caseAddr;
+
+    public String getPoliceSentiment() {
+        return policeSentiment;
+    }
+
+    public void setPoliceSentiment(String policeSentiment) {
+        this.policeSentiment = policeSentiment;
+    }
+
+    public String getCaseName() {
+        return caseName;
+    }
+
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
+    }
+
+    public String getCaseTime() {
+        return caseTime;
+    }
+
+    public void setCaseTime(String caseTime) {
+        this.caseTime = caseTime;
+    }
+
+    public String getCaseAddr() {
+        return caseAddr;
+    }
+
+    public void setCaseAddr(String caseAddr) {
+        this.caseAddr = caseAddr;
+    }
+
     public Integer getDirId() {
         return dirId;
     }
