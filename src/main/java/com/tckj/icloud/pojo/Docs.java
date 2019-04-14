@@ -65,7 +65,24 @@ public class Docs implements Serializable {
      * 修改时间
      */
     private Date modifyTime;
+    /**
+     * 警情编号
+     */
+    private String policeSentiment;
 
+    /**
+     * 案件名称
+     */
+    private String caseName;
+
+    /**
+     *案发时间
+     */
+    private String caseTime;
+    /**
+     * 案发地点
+     */
+    private String caseAddr;
     public Integer getId() {
         return id;
     }
@@ -166,13 +183,55 @@ public class Docs implements Serializable {
         return modifyTime;
     }
 
+    public String getCaseDesc() {
+        return caseDesc;
+    }
+
+    public void setCaseDesc(String caseDesc) {
+        this.caseDesc = caseDesc;
+    }
+
+
+    public String getPoliceSentiment() {
+        return policeSentiment;
+    }
+
+    public void setPoliceSentiment(String policeSentiment) {
+        this.policeSentiment = policeSentiment;
+    }
+
+    public String getCaseName() {
+        return caseName;
+    }
+
+    public void setCaseName(String caseName) {
+        this.caseName = caseName;
+    }
+
+    public String getCaseTime() {
+        return caseTime;
+    }
+
+    public void setCaseTime(String caseTime) {
+        this.caseTime = caseTime;
+    }
+
+    public String getCaseAddr() {
+        return caseAddr;
+    }
+
+    public void setCaseAddr(String caseAddr) {
+        this.caseAddr = caseAddr;
+    }
+
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
     public Docs(){}
 
-    public Docs(String name, Integer type, String size, String suffix, String md5CheckSum, String path, Integer pid, Integer createUserId,  String caseNo, String caseDesc) {
+    public Docs(String name, Integer type, String size, String suffix, String md5CheckSum, String path, Integer pid,
+                Integer createUserId,  String caseNo, String caseDesc,String caseName,String caseAddr,String caseTime,String policeSentiment) {
         this.name = name;
         this.type = type;
         this.size = size;
@@ -186,6 +245,11 @@ public class Docs implements Serializable {
         this.caseNo = caseNo;
         this.caseDesc = caseDesc;
         this.modifyTime = new Date();
+        this.modifyTime = modifyTime;
+        this.caseName=caseName;
+        this.caseAddr=caseAddr;
+        this.caseTime=caseTime;
+        this.policeSentiment=policeSentiment;
     }
     /**
      * 目录

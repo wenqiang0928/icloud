@@ -12,6 +12,8 @@
     <script type="text/javascript" src="/js/bootstrap-treeview.js"></script>
 
     <link rel="icon" type="image/x-icon" href="/img/favicon.ico">
+    <link rel="stylesheet" href="/css/datepicker.less">
+
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" type="text/css" href="/css/data-management.css">
@@ -20,9 +22,15 @@
     <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
     <link rel="stylesheet" href="../css/webuploader/webuploader.css">
     <script src="../js/webuploader/webuploader.js"></script>
+
+    <script src="/js/bootstrap-datepicker.zh-CN.js"></script>
+    <script src="/js/bootstrap-datepicker.js"></script>
+
+
     <script th:inline="javascript">
         var user = [[${user}]]
     </script>
+
 
 </head>
 <body>
@@ -485,23 +493,54 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="caseDesc" class="col-sm-2 control-label">案件详情</label>
+                        <label for="caseNo" class="col-sm-2 control-label">警情编号</label>
                         <div class="col-sm-10">
-                            <input type="text" id="caseDesc" class="form-control" placeholder="案件详情">
+                            <input type="text" id="caseNo" class="form-control" placeholder="警情编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseNo" class="col-sm-2 control-label">案件名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="caseNo" class="form-control" placeholder="案件名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseNo" class="col-sm-2 control-label">案发时间</label>
+                        <div class="col-sm-10">
+                            <div class='input-group date' id='datetimepicker'>
+                                <input type='text' class="form-control"/>
+                                <span class="input-group-addon"><span
+                                        class="glyphicon glyphicon-calendar"></span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseNo" class="col-sm-2 control-label">案发地点</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="caseNo" class="form-control" placeholder="案发地点">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="caseDesc" class="col-sm-2 control-label">简要案情</label>
+                        <div class="col-sm-10">
+                            <textarea id="caseDesc" class="form-control" rows="3"> </textarea>
                         </div>
                     </div>
                     <div class="form-group">
                         <div id="picker" class="col-sm-2 btn btn-blue">选择文件</div>
+                        <div class="col-sm-10">
+                            <button type="button" id="ctlBtn" class="btn btn-success" style="display: block;margin-top: 7px;height: 40px">开始上传</button>
+                        </div>
                     </div>
 
                 </div>
                 <div id="thelist" class="uploader-list"
                      style="height: 300px;background-color: rgba(0,91,200, 0.1);border-radius: 3px;margin: 15px 0;overflow: hidden;overflow-y: auto"></div>
             </div>
-            <div class="modal-footer" style="border: none;">
-                <button type="button" id="ctlBtn" class="btn btn-success">开始上传
-                </button>
-            </div>
+<!--            <div class="modal-footer" style="border: none;">-->
+<!--                <button type="button" id="ctlBtn" class="btn btn-success">开始上传-->
+<!--                </button>-->
+<!--            </div>-->
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -587,32 +626,40 @@
                 <h4 class="modal-title">添加用户</h4>
             </div>
             <div class="modal-body">
-                <div class="input-group user-name" style="margin-top: 2%">
-                    <span class="input-group-addon" id="basic-addon1">用户名：</span>
-                    <input id="user-new_name" type="text" class="form-control" placeholder="请输入用户名"
-                           aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group user-name" style="margin-top: 2%">
-                    <span class="input-group-addon">警&nbsp;&nbsp;&nbsp;号：</span>
-                    <input id="new_alarm" type="text" class="form-control" placeholder="请输入警号"
-                           aria-describedby="basic-addon2">
-                </div>
-                <div class="input-group password" style="margin-top: 2%">
-                    <span class="input-group-addon">密&nbsp;&nbsp;&nbsp;码：</span>
-                    <input id="new_password" type="text" class="form-control" placeholder="请输入密码"
-                           aria-describedby="basic-addon2">
-                </div>
-                <div class="input-group password" style="margin-top: 2%">
-                    <span class="input-group-addon">确认密码：</span>
-                    <input id="confirm_password" type="text" class="form-control" placeholder="请重新输入密码"
-                           aria-describedby="basic-addon2">
-                </div>
-                <div class="input-group user-name" style="margin-top: 2%;margin-bottom: 2%">
-                    <span class="input-group-addon">角&nbsp;&nbsp;&nbsp;色：</span>
-                    <select class="form-control" id="roleId">
-                        <option value="1">admin</option>
-                        <option value="2">public</option>
-                    </select>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="new_name" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="new_name" class="form-control" placeholder="请输入用户名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_alarm" class="col-sm-2 control-label">警号</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="new_alarm" class="form-control" placeholder="请输入警号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="new_password" class="form-control" placeholder="请输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password" class="col-sm-2 control-label">确认密码</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="confirm_password" class="form-control" placeholder="请重新输入密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password" class="col-sm-2 control-label">角色</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="roleId">
+                                <option value="1">admin</option>
+                                <option value="2">public</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -722,6 +769,11 @@
         $("#newFolder-modal").on('show.bs.modal', centerModals);
         $("#renameDocs-modal").on('show.bs.modal', centerModals);
         $(".webuploader-pick").next().css({"width": "100px", "height": "100px"});
+        $(".webuploader-pick").text("选择文件");
+        $('#datetimepicker').datetimepicker({
+            format: 'yyyy-MM-dd hh:mm:ss',
+        });
+
     });
 
     var $btn = $('#ctlBtn');
@@ -845,6 +897,10 @@
         // data.uid = userId;
         data.caseNo = $("#caseNo").val();
         data.caseDesc = $("#caseDesc").val();
+        data.caseName = $("#caseName").val();
+        data.caseTime = $("#caseTime").val();
+        data.caseAddr = $("#caseAddr").val();
+        data.policeSentiment = $("#policeSentiment").val();
         data.dirId = dirPathArr[dirPathArr.length - 1];
     };
     // 上传中
@@ -866,6 +922,7 @@
     });
     uploader.on('uploadError', function (file) {
         $('#' + file.id).find('p.state').text('上传出错');
+        sxs1
     });
     uploader.on('uploadComplete', function (file) {
         $btn.text("开始上传")
@@ -929,7 +986,7 @@
                 '</div>'
             ).appendTo($li).find('#' + id_Prefix + '-progress-bar');
         }
-        var progressPercentage = percentage * 100 + '%';
+        var progressPercentage = (percentage * 100).toFixed(1) + '%';
         $percent.css('width', progressPercentage);
         $percent.html(titleName + ':' + progressPercentage);
     }
